@@ -1,0 +1,42 @@
+import { createRouter, createWebHashHistory } from "vue-router";
+
+export default createRouter({
+  history: createWebHashHistory(),
+  routes: [
+    {
+      path: '/',
+      redirect: '/music'
+    },
+    {
+      path: '/music',
+      component: () => import('@/page/music.vue'),
+      redirect: '/music/recommend',
+      children: [
+        {
+          path: 'recommend',
+          component: () => import('@/page/recommend/recommend.vue')
+        },
+        {
+          path: 'topList',
+          component: () => import('@/page/topList/topList.vue')
+        },
+        {
+          path: 'songList',
+          component: () => import('@/page/songList/songList.vue')
+        },
+        {
+          path: 'djRadio',
+          component: () => import('@/page/djRadio/djRadio.vue')
+        },
+        {
+          path: 'artist',
+          component: () => import('@/page/artist/artist.vue')
+        },
+        {
+          path: 'album',
+          component: () => import('@/page/album/album.vue')
+        },
+      ]
+    }
+  ]
+})

@@ -2,11 +2,16 @@
   --themeColor: #ff3a3a;
   --themeColor2: #191919;
 }
-
-html, body, #app {
+* {
   margin: 0;
   padding: 0;
+}
+html, body, #app {
   font-size: 14px;
   width: 100%;
   height: 100%;
+}
+
+.sprite, .sprite_before {
+  background-image: -webkit-image-set('@/assets/img/icon_sprite.png' 2x);
 }

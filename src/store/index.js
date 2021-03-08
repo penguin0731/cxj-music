@@ -1,8 +1,10 @@
 import { createStore } from "vuex";
-import recommend from '@/page/recommend/store'
+import common from './common';
+import recommend from '@/page/recommend/store';
 
 export default createStore({
   modules: {
-    recommend
+    common,
+    recommend,
   }
 })

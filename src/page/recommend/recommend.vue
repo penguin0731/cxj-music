@@ -1,10 +1,16 @@
 <template>
-  <div>recommend</div>
+  <div>
+    <banner />
+  </div>
 </template>
 
 <script>
-export default {
+import banner from '@/components/banner/banner.vue';
 
+export default {
+  components: {
+    banner
+  }
 }
 </script>
 

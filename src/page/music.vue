@@ -1,13 +1,16 @@
 <template>
   <nav-header></nav-header>
   <router-view></router-view>
+  <player></player>
 </template>
 
 <script>
-import navHeader from '@/components/nav-header/nav-header.vue'
+import NavHeader from '../components/nav-header/nav-header.vue'
+import Player from '../components/player/player.vue'
 export default {
   components: {
-    navHeader
+    NavHeader,
+    Player,
   }
 }
 </script>

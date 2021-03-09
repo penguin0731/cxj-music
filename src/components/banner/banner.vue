@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import useBanner from "./composition/useBanner";
+import useBanner from './composition/useBanner'
 
 export default {
   setup(props) {

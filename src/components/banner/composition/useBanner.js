@@ -3,7 +3,6 @@ import api from '@/api';
 
 export default function() {
   let bannerList = ref([]);
-  let curBanner = ref({});
   let curIndex = ref(0);
   let timer = null;
 
@@ -14,7 +13,6 @@ export default function() {
   const getBanner = async() => {
     const res = await api.getBanner();
     bannerList.value = res.banners;
-    curBanner.value = bannerList.value[curIndex.value]
   }
 
   /**
@@ -76,7 +74,6 @@ export default function() {
   })
 
   return {
-    curBanner,
     bannerList,
     curIndex,
     prevClick,

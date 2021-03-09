@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import search from '@/components/search/search.vue';
-import useHeader from './composition/useHeader';
+import search from '@/components/search/search.vue'
+import useHeader from './composition/useHeader'
 
 export default {
   components: {

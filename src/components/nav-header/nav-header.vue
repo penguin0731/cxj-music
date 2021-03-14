@@ -29,7 +29,7 @@
 
 <script>
 import search from '@/components/search/search.vue'
-import useHeader from './composition/useHeader'
+import useHeader from './useHeader'
 
 export default {
   components: {

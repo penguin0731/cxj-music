@@ -1,10 +1,12 @@
 import { createStore } from "vuex";
-import common from './common';
-import recommend from '@/page/recommend/store';
+import state from './state';
+import getters from './getters';
+import mutations from './mutations';
+import actions from './actions';
 
 export default createStore({
-  modules: {
-    common,
-    recommend,
-  }
+  state,
+  getters,
+  mutations,
+  actions
 })

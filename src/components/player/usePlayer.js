@@ -5,10 +5,16 @@ export default function() {
   let store = useStore();
   let mode = computed(() => store.getters.mode);
   let voice = computed(() => store.getters.voice);
-  let isPlaying = computed(() => store.getters.isPlaying);
+  let isPlaying = computed(() => store.getters.isPlaying); 
+  let cxjPlayer = ref(null);
   
   const play = () => {
     store.commit('setIsPlaying', !isPlaying.value);
+    if(isPlaying.value) {
+      cxjPlayer.value.play();
+    }else {
+      cxjPlayer.value.pause();
+    }
   }
   const changePlayStyle = () => {
     store.commit('setMode', mode.value + 1);
@@ -24,10 +30,17 @@ export default function() {
     document.addEventListener('keyup', e => {
       let altKey = e.altKey;
       let code = e.code;
-      if(altKey && code == 'ArrowLeft') { // 上一首
-
-      }else if(altKey && code == 'ArrowRight') { // 下一首
-
+      if(altKey) {
+        switch(code) {
+          case 'ArrowUp': // 增加音量
+            break;
+          case 'ArrowDown': // 减少音量
+            break;
+          case 'ArrowLeft': // 上一首
+            break;
+          case 'ArrowRight': // 下一首
+            break;
+        }
       }else {
         switch(code) {
           case 'Space': // 播放/暂停
@@ -48,6 +61,7 @@ export default function() {
 
   onMounted(() => {
     keyupEvent();
+    cxjPlayer.value.src = 'http://m8.music.126.net/20210315215042/2d1d86e2c2d46fa88a5ed298a6b0bd12/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
   })
 
 
@@ -55,6 +69,7 @@ export default function() {
     isPlaying,
     mode,
     voice,
+    cxjPlayer,
     play,
     changePlayStyle,
     changeVoice,

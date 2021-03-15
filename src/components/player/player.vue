@@ -51,7 +51,7 @@
           :class="{ player_voice_no: !voice }"
           @click="changeVoice"
         ></div>
-        <div class="player_voice_progress">
+        <div class="player_voice_progress" title="调节音量 [增大alt+↑][减小alt+↓]">
           <div class="player_progress_inner">
             <div class="player_progress__play">
               <i class="player_sprite player_progress__dot"></i>
@@ -60,6 +60,7 @@
         </div>
       </div>
     </div>
+    <audio ref="cxjPlayer"></audio>
   </div>
 </template>
 

@@ -1,20 +1,16 @@
 export default {
-  audioDom(state) {
-    return state.audioDom;
-  },
-  mode(state) {
-    return state.mode;
-  },
-  isPlaying(state) {
-    return state.isPlaying;
-  },
-  playList(state) {
-    return state.playList;
-  },
-  currentIndex(state) {
-    return state.currentIndex;
-  },
-  voice(state) {
-    return state.voice;
-  }
+  // audio元素
+  audioDom: state => state.audioDom,
+  // 播放模式 0列表循环，1顺序播放，2随机播放，3单曲循环
+  mode: state => state.mode,
+  // 播放状态
+  isPlaying: state => state.isPlaying,
+  // 播放列表
+  playList: state => state.playList,
+  // 当前音乐索引
+  currentIndex: state => state.currentIndex,
+  // 是否开启声音
+  voice: state => state.voice,
+  // 当前播放音乐
+  curMusic: state => state.playList[state.currentIndex] || {},
 }

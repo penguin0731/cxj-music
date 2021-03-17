@@ -15,11 +15,11 @@
           -
           <span>K/DA</span>
         </div>
-        <div class="player_time">02:56 / 03:18</div>
+        <div class="player_time">{{ currentTime }} / {{ duration }}</div>
         <div class="player_progress">
           <div class="player_progress_inner">
             <div class="player_progress__load"></div>
-            <div class="player_progress__play">
+            <div class="player_progress__play" :style="{width: `${percent}%`}">
               <i class="player_sprite player_progress__dot"></i>
             </div>
           </div>
@@ -53,7 +53,7 @@
         ></div>
         <div class="player_voice_progress" title="调节音量 [增大alt+↑][减小alt+↓]">
           <div class="player_progress_inner">
-            <div class="player_progress__play">
+            <div class="player_progress__play" :style="{width: '70%'}">
               <i class="player_sprite player_progress__dot"></i>
             </div>
           </div>
@@ -176,7 +176,6 @@ export default {
     background-color: rgba(255, 255, 255, 0.2);
   }
   .player_progress__play {
-    width: 70%;
     height: 2px;
     background-color: rgba(255, 255, 255, 0.7);
     position: absolute;

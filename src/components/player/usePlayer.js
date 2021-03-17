@@ -1,12 +1,26 @@
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watchEffect } from 'vue';
 import { useStore } from 'vuex';
+import { format } from '@/utils/util.js';
 
 export default function() {
+  let cxjPlayer = ref(null); // radio元素
+  
   let store = useStore();
   let mode = computed(() => store.getters.mode);
   let voice = computed(() => store.getters.voice);
   let isPlaying = computed(() => store.getters.isPlaying); 
-  let cxjPlayer = ref(null);
+  let curMusic = computed(() => store.getters.curMusic);
+  let duration = computed(() => format(191208)); // 当前歌曲时间
+  let currentTimeRef = ref(0);
+  // let currentTime = computed(() => format(currentTimeRef.value));
+  let currentTime = ref('00:00');
+  let percent = ref(0);
+  watchEffect(() => {
+    currentTime.value = format(currentTimeRef.value);
+    percent.value = Math.floor(currentTimeRef.value / 191208 * 100);
+    console.log(currentTime.value, percent.value)
+  })
+
   
   const play = () => {
     store.commit('setIsPlaying', !isPlaying.value);
@@ -15,6 +29,7 @@ export default function() {
     }else {
       cxjPlayer.value.pause();
     }
+    
   }
   const changePlayStyle = () => {
     store.commit('setMode', mode.value + 1);
@@ -22,7 +37,6 @@ export default function() {
   const changeVoice = () => {
     store.commit('setVoice', !voice.value);
   }
-
   /**
    * 播放器键盘事件
    */
@@ -61,15 +75,25 @@ export default function() {
 
   onMounted(() => {
     keyupEvent();
-    cxjPlayer.value.src = 'http://m8.music.126.net/20210315215042/2d1d86e2c2d46fa88a5ed298a6b0bd12/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
+    cxjPlayer.value.src = 'http://m7.music.126.net/20210316225500/322570ab2ec5e5091f2a09a5478fc5fb/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
+    cxjPlayer.value.onprogress = () => {
+      
+    }
+    cxjPlayer.value.ontimeupdate = () => {
+      currentTimeRef.value = cxjPlayer.value.currentTime * 1000
+    }
   })
 
 
   return {
+    cxjPlayer,
     isPlaying,
     mode,
     voice,
-    cxjPlayer,
+    curMusic,
+    duration,
+    currentTime,
+    percent,
     play,
     changePlayStyle,
     changeVoice,

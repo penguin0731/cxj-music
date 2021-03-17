@@ -9,16 +9,17 @@
         @click="play($event)"
       ></div>
       <div class="player_sprite player_next" title="alt+→"></div>
+      <div class="player_pic" :style="{backgroundImage: `url('https://p2.music.126.net/CaFZORZOOdE3acaCqMxn2Q==/109951163861068723.jpg')`}"></div>
       <div class="player_music_box">
         <div class="player_info">
-          <span>MORE</span>
+          <span>POP/STARS</span>
           -
           <span>K/DA</span>
         </div>
-        <div class="player_time">{{ currentTime }} / {{ duration }}</div>
-        <div class="player_progress">
+        <div class="player_time">{{ format(currentTime) }} / {{ format(duration) }}</div>
+        <div class="player_progress" ref="progress" @click="barClick">
           <div class="player_progress_inner">
-            <div class="player_progress__load"></div>
+            <div class="player_progress__load" :style="{width: `${loadProgress}%`}"></div>
             <div class="player_progress__play" :style="{width: `${percent}%`}">
               <i class="player_sprite player_progress__dot"></i>
             </div>
@@ -26,7 +27,7 @@
         </div>
       </div>
       <a
-        class="player_sprite playStyle_list"
+        class="player_sprite playStyle"
         :title="
           mode == 0
             ? '列表循环[O]'
@@ -65,11 +66,13 @@
 </template>
 
 <script>
+import { format } from '@/utils/util.js'
 import usePlayer from "./usePlayer";
 
 export default {
   setup() {
     return {
+      format,
       ...usePlayer(),
     };
   },
@@ -103,55 +106,63 @@ export default {
       color: #fff;
     }
   }
-  .player_prev {
+  .player_prev, .player_next {
     width: 19px;
     height: 20px;
+  }
+  .player_prev {
     background-position: 0 -30px;
   }
-  .player_play {
-    margin: 0 46px;
+  .player_next {
+    background-position: 0 -52px;
+  }
+  .player_play, .player_pause {
+    margin: 0 40px;
     width: 21px;
     height: 29px;
+  }
+  .player_play {
     background-position: 0 0;
   }
   .player_pause {
-    margin: 0 46px;
-    width: 21px;
-    height: 29px;
     background-position: -30px 0;
   }
-  .player_next {
-    width: 19px;
-    height: 20px;
-    background-position: 0 -52px;
+  .playStyle {
+    margin-right: 30px;
+    width: 26px;
   }
   .playStyle_list {
-    margin-right: 46px;
-    width: 26px;
     height: 25px;
     background-position: 0 -205px;
   }
   .playStyle_order {
-    margin-right: 46px;
-    width: 26px;
     height: 20px;
     background-position: 0 -260px;
   }
   .playStyle_random {
-    width: 26px;
     height: 19px;
     background-position: 0 -74px;
   }
   .playStyle_single {
-    width: 26px;
     height: 25px;
     background-position: 0 -232px;
   }
 }
+.player_pic {
+  width: 35px;
+  height: 35px;
+  margin-left: 36px;
+  margin-right: 17px;
+  background-image: url("@/assets/img/album.png");
+  background-position: center;
+  background-size: 100% 100%;
+  background-color: revert;
+  cursor: pointer;
+}
 .player_music_box {
   flex: 1;
   position: relative;
-  margin: 0 46px;
+  margin-right: 36px;
 
   .player_time {
     color: #bdbdbe;

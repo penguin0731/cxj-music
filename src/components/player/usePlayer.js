@@ -1,48 +1,69 @@
-import { ref, onMounted, computed, watchEffect } from 'vue';
+import { ref, onMounted, computed, watchEffect, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
-import { format } from '@/utils/util.js';
+import { playMode } from '@/config.js';
 
-export default function() {
-  let dotWidth = 10;
+export default function () {
   let cxjPlayer = ref(null); // radio元素
-  let progress = ref(null); // 进度条元素
+  let volume = ref(null); // 音量元素
   let store = useStore();
   let mode = computed(() => store.getters.mode);
-  let voice = computed(() => store.getters.voice);
-  let isPlaying = computed(() => store.getters.isPlaying); 
+  let isMute = computed(() => store.getters.isMute);
+  let isPlaying = computed(() => store.getters.isPlaying);
   let curMusic = computed(() => store.getters.curMusic);
-  let duration = ref(191208); // 当前歌曲时间
+  let duration = ref(191.208); // 当前歌曲时间
   let currentTime = ref(0); // 当前播放时间
   let percent = ref(0); // 播放进度
-  let loadProgress = ref(0); // 缓存进度
+  let loadPercent = ref(0); // 缓存进度
+  let isMouseDown = ref(false);
   watchEffect(() => {
-    percent.value = currentTime.value / duration.value * 100;
+    percent.value = currentTime.value / duration.value;
   })
 
-  
+  // 播放暂停功能
   const play = () => {
     store.commit('setIsPlaying', !isPlaying.value);
-    if(isPlaying.value) {
+    if (isPlaying.value) {
       cxjPlayer.value.play();
-    }else {
+    } else {
       cxjPlayer.value.pause();
     }
   }
-  const changePlayStyle = () => {
+  // 切换播放模式
+  const setMode = () => {
     store.commit('setMode', mode.value + 1);
   }
-  const changeVoice = () => {
-    store.commit('setVoice', !voice.value);
+  // 获取播放模式枚举
+  const getModeEnum = () => {
+    return {
+      [playMode.list]: {
+        title: '列表循环',
+        className: 'playMode_list'
+      },
+      [playMode.order]: {
+        title: '顺序播放',
+        className: 'playMode_order'
+      },
+      [playMode.random]: {
+        title: '随机播放',
+        className: 'playMode_random'
+      },
+      [playMode.single]: {
+        title: '单曲循环',
+        className: 'playMode_single'
+      },
+    }[mode.value];
   }
-  /**
-   * 播放器键盘事件
-   */
-  const keyupEvent = () => {
+  // 是否静音
+  const setIsMute = () => {
+    store.commit('setIsMute', !isMute.value);
+  }
+  // 播放器键盘事件
+  const bindKeyupEvent = () => {
     document.addEventListener('keyup', e => {
       let altKey = e.altKey;
       let code = e.code;
-      if(altKey) {
-        switch(code) {
+      if (altKey) { // 按下alt键
+        switch (code) {
           case 'ArrowUp': // 增加音量
             break;
           case 'ArrowDown': // 减少音量
@@ -52,8 +73,8 @@ export default function() {
           case 'ArrowRight': // 下一首
             break;
         }
-      }else {
-        switch(code) {
+      } else {
+        switch (code) {
           case 'Space': // 播放/暂停
             play();
             break;
@@ -61,7 +82,7 @@ export default function() {
             changePlayStyle();
             break;
           case 'KeyM': // 开启/关闭声音
-            changeVoice();
+            setMode();
             break;
           default:
             break;
@@ -69,39 +90,39 @@ export default function() {
       }
     })
   }
+  // 修改音乐显示时间
+  const changeProgress = per => {
+    console.log('changeProgress', per)
+    currentTime.value = per * duration.value
+  }
+  // 修改音乐播放时间
+  const changeProgressEnd = per => {
+    console.log('changeProgressEnd', per)
+    cxjPlayer.value.currentTime = per * duration.value
+  }
 
-  /**
-   * 进度条点击事件
-   * @param {*} e 事件源对象
-   */
-  const barClick = e => {
-    console.log(cxjPlayer.value)
-    let x = e.x; // 鼠标点击的坐标x
-    let left = progress.value.getBoundingClientRect().left; // 进度条左侧到窗口左侧的距离
-    let width = progress.value.clientWidth; // 进度条的宽度
-    let per = (x - left) / width * 100;
-    per = per < 0 ? 0 : per;
-    percent.value = per;
-    currentTime.value = duration.value * per / 100;
-    cxjPlayer.value.currentTime = duration.value * per / 100 / 1000;
+  const changeMouseDownVal = val => {
+    isMouseDown.value = val;
+    console.log('changeMouseDownVal', isMouseDown.value)
   }
 
   onMounted(() => {
-    keyupEvent();
-    cxjPlayer.value.src = 'http://m8.music.126.net/20210317224817/7fdbea015f4964dd4b526729595a0a57/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
+    bindKeyupEvent();
+    cxjPlayer.value.src = 'http://m8.music.126.net/20210321113234/6f7651a24513101e715ed34077a9af89/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
     // 缓冲事件
     cxjPlayer.value.onprogress = () => {
-      if(cxjPlayer.value.buffered.length > 0) {
+      if (cxjPlayer.value.buffered.length > 0) {
         let buffered = 0;
         cxjPlayer.value.buffered.end(0);
         buffered = cxjPlayer.value.buffered.end(0) > duration.value ? cxjPlayer.value.buffered.end(0) : duration.value
-        console.log(buffered, buffered / duration.value);
-        loadProgress.value = buffered / duration.value * 100;
+        loadPercent.value = buffered / duration.value;
       }
     }
     // 获取当前播放时间
     cxjPlayer.value.ontimeupdate = () => {
-      currentTime.value = cxjPlayer.value.currentTime * 1000
+      if (!isMouseDown.value) {
+        currentTime.value = cxjPlayer.value.currentTime;
+      }
     }
     // 播放结束事件
     cxjPlayer.value.onended = () => {
@@ -112,19 +133,22 @@ export default function() {
 
   return {
     cxjPlayer,
-    progress,
+    volume,
     isPlaying,
     mode,
-    voice,
+    isMute,
+    isMouseDown,
     curMusic,
     duration,
     currentTime,
-    currentTime,
     percent,
-    loadProgress,
+    loadPercent,
     play,
-    changePlayStyle,
-    changeVoice,
-    barClick,
+    setMode,
+    getModeEnum,
+    setIsMute,
+    changeMouseDownVal,
+    changeProgress,
+    changeProgressEnd,
   }
 }

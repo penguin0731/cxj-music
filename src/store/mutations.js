@@ -14,7 +14,7 @@ export default {
   setCurrentIndex(state, index) {
     state.currentIndex = index;
   },
-  setVoice(state, voice) {
-    state.voice = voice;
+  setIsMute(state, isMute) {
+    state.isMute = isMute;
   }
 }

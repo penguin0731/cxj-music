@@ -9,52 +9,52 @@
         @click="play($event)"
       ></div>
       <div class="player_sprite player_next" title="alt+→"></div>
-      <div class="player_pic" :style="{backgroundImage: `url('https://p2.music.126.net/CaFZORZOOdE3acaCqMxn2Q==/109951163861068723.jpg')`}"></div>
+      <div
+        class="player_pic"
+        :style="{
+          backgroundImage: `url('https://p2.music.126.net/CaFZORZOOdE3acaCqMxn2Q==/109951163861068723.jpg')`,
+        }"
+      ></div>
       <div class="player_music_box">
         <div class="player_info">
           <span>POP/STARS</span>
           -
           <span>K/DA</span>
         </div>
-        <div class="player_time">{{ format(currentTime) }} / {{ format(duration) }}</div>
-        <div class="player_progress" ref="progress" @click="barClick">
-          <div class="player_progress_inner">
-            <div class="player_progress__load" :style="{width: `${loadProgress}%`}"></div>
-            <div class="player_progress__play" :style="{width: `${percent}%`}">
-              <i class="player_sprite player_progress__dot"></i>
-            </div>
-          </div>
+        <div class="player_time">
+          {{ format(currentTime) }} / {{ format(duration) }}
+        </div>
+        <div class="cxjProgress_wrapper">
+          <cxj-progress
+            :isMouseDown="isMouseDown"
+            :percent="percent"
+            :loadPercent="loadPercent"
+            @changeMouseDownVal="changeMouseDownVal"
+            @changeProgress="changeProgress"
+            @changeProgressEnd="changeProgressEnd"
+          />
         </div>
       </div>
       <a
-        class="player_sprite playStyle"
-        :title="
-          mode == 0
-            ? '列表循环[O]'
-            : mode == 1
-            ? '顺序播放[O]'
-            : mode == 2
-            ? '随机播放[O]'
-            : '单曲循环[O]'
-        "
-        :class="{
-          playStyle_list: mode == 0,
-          playStyle_order: mode == 1,
-          playStyle_single: mode == 2,
-          playStyle_random: mode == 3,
-        }"
-        @click="changePlayStyle"
+        class="player_sprite playMode"
+        :title="`${getModeEnum().title}[O]`"
+        :class="getModeEnum().className"
+        @click="setMode"
       ></a>
       <div class="player_voice_box">
         <div
           class="player_sprite player_voice"
           title="关闭声音[M]"
-          :class="{ player_voice_no: !voice }"
-          @click="changeVoice"
+          :class="{ player_isMute: isMute }"
+          @click="setIsMute"
         ></div>
-        <div class="player_voice_progress" title="调节音量 [增大alt+↑][减小alt+↓]">
+        <div
+          ref="volume"
+          class="player_voice_progress"
+          title="调节音量 [增大alt+↑][减小alt+↓]"
+        >
           <div class="player_progress_inner">
-            <div class="player_progress__play" :style="{width: '70%'}">
+            <div class="player_progress__play" :style="{ width: '70%' }">
               <i class="player_sprite player_progress__dot"></i>
             </div>
           </div>
@@ -66,10 +66,14 @@
 </template>
 
 <script>
-import { format } from '@/utils/util.js'
+import { format } from "@/utils/util.js";
 import usePlayer from "./usePlayer";
+import CxjProgress from "../../baseComponents/cxj-progress/cxj-progress.vue";
 
 export default {
+  components: {
+    CxjProgress,
+  },
   setup() {
     return {
       format,
@@ -106,7 +110,8 @@ export default {
       color: #fff;
     }
   }
-  .player_prev, .player_next {
+  .player_prev,
+  .player_next {
     width: 19px;
     height: 20px;
   }
@@ -116,7 +121,8 @@ export default {
   .player_next {
     background-position: 0 -52px;
   }
-  .player_play, .player_pause {
+  .player_play,
+  .player_pause {
     margin: 0 40px;
     width: 21px;
     height: 29px;
@@ -127,23 +133,23 @@ export default {
   .player_pause {
     background-position: -30px 0;
   }
-  .playStyle {
+  .playMode {
     margin-right: 30px;
     width: 26px;
   }
-  .playStyle_list {
+  .playMode_list {
     height: 25px;
     background-position: 0 -205px;
   }
-  .playStyle_order {
+  .playMode_order {
     height: 20px;
     background-position: 0 -260px;
   }
-  .playStyle_random {
+  .playMode_random {
     height: 19px;
     background-position: 0 -74px;
   }
-  .playStyle_single {
+  .playMode_single {
     height: 25px;
     background-position: 0 -232px;
   }
@@ -176,6 +182,12 @@ export default {
     padding-top: 7px;
     cursor: pointer;
   }
+  // .cxjProgress_wrapper {
+  //   width: 100%;
+  //   height: 8px;
+  //   padding-top: 7px;
+  //   cursor: pointer;
+  // }
 }
 .player_progress_inner {
   position: relative;
@@ -212,7 +224,7 @@ export default {
     background-position: 0 -144px;
     margin-right: 6px;
   }
-  .player_voice_no {
+  .player_isMute {
     background-position: 0 -182px;
   }
   .player_voice_progress {

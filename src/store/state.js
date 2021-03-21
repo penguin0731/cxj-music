@@ -4,5 +4,5 @@ export default {
   isPlaying: false, // 播放状态
   playList: [], // 播放列表
   currentIndex: -1, // 当前音乐索引
-  voice: true, // 是否开启声音
+  isMute: false, // 是否静音
 }

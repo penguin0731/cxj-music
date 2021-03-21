@@ -9,8 +9,8 @@ export default {
   playList: state => state.playList,
   // 当前音乐索引
   currentIndex: state => state.currentIndex,
-  // 是否开启声音
-  voice: state => state.voice,
+  // 是否静音
+  isMute: state => state.isMute,
   // 当前播放音乐
   curMusic: state => state.playList[state.currentIndex] || {},
 }

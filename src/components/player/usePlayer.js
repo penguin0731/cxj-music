@@ -1,10 +1,10 @@
-import { ref, onMounted, computed, watchEffect, onBeforeUnmount } from 'vue';
+import { ref, onMounted, computed, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { playMode } from '@/config.js';
 
 export default function () {
   let cxjPlayer = ref(null); // radio元素
-  let volume = ref(null); // 音量元素
+  let volume = ref(0);
   let store = useStore();
   let mode = computed(() => store.getters.mode);
   let isMute = computed(() => store.getters.isMute);

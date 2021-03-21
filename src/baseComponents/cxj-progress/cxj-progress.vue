@@ -5,10 +5,6 @@
     @click="barClick"
     @mousedown="barMouseDown"
   >
-    <!--     @click="barClick"
-    @mousedown="barMouseDown"
-    @mousemove="barMouseMove"
-    @mouseup="barMouseUp" -->
     <div class="cxjProgress_inner">
       <div
         class="cxjProgress__load"
@@ -51,30 +47,30 @@ export default {
   height: 8px;
   padding-top: 7px;
   cursor: pointer;
-}
-.cxjProgress_inner {
-  position: relative;
-  height: 2px;
-  background-color: rgba(255, 255, 255, 0.1);
-  .cxjProgress__load {
-    width: 90%;
+  .cxjProgress_inner {
+    position: relative;
     height: 2px;
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-  .cxjProgress__play {
-    height: 2px;
-    background-color: rgba(255, 255, 255, 0.7);
-    position: absolute;
-    top: 0;
-    left: 0;
-    .cxjProgress__dot {
-      width: 10px;
-      height: 10px;
-      background-position: 0 -170px;
+    background-color: rgba(255, 255, 255, 0.1);
+    .cxjProgress__load {
+      width: 90%;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .cxjProgress__play {
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.7);
       position: absolute;
-      top: -4px;
-      right: -4px;
-      opacity: 1;
+      top: 0;
+      left: 0;
+      .cxjProgress__dot {
+        width: 10px;
+        height: 10px;
+        background-position: 0 -170px;
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        opacity: 1;
+      }
     }
   }
 }

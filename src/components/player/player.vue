@@ -48,17 +48,7 @@
           :class="{ player_isMute: isMute }"
           @click="setIsMute"
         ></div>
-        <div
-          ref="volume"
-          class="player_voice_progress"
-          title="调节音量 [增大alt+↑][减小alt+↓]"
-        >
-          <div class="player_progress_inner">
-            <div class="player_progress__play" :style="{ width: '70%' }">
-              <i class="player_sprite player_progress__dot"></i>
-            </div>
-          </div>
-        </div>
+        <cxj-volume :volume="volume" />
       </div>
     </div>
     <audio ref="cxjPlayer"></audio>
@@ -69,10 +59,12 @@
 import { format } from "@/utils/util.js";
 import usePlayer from "./usePlayer";
 import CxjProgress from "../../baseComponents/cxj-progress/cxj-progress.vue";
+import CxjVolume from '../../baseComponents/cxj-volume/cxj-volume.vue';
 
 export default {
   components: {
     CxjProgress,
+    CxjVolume,
   },
   setup() {
     return {
@@ -176,44 +168,6 @@ export default {
     top: 0;
     right: 0;
   }
-  .player_progress {
-    width: 100%;
-    height: 8px;
-    padding-top: 7px;
-    cursor: pointer;
-  }
-  // .cxjProgress_wrapper {
-  //   width: 100%;
-  //   height: 8px;
-  //   padding-top: 7px;
-  //   cursor: pointer;
-  // }
-}
-.player_progress_inner {
-  position: relative;
-  height: 2px;
-  background-color: rgba(255, 255, 255, 0.1);
-  .player_progress__load {
-    width: 90%;
-    height: 2px;
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-  .player_progress__play {
-    height: 2px;
-    background-color: rgba(255, 255, 255, 0.7);
-    position: absolute;
-    top: 0;
-    left: 0;
-    .player_progress__dot {
-      width: 10px;
-      height: 10px;
-      background-position: 0 -170px;
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      opacity: 1;
-    }
-  }
 }
 .player_voice_box {
   display: flex;
@@ -222,16 +176,7 @@ export default {
     width: 26px;
     height: 21px;
     background-position: 0 -144px;
-    margin-right: 6px;
-  }
-  .player_isMute {
-    background-position: 0 -182px;
-  }
-  .player_voice_progress {
-    width: 80px;
-    height: 3px;
-    padding: 2px 0;
-    cursor: pointer;
+    margin-right: 10px;
   }
 }
 </style>

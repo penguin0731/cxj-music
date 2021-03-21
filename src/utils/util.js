@@ -14,7 +14,6 @@ export function addZero(s) {
  * @returns 
  */
 export function format(duration) {
-  duration /= 1000;
   let minutes = Math.floor(duration / 60);
   let seconds = Math.floor(duration % 60);
   return `${addZero(minutes)}:${addZero(seconds)}`;

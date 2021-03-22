@@ -20,7 +20,11 @@ export default function(props, {emit}) {
     let left = cxjProgress.value.getBoundingClientRect().left; // 进度条左侧到窗口左侧的距离
     let width = cxjProgress.value.clientWidth; // 进度条的宽度
     let per = (x - left) / width;
-    per = per < 0 ? 0 : per;
+    if(per < 0) {
+      per = 0;
+    }else if(per > 1) {
+      per = 1;
+    }
     emit(isEnd ? 'changeProgressEnd' : 'changeProgress', per)
   }
   /**

@@ -1,6 +1,11 @@
 <template>
   <div class="player_voice_progress" title="调节音量 [增大alt+↑][减小alt+↓]">
-    <cxj-progress :percent="volumePercent" />
+    <cxj-progress
+      :percent="volumePercent"
+      :isMouseDown="isMouseDown"
+      @changeProgress="changeProgress"
+      @changeMouseDownVal="changeMouseDownVal"
+    />
   </div>
 </template>
 
@@ -17,7 +22,7 @@ export default {
   },
   setup(props, context) {
     return {
-      ...useVolume(),
+      ...useVolume(props, context),
     };
   },
 };

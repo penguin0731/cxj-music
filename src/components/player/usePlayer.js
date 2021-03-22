@@ -1,10 +1,10 @@
 import { ref, onMounted, computed, watchEffect } from 'vue';
 import { useStore } from 'vuex';
-import { playMode } from '@/config.js';
+import { defaultVolume, playMode } from '@/config.js';
 
 export default function () {
   let cxjPlayer = ref(null); // radio元素
-  let volume = ref(0);
+  let volume = ref(defaultVolume);
   let store = useStore();
   let mode = computed(() => store.getters.mode);
   let isMute = computed(() => store.getters.isMute);
@@ -56,6 +56,9 @@ export default function () {
   // 是否静音
   const setIsMute = () => {
     store.commit('setIsMute', !isMute.value);
+    if(isMute.value) {
+      cxjPlayer.value.volume = 0;
+    }
   }
   // 播放器键盘事件
   const bindKeyupEvent = () => {
@@ -101,14 +104,23 @@ export default function () {
     cxjPlayer.value.currentTime = per * duration.value
   }
 
+  // 修改鼠标是否按下
   const changeMouseDownVal = val => {
     isMouseDown.value = val;
     console.log('changeMouseDownVal', isMouseDown.value)
   }
 
+  // 修改音量
+  const changeVolume = val => {
+    volume.value = val;
+    cxjPlayer.value.volume = volume.value;
+    store.commit('setIsMute', volume.value == 0);
+  }
+
   onMounted(() => {
     bindKeyupEvent();
     cxjPlayer.value.src = 'http://m8.music.126.net/20210321113234/6f7651a24513101e715ed34077a9af89/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
+    cxjPlayer.value.volume = volume.value;
     // 缓冲事件
     cxjPlayer.value.onprogress = () => {
       if (cxjPlayer.value.buffered.length > 0) {
@@ -150,5 +162,6 @@ export default function () {
     changeMouseDownVal,
     changeProgress,
     changeProgressEnd,
+    changeVolume,
   }
 }

@@ -48,7 +48,7 @@
           :class="{ player_isMute: isMute }"
           @click="setIsMute"
         ></div>
-        <cxj-volume :volume="volume" />
+        <cxj-volume :volume="volume" @changeVolume="changeVolume" />
       </div>
     </div>
     <audio ref="cxjPlayer"></audio>
@@ -177,6 +177,9 @@ export default {
     height: 21px;
     background-position: 0 -144px;
     margin-right: 10px;
+  }
+  .player_isMute {
+    background-position: 0 -182px;
   }
 }
 </style>

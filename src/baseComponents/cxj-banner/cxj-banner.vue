@@ -120,7 +120,7 @@ export default {
         background-color: rgba(0, 0, 0, .6);
       }
       &.active i, &:hover i {
-        background-color: var(--themeColor);
+        background-color: #fff;
       }
     }
   }

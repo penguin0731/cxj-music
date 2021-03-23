@@ -35,12 +35,12 @@
           />
         </div>
       </div>
-      <a
+      <div
         class="player_sprite playMode"
         :title="`${getModeEnum().title}[O]`"
         :class="getModeEnum().className"
         @click="setMode"
-      ></a>
+      ></div>
       <div class="player_voice_box">
         <div
           class="player_sprite player_voice"
@@ -48,7 +48,12 @@
           :class="{ player_isMute: isMute }"
           @click="setIsMute"
         ></div>
-        <cxj-volume :volume="volume" @changeVolume="changeVolume" />
+        <volume :volume="volume" @changeVolume="changeVolume" />
+      </div>
+      <div class="player_playList_wrapper">
+        <div title="播放列表[P]">
+          <svg t="1616503229598" class="player_playList_icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5891" width="32" height="32"><path d="M20.992 219.428571h726.016c11.593143 0 20.992-10.203429 20.992-22.784V132.498286C768 119.954286 758.601143 109.714286 747.008 109.714286H20.992C9.398857 109.714286 0 119.917714 0 132.498286v64.146285C0 209.188571 9.398857 219.428571 20.992 219.428571M21.540571 548.571429H600.137143c11.922286 0 21.540571-10.203429 21.540571-22.784v-64.146286c0-12.580571-9.618286-22.784-21.540571-22.784H21.577143c-11.922286 0-21.540571 10.203429-21.540572 22.784v64.146286c0 12.580571 9.618286 22.784 21.540572 22.784M415.890286 768H22.966857c-12.690286 0-22.966857 11.776-22.966857 26.331429v57.051428c0 14.555429 10.276571 26.331429 22.966857 26.331429h392.923429c12.690286 0 22.966857-11.776 22.966857-26.331429v-57.051428c0-14.555429-10.276571-26.331429-22.966857-26.331429M1002.057143 219.538286c-107.812571 10.678857-194.304 99.510857-195.949714 211.456h-0.036572V615.936a180.297143 180.297143 0 0 0-79.213714-18.139429c-99.072 0-178.285714 78.445714-178.285714 176.530286S627.785143 950.857143 726.857143 950.857143c99.035429 0 181.577143-78.445714 178.249143-176.530286v-340.077714c0-59.611429 43.885714-108.251429 101.558857-116.48A20.004571 20.004571 0 0 0 1024 298.057143V239.323429a19.968 19.968 0 0 0-21.942857-19.785143" p-id="5892" fill="#ffffff"></path></svg>  
+        </div>
       </div>
     </div>
     <audio ref="cxjPlayer"></audio>
@@ -58,13 +63,13 @@
 <script>
 import { format } from "@/utils/util.js";
 import usePlayer from "./usePlayer";
-import CxjProgress from "../../baseComponents/cxj-progress/cxj-progress.vue";
-import CxjVolume from '../../baseComponents/cxj-volume/cxj-volume.vue';
+import CxjProgress from "@/baseComponents/cxj-progress/cxj-progress.vue";
+import Volume from '@/components/volume/volume.vue';
 
 export default {
   components: {
     CxjProgress,
-    CxjVolume,
+    Volume,
   },
   setup() {
     return {
@@ -172,6 +177,7 @@ export default {
 .player_voice_box {
   display: flex;
   align-items: center;
+  margin-right: 30px;
   .player_voice {
     width: 26px;
     height: 21px;
@@ -180,6 +186,14 @@ export default {
   }
   .player_isMute {
     background-position: 0 -182px;
+  }
+}
+.player_playList_icon {
+  width: 23px;
+  opacity: .8;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
   }
 }
 </style>

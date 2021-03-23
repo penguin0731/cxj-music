@@ -12,7 +12,7 @@
           >{{ item.label }}</li>
         </ul>
       </div>
-      <search style="margin: 0px 25px;" />
+      <cxj-search style="margin: 0px 25px;" />
       <div class="user-header">
         <span v-if="true" class="login">登录</span>
         <div v-else class="user-box">
@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import search from '@/components/search/search.vue'
+import CxjSearch from '@/baseComponents/cxj-search/cxj-search.vue'
 import useHeader from './useHeader'
 
 export default {
   components: {
-    search
+    CxjSearch
   },
   setup() {
     

@@ -1,15 +1,15 @@
 <template>
   <div>
-    <banner />
+    <cxj-banner />
   </div>
 </template>
 
 <script>
-import banner from '@/components/banner/banner.vue';
+import CxjBanner from '@/baseComponents/cxj-banner/cxj-banner.vue';
 
 export default {
   components: {
-    banner
+    CxjBanner
   }
 }
 </script>

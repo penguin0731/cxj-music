@@ -11,9 +11,9 @@
 
 <script>
 import useVolume from "./useVolume";
-import cxjProgress from "../cxj-progress/cxj-progress.vue";
+import CxjProgress from "@/baseComponents/cxj-progress/cxj-progress.vue";
 export default {
-  components: { cxjProgress },
+  components: { CxjProgress },
   props: {
     volume: {
       type: Number,

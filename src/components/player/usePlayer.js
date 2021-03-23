@@ -119,7 +119,7 @@ export default function () {
 
   onMounted(() => {
     bindKeyupEvent();
-    cxjPlayer.value.src = 'http://m8.music.126.net/20210321113234/6f7651a24513101e715ed34077a9af89/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
+    cxjPlayer.value.src = 'http://m7.music.126.net/20210323212621/0a73b30a1af9dd98368cd23f644276c7/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
     cxjPlayer.value.volume = volume.value;
     // 缓冲事件
     cxjPlayer.value.onprogress = () => {

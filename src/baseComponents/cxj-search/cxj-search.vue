@@ -1,5 +1,5 @@
 <template>
-  <div class="search-box">
+  <div class="search_box">
     <input type="text" placeholder="音乐/歌手/专辑/用户">
     <button class="search">
       <i class="icon_sprite icon_search"></i>
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.search-box {
+.search_box {
   display: flex;
   position: relative;
   height: 36px;

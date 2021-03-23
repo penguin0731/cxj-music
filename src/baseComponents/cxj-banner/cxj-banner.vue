@@ -1,6 +1,6 @@
 <template>
   <div
-    class="banner-wrap"
+    class="banner_wrap"
     :style="{
       backgroundImage: bannerList[curIndex]
         ? `url(${bannerList[curIndex].imageUrl}?imageView&blur=40x20)`
@@ -10,7 +10,7 @@
     }"
     @click="click"
   >
-    <div class="banner-box">
+    <div class="banner_box">
       <transition-group name="fade">
         <a
           class="active"
@@ -24,10 +24,10 @@
       </transition-group>
     </div>
     <div class="left_arrow" @click="prevClick">
-      <svg t="1615125734270" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1414" width="48" height="48"><path d="M347.528 503.774l390.261-390.26c11.277-11.277 11.312-29.69-0.023-41.025-11.312-11.312-29.703-11.345-41.024-0.024L286.21 482.996c-11.277 11.277-11.312 29.69 0.023 41.025a29.204 29.204 0 0 0 3.76 3.175l395.025 423.612c10.92 11.71 29.3 12.319 41 1.408 11.724-10.933 12.332-29.336 1.456-40.999L347.528 503.774z" p-id="1415" fill="#ffffff"></path></svg>
+      <svg t="1615125734270" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1414" width="48" height="48"><path d="M347.528 503.774l390.261-390.26c11.277-11.277 11.312-29.69-0.023-41.025-11.312-11.312-29.703-11.345-41.024-0.024L286.21 482.996c-11.277 11.277-11.312 29.69 0.023 41.025a29.204 29.204 0 0 0 3.76 3.175l395.025 423.612c10.92 11.71 29.3 12.319 41 1.408 11.724-10.933 12.332-29.336 1.456-40.999L347.528 503.774z" p-id="1415" fill="#ffffff"></path></svg>
     </div>
     <div class="right_arrow" @click="nextClick">
-      <svg t="1615125641180" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1125" width="48" height="48"><path d="M712.534 504.215L324.38 116.059c-11.216-11.215-11.25-29.53 0.023-40.803 11.252-11.251 29.542-11.285 40.804-0.024L773.52 483.548c11.216 11.215 11.25 29.53-0.023 40.803a28.99 28.99 0 0 1-3.74 3.158L376.864 948.836c-10.861 11.647-29.143 12.252-40.78 1.401-11.66-10.874-12.264-29.178-1.448-40.778l377.898-405.244z" p-id="1126" fill="#ffffff"></path></svg>
+      <svg t="1615125641180" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1125" width="48" height="48"><path d="M712.534 504.215L324.38 116.059c-11.216-11.215-11.25-29.53 0.023-40.803 11.252-11.251 29.542-11.285 40.804-0.024L773.52 483.548c11.216 11.215 11.25 29.53-0.023 40.803a28.99 28.99 0 0 1-3.74 3.158L376.864 948.836c-10.861 11.647-29.143 12.252-40.78 1.401-11.66-10.874-12.264-29.178-1.448-40.778l377.898-405.244z" p-id="1126" fill="#ffffff"></path></svg>
     </div>
     <ul class="dot">
       <li 
@@ -55,10 +55,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.banner-wrap {
+.banner_wrap {
   position: relative;
   overflow: hidden;
-  .banner-box {
+  .banner_box {
     position: relative;
     width: 980px;
     height: 363px;

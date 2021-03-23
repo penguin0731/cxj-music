@@ -1,6 +1,6 @@
 <template>
-  <div class="player-wrapper">
-    <div class="player-box">
+  <div class="player_wrapper">
+    <div class="player_box">
       <div class="player_sprite player_prev" title="alt+←"></div>
       <div
         class="player_sprite"
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.player-wrapper {
+.player_wrapper {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -93,7 +93,7 @@ export default {
   justify-content: center;
   color: #bdbdbe;
 }
-.player-box {
+.player_box {
   width: 1080px;
   height: 100%;
   display: flex;

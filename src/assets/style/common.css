@@ -1,6 +1,7 @@
 :root {
   --themeColor: #ff3a3a;
   --themeColor2: #191919;
+  --fontColor: #bdbdbe;
 }
 
 * {
@@ -30,6 +31,10 @@ li {
   opacity: .8;
   cursor: pointer;
 }
-.player_sprite:hover, .player_sprite_before:hover {
+/* 悬浮高亮 */
+.icon_sprite:hover, 
+.icon_sprite_before:hover, 
+.player_sprite:hover, 
+.player_sprite_before:hover {
   opacity: 1;
 }

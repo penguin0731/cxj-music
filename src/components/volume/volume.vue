@@ -20,6 +20,7 @@ export default {
       default: 0,
     },
   },
+  emits: ['changeVolume'],
   setup(props, context) {
     return {
       ...useVolume(props, context),

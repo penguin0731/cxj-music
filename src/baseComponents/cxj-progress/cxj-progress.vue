@@ -33,6 +33,7 @@ export default {
       default: 0,
     },
   },
+  emits: ['changeProgress', 'changeProgressEnd', 'changeMouseDownVal'],
   setup(props, context) {
     return {
       ...useProgress(props, context),

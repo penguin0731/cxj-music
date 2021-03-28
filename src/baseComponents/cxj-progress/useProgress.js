@@ -37,7 +37,6 @@ export default function(props, {emit}) {
   }
   // 进度条鼠标按下事件
   const barMouseDown = () => {
-    console.log('mousedown')
     emit('changeMouseDownVal', true);
   }
   /**
@@ -47,7 +46,6 @@ export default function(props, {emit}) {
    */
   const barMouseMove = e => {
     if (!isMouseDown.value) return;
-    console.log('mousemove')
     changePercent(e);
   }
   /**
@@ -56,7 +54,6 @@ export default function(props, {emit}) {
    */
   const barMouseUp = e => {
     if (!isMouseDown.value) return;
-    console.log('mouseup')
     changePercent(e, true);
     emit('changeMouseDownVal', false);
   }

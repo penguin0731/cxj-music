@@ -4,7 +4,7 @@
       <h4>播放列表</h4>
       <div class="h-r">
         <div class="playlist_btn"><cxj-icon class="icon_clear" />清空列表</div>
-        <cxj-icon class="icon_close" />
+        <cxj-icon class="icon_close" @click="hideList" />
       </div>
     </div>
     <div class="playlist_con">
@@ -14,10 +14,17 @@
 </template>
 
 <script>
+import usePlayList from "./usePlayList";
 import cxjIcon from "@/baseComponents/cxj-icon/cxj-icon.vue";
 
 export default {
   components: { cxjIcon },
+  setup(props, context) {
+
+    return {
+      ...usePlayList(context),
+    }
+  },
 };
 </script>
 

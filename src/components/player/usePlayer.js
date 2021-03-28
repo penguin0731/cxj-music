@@ -1,6 +1,7 @@
 import { ref, onMounted, computed, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { defaultVolume, playMode } from '@/config.js';
+import gsap from 'gsap';
 
 export default function () {
   let cxjPlayer = ref(null); // radio元素
@@ -14,7 +15,8 @@ export default function () {
   let currentTime = ref(0); // 当前播放时间
   let percent = ref(0); // 播放进度
   let loadPercent = ref(0); // 缓存进度
-  let isMouseDown = ref(false);
+  let isMouseDown = ref(false); // 鼠标是否在音乐进度条按下
+  let isShowList = ref(false); // 是否显示播放列表
   watchEffect(() => {
     percent.value = currentTime.value / duration.value;
   })
@@ -95,19 +97,16 @@ export default function () {
   }
   // 修改音乐显示时间
   const changeProgress = per => {
-    console.log('changeProgress', per)
     currentTime.value = per * duration.value
   }
   // 修改音乐播放时间
   const changeProgressEnd = per => {
-    console.log('changeProgressEnd', per)
     cxjPlayer.value.currentTime = per * duration.value
   }
 
   // 修改鼠标是否按下
   const changeMouseDownVal = val => {
     isMouseDown.value = val;
-    console.log('changeMouseDownVal', isMouseDown.value)
   }
 
   // 修改音量
@@ -117,9 +116,19 @@ export default function () {
     store.commit('setIsMute', volume.value == 0);
   }
 
+  // 显示/隐藏播放列表
+  const showPlayList = () => {
+    isShowList.value = !isShowList.value;
+  }
+
+  // 隐藏播放列表
+  const hideList = () => {
+    isShowList.value = false;
+  }
+
   onMounted(() => {
     bindKeyupEvent();
-    cxjPlayer.value.src = 'http://m7.music.126.net/20210323212621/0a73b30a1af9dd98368cd23f644276c7/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
+    cxjPlayer.value.src = 'http://m7.music.126.net/20210327233531/85063a00c3f4fda348354904328fb9e8/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
     cxjPlayer.value.volume = volume.value;
     // 缓冲事件
     cxjPlayer.value.onprogress = () => {
@@ -128,6 +137,12 @@ export default function () {
         cxjPlayer.value.buffered.end(0);
         buffered = cxjPlayer.value.buffered.end(0) > duration.value ? cxjPlayer.value.buffered.end(0) : duration.value
         loadPercent.value = buffered / duration.value;
+        // 缓冲进度动画
+        // let loadPer = buffered / duration.value;
+        // gsap.to(loadPercent, {
+        //   value: loadPer,
+        //   duration: 5
+        // })
       }
     }
     // 获取当前播放时间
@@ -155,6 +170,7 @@ export default function () {
     currentTime,
     percent,
     loadPercent,
+    isShowList,
     play,
     setMode,
     getModeEnum,
@@ -163,5 +179,7 @@ export default function () {
     changeProgress,
     changeProgressEnd,
     changeVolume,
+    showPlayList,
+    hideList,
   }
 }

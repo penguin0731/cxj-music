@@ -31,16 +31,27 @@ export default function useNavHeader() {
     },
   ]);
   let curNav = ref('0');
+  let loginVisible = ref(false)
 
   const onClickNav = (url, index) => {
     curNav.value = index;
     router.push(url);
   }
 
+  const login = () => {
+    loginVisible.value = true;
+  }
+
+  const closeModal = () => {
+    loginVisible.value = false;
+  }
 
   return {
     navList,
     curNav,
-    onClickNav
+    loginVisible,
+    onClickNav,
+    login,
+    closeModal
   }
 }

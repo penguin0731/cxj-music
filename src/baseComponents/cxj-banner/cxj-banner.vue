@@ -1,6 +1,6 @@
 <template>
   <div
-    class="banner_wrap"
+    class="cxjBanner_wrap"
     :style="{
       backgroundImage: bannerList[curIndex]
         ? `url(${bannerList[curIndex].imageUrl}?imageView&blur=40x20)`
@@ -10,7 +10,7 @@
     }"
     @click="click"
   >
-    <div class="banner_box">
+    <div class="cxjBanner_box">
       <transition-group name="fade">
         <a
           class="active"
@@ -55,10 +55,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.banner_wrap {
+.cxjBanner_wrap {
   position: relative;
   overflow: hidden;
-  .banner_box {
+  .cxjBanner_box {
     position: relative;
     width: 980px;
     height: 363px;

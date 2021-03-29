@@ -1,5 +1,6 @@
 <template>
   <i
+    class="cxjIcon"
     :class="{
       icon_sprite: type == 'icon',
       player_sprite: type == 'player',
@@ -27,7 +28,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-i {
+.cxjIcon {
   display: inline-block;
 }
 </style>

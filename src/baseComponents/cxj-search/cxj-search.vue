@@ -1,7 +1,7 @@
 <template>
-  <div class="search_box">
+  <div class="cxjSearch_box">
     <input type="text" placeholder="音乐/歌手/专辑/用户">
-    <button class="search">
+    <button class="cxjSearch_btn">
       <i class="icon_sprite icon_search"></i>
     </button>
   </div>
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.search_box {
+.cxjSearch_box {
   display: flex;
   position: relative;
   height: 36px;

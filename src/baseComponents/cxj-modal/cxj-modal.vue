@@ -1,20 +1,20 @@
 <template>
   <teleport to="body">
-    <transition name="modal_fade" type="animation" appear>
+    <transition name="cxjModal_fade" type="animation" appear>
       <div v-show="visible" class="modal_wrap">
-        <div class="modal_box">
-          <div class="modal_content" :style="{width: `${width}px`}">
-            <cxj-icon class="icon_close" @click="cancel($event)" />
-            <div class="modal_header">
-              <div class="modal_title">{{ title }}</div>
+        <div class="cxjModal_box">
+          <div class="cxjModal_content" :style="{width: `${width}px`}">
+            <cxj-icon class="icon_close close" @click="cancel($event)" />
+            <div class="cxjModal_header">
+              <div class="cxjModal_title">{{ title }}</div>
             </div>
-            <div class="modal_body">
+            <div class="cxjModal_body">
               <slot />
             </div>
-            <div v-if="footer" class="modal_footer">
-              <div class="modal_btns">
-                <div class="modal_btn" @click="cancel($event)">取 消</div>
-                <div class="modal_btn" @click="ok($event)">确 定</div>
+            <div v-if="footer" class="cxjModal_footer">
+              <div class="cxjModal_btns">
+                <div class="cxjModal_btn" @click="cancel($event)">{{ cancelText }}</div>
+                <div class="cxjModal_btn" @click="ok($event)">{{ comfirmText }}</div>
               </div>
             </div>
           </div>
@@ -45,7 +45,15 @@ export default {
     footer: {
       type: Boolean,
       default: true
-    }
+    },
+    comfirmText: {
+      type: String,
+      default: '确 定'
+    },
+    cancelText: {
+      type: String,
+      default: '取 消'
+    },
   },
   emits: ['cancel', 'ok'],
   setup(props, context) {
@@ -67,7 +75,7 @@ export default {
   background-color: rgba(0,0,0,.45);
   z-index: 1000;
 }
-.modal_box {
+.cxjModal_box {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -75,15 +83,15 @@ export default {
   z-index: 1000;
   color: var(--fontColor);
 }
-.modal_content {
+.cxjModal_content {
   position: relative;
   background-color: rgba(0, 0, 0, .8);
   border-radius: 5px;
 }
-.modal_header {
+.cxjModal_header {
   padding: 16px 24px;
   border-bottom: 1px solid hsla(0,0%,100%,.6);
-  .modal_title {
+  .cxjModal_title {
     margin: 0;
     font-weight: bold;
     font-size: 16px;
@@ -92,18 +100,18 @@ export default {
     color: #fff;
   }
 }
-.modal_body {
+.cxjModal_body {
   padding: 24px;
 }
-.modal_footer {
+.cxjModal_footer {
   padding: 10px 16px;
   border-top: 1px solid hsla(0,0%,100%,.6);
 }
-.modal_btns {
+.cxjModal_btns {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  .modal_btn {
+  .cxjModal_btn {
     padding: 6px 16px;
     border-radius: 3px;
     border: 1px solid hsla(0,0%,100%,.6);
@@ -118,7 +126,7 @@ export default {
     }
   }
 }
-.icon_close {
+.icon_close.close {
   position: absolute;
   top: 16px;
   right: 24px;
@@ -152,9 +160,9 @@ export default {
     transform: translate(-50%, -50%) scale(1);
   }
 }
-.modal_fade-enter-active{
+.cxjModal_fade-enter-active{
   animation: modal-fadein .3s;
-  .modal_box {
+  .cxjModal_box {
     animation: modal-in .5s;
   }
 }

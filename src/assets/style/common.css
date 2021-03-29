@@ -16,6 +16,11 @@ html, body, #app {
   font-family: poppin,Tahoma,Arial,\5FAE\8F6F\96C5\9ED1,sans-serif;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 li {
   list-style: none;
 }
@@ -37,4 +42,17 @@ li {
 .player_sprite:hover, 
 .player_sprite_before:hover {
   opacity: 1;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.ml10 {
+  margin-left: 10px;
+}
+.ml20 {
+  margin-left: 20px;
 }

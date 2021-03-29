@@ -1,4 +1,4 @@
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, reactive, onMounted } from 'vue';
 import { mapState } from 'vuex'
 import { useRouter, useRoute } from 'vue-router';
 
@@ -38,20 +38,21 @@ export default function useNavHeader() {
     router.push(url);
   }
 
-  const login = () => {
+  const showLoginModal = () => {
     loginVisible.value = true;
   }
 
-  const closeModal = () => {
+  const closeLoginModal = () => {
     loginVisible.value = false;
   }
+
 
   return {
     navList,
     curNav,
     loginVisible,
     onClickNav,
-    login,
-    closeModal
+    showLoginModal,
+    closeLoginModal
   }
 }

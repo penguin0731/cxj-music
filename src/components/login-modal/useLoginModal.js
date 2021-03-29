@@ -1,0 +1,32 @@
+import { ref, computed } from "@vue/runtime-core";
+
+export default function(loginVisibleRef, { emit }) {
+  let loginVisible = computed(() => loginVisibleRef.value);
+  let qrcodeLogin = ref(true);
+  let qrSrc = ref('data:image/png;base64,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');
+
+  const close = e => {
+    emit('close', e)
+  }
+
+  const toQRCode = () => {
+    qrcodeLogin.value = true;
+  }
+
+  const toUidLogin = () => {
+    qrcodeLogin.value = false;
+  }
+
+  const UidLogin = () => {
+
+  }
+  return {
+    loginVisible,
+    qrcodeLogin,
+    qrSrc,
+    close,
+    toQRCode,
+    toUidLogin,
+    UidLogin,
+  }
+}

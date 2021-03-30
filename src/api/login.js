@@ -18,21 +18,27 @@ function qrCreate(key) {
  * @param {*} key 二维码key
  */
 function qrCheck(key) {
-  return axios.get(`/login/qr/create?key=${key}&timerstamp=${Date.now()}`);
+  return axios.get(`/login/qr/check?key=${key}&timerstamp=${Date.now()}`);
 }
 
 // 获取登录状态
-function getLoginStatus() {
+function getStatus() {
   return axios.get('/login/status');
 }
 
+// 退出登录
+function logout() {
+  return axios.get('/logout');
+}
+window.logout = logout;
 
 
 let login = {
   getQRKey,
   qrCreate,
   qrCheck,
-  getLoginStatus
+  getStatus,
+  logout
 }
 
 export default login;

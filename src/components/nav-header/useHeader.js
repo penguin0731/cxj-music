@@ -1,9 +1,11 @@
-import { ref, computed, reactive, onMounted } from 'vue';
-import { mapState } from 'vuex'
-import { useRouter, useRoute } from 'vue-router';
+import { ref, computed, reactive, onMounted, watchEffect, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import api from '@/api';
 
 export default function useNavHeader() {
   const router = useRouter();
+  const store = useStore();
   const navList = ref([
     {
       label: '推荐',
@@ -31,7 +33,10 @@ export default function useNavHeader() {
     },
   ]);
   let curNav = ref('0');
-  let loginVisible = ref(false)
+  let loginVisible = ref(false);
+  let Uid = computed(() => store.getters.Uid);
+  let userInfo = ref({});
+
 
   const onClickNav = (url, index) => {
     curNav.value = index;
@@ -46,11 +51,24 @@ export default function useNavHeader() {
     loginVisible.value = false;
   }
 
+  const getUserDetail = (Uid) => {
+    if(!Uid) return;
+    api.user.getDetail(Uid).then(res => {
+      userInfo.value = res.profile;
+      console.log(userInfo.value)
+    })
+  }
+
+  watchEffect(() => {
+    getUserDetail(Uid.value);
+  })
 
   return {
     navList,
     curNav,
     loginVisible,
+    Uid,
+    userInfo,
     onClickNav,
     showLoginModal,
     closeLoginModal

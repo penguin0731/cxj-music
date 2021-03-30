@@ -4,9 +4,9 @@ import { defaultVolume, playMode } from '@/config.js';
 import gsap from 'gsap';
 
 export default function () {
+  const store = useStore();
   let cxjPlayer = ref(null); // radio元素
   let volume = ref(defaultVolume);
-  let store = useStore();
   let mode = computed(() => store.getters.mode);
   let isMute = computed(() => store.getters.isMute);
   let isPlaying = computed(() => store.getters.isPlaying);

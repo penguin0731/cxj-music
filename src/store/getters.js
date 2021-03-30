@@ -13,4 +13,6 @@ export default {
   isMute: state => state.isMute,
   // 当前播放音乐
   curMusic: state => state.playList[state.currentIndex] || {},
+  // 用户id
+  Uid: state => state.Uid,
 }

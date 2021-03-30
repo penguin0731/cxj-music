@@ -16,5 +16,8 @@ export default {
   },
   setIsMute(state, isMute) {
     state.isMute = isMute;
+  },
+  setUid(state, Uid) {
+    state.Uid = Uid;
   }
 }

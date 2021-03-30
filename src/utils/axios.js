@@ -5,7 +5,7 @@ axios.defaults.withCredentials = true; // 跨域请求
 
 // 响应拦截器
 axios.interceptors.response.use(res => {
-  if (res.status === 200 && res.data.code === 200) {
+  if (res.status === 200) {
     return res.data
   }
   return Promise.reject(res)

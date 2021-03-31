@@ -2,6 +2,7 @@ import { ref, computed, reactive, onMounted, watchEffect, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import api from '@/api';
+import { setUid } from '@/utils/storage';
 
 export default function useNavHeader() {
   const router = useRouter();
@@ -59,8 +60,17 @@ export default function useNavHeader() {
     })
   }
 
+  const logout = () => {
+    api.login.logout().then(() => {
+      store.commit('setUid', setUid(null));
+      userInfo.value = {};
+    })
+  }
+
   watchEffect(() => {
-    getUserDetail(Uid.value);
+    if(Uid.value) {
+      getUserDetail(Uid.value);
+    }
   })
 
   return {
@@ -71,6 +81,7 @@ export default function useNavHeader() {
     userInfo,
     onClickNav,
     showLoginModal,
-    closeLoginModal
+    closeLoginModal,
+    logout
   }
 }

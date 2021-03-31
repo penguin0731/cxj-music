@@ -5,21 +5,28 @@ import { setUid } from "@/utils/storage";
 
 export default function(loginVisibleRef, { emit }) {
   const store = useStore();
-  let timer;
+  let timer, toastTimer;
   let loginVisible = computed(() => loginVisibleRef.value);
   let isQRCodeLogin = ref(true);
   let qrImg = ref('');
+  let Uid = ref('');
   let isScan = ref(false); // 是否已扫码
   let isQRCodeInvalid = ref(false); // 二维码是否已过期
+  let toastRef = ref(null);
 
+  // 关闭登录modal
   const close = e => {
+    Uid.value = '';
     emit('close', e)
   }
 
+  // 切换二维码登录
   const toQRCode = () => {
     isQRCodeLogin.value = true;
+    qrcodeLogin();
   }
 
+  // 创建二维码
   const createQRCode = async () => {
     const res = await api.login.getQRKey();
     const key = res.data.unikey;
@@ -29,6 +36,7 @@ export default function(loginVisibleRef, { emit }) {
     return key
   }
 
+  // 扫描二维码登录
   const qrcodeLogin = async () => {
     const key = await createQRCode();
     timer = setInterval(async () => {
@@ -60,19 +68,38 @@ export default function(loginVisibleRef, { emit }) {
     }, 500)
   }
 
+  // 获取登录状态
   const getLoginStatus = async () => {
     const res = await api.login.getStatus();
     store.commit('setUid', setUid(res.data.profile.userId));
     close();
   }
 
-
+  // 切换Uid登录
   const toUidLogin = () => {
     isQRCodeLogin.value = false;
+    clearInterval(timer);
   }
 
   const UidLogin = () => {
-
+    clearTimeout(toastTimer);
+    if(!Uid.value) {
+      toastRef.value.message = 'Uid不能为空';
+      toastRef.value.visible = true;
+      toastTimer = setTimeout(() => {
+        toastRef.value.visible = false;
+        toastRef.value.message = '';
+      }, toastRef.value.duration);
+      return;
+    }
+    api.user.getPlayList(Uid.value).then(({ playlist }) => {
+      if(playlist.length == 0 || !playlist[0].creator) {
+        return;
+      }
+      store.commit('setUid', setUid(Uid.value));
+      close();
+    })
+    
   }
 
   onMounted(() => {
@@ -87,8 +114,10 @@ export default function(loginVisibleRef, { emit }) {
     loginVisible,
     isQRCodeLogin,
     qrImg,
+    Uid,
     isScan,
     isQRCodeInvalid,
+    toastRef,
     close,
     toQRCode,
     qrcodeLogin,

@@ -32,8 +32,9 @@
       </div>
       
       <div class="uidLogin_row">
-        <input class="uidLogin_input" type="text" placeholder="请输入您的网易云UID">
+        <input class="uidLogin_input" v-model="Uid" type="text" placeholder="请输入您的网易云UID">
         <div class="uidLogin_btn ml20" @click="UidLogin">登录</div>
+        <cxj-toast ref="toastRef" />
       </div>
       <div class="uidLogin_text mt20">
         <h4>提示：</h4>
@@ -51,10 +52,14 @@
 <script>
 import { computed } from 'vue'
 import useLoginModal from './useLoginModal'
-import cxjModal from '@/baseComponents/cxj-modal/cxj-modal.vue'
+import CxjModal from '@/baseComponents/cxj-modal/cxj-modal.vue'
+import CxjToast from '../../baseComponents/cxj-toast/cxj-toast.vue'
 
 export default {
-  components: { cxjModal },
+  components: { 
+    CxjModal,
+    CxjToast,
+  },
   emits: ['close'],
   setup(props, context) {
     let loginVisibleRef = computed(() => props.loginVisible)
@@ -161,6 +166,7 @@ export default {
     border: 1px solid hsla(0,0%,100%,.6);
     font-size: 14px;
     text-align: center;
+    user-select: none;
     cursor: pointer;
     &:hover {
       border: 1px solid #fff;

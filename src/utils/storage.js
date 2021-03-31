@@ -1,5 +1,5 @@
 export function setStorage(key, value) {
-  if(!key || !value) return;
+  if(!key) return;
   let data = typeof value == 'object' ? JSON.stringify(value) : value;
   localStorage.setItem(key, data);
 }
@@ -25,6 +25,7 @@ export function clearAllStprage() {
 
 let UID_KEY = 'cxjMusic_Uid';
 export function setUid(uid) {
+  console.log(uid)
   setStorage(UID_KEY, uid);
   return uid;
 }

@@ -116,6 +116,7 @@ export default {
     border-radius: 3px;
     border: 1px solid hsla(0,0%,100%,.6);
     font-size: 14px;
+    user-select: none;
     cursor: pointer;
     &:not(:first-of-type) {
       margin-left: 10px;

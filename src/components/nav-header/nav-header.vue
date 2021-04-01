@@ -60,6 +60,7 @@ export default {
   margin: 0 auto;
   display: flex;
   align-items: center;
+  width: 1250px;
 }
 .logo_header {
   font-size: 20px;

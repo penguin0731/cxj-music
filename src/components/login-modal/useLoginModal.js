@@ -82,24 +82,18 @@ export default function(loginVisibleRef, { emit }) {
   }
 
   const UidLogin = () => {
-    clearTimeout(toastTimer);
     if(!Uid.value) {
-      toastRef.value.message = 'Uid不能为空';
-      toastRef.value.visible = true;
-      toastTimer = setTimeout(() => {
-        toastRef.value.visible = false;
-        toastRef.value.message = '';
-      }, toastRef.value.duration);
+      toastRef.value.show('Uid不能为空');
       return;
     }
     api.user.getPlayList(Uid.value).then(({ playlist }) => {
       if(playlist.length == 0 || !playlist[0].creator) {
+        toastRef.value.show(`Uid为${Uid.value}的用户不存在`);
         return;
       }
       store.commit('setUid', setUid(Uid.value));
       close();
     })
-    
   }
 
   onMounted(() => {

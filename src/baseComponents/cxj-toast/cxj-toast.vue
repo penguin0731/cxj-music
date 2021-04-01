@@ -12,12 +12,26 @@ export default {
   setup() {
     let visible = ref(false);
     let message = ref('');
-    let duration = ref(1500);
+    let timer;
+
+    const show = (text, duration = 1500) => {
+      if(typeof duration != 'number') {
+        throw TypeError('duration muse be a number');
+      }
+      if(visible.value) return;
+      clearTimeout(timer);
+      message.value = text;
+      visible.value = true;
+      timer = setTimeout(() => {
+        visible.value = false;
+        message.value = '';
+      }, duration);
+    }
 
     return {
       visible,
       message,
-      duration,
+      show,
     }
   }
 }

@@ -36,12 +36,22 @@ li {
   opacity: .8;
   cursor: pointer;
 }
+.list_menu_sprite, .list_menu_sprite_before {
+  background-image: -webkit-image-set('@/assets/img/list_menu_sprite.png' 2x);
+  cursor: pointer;
+}
 /* 悬浮高亮 */
 .icon_sprite:hover, 
 .icon_sprite_before:hover, 
 .player_sprite:hover, 
 .player_sprite_before:hover {
   opacity: 1;
+}
+/* 单行文本溢出处理 */
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .mt10 {

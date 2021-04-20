@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="playlist_con mt20">
-      <div class="playlist_item" v-for="(item, index) in playList" :key="item.id" :class="{active: isPlaying}">
+      <div class="playlist_item" v-for="(item, index) in playList" :key="item.id" :class="{'active': isPlaying && index == currentIndex}">
         <div class="playlist_idx">
           {{ index + 1 }}
         </div>
@@ -78,6 +78,17 @@ export default {
         opacity: 1;
       }
     }
+  }
+}
+.playlist_con {
+  max-height: 230px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 10px;
   }
 }
 .icon_clear {

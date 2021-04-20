@@ -11,18 +11,19 @@ export default function () {
   let isMute = computed(() => store.getters.isMute);
   let isPlaying = computed(() => store.getters.isPlaying);
   let curMusic = computed(() => store.getters.curMusic);
-  let duration = ref(191.208); // 当前歌曲时间
+  let currentIndex = computed(() => store.getters.currentIndex);
   let currentTime = ref(0); // 当前播放时间
   let percent = ref(0); // 播放进度
   let loadPercent = ref(0); // 缓存进度
-  let isMouseDown = ref(false); // 鼠标是否在音乐进度条按下
+  let isMouseDown = ref(false); // 鼠标是否在音乐进度条中按下
   let isShowList = ref(false); // 是否显示播放列表
   watchEffect(() => {
-    percent.value = currentTime.value / duration.value;
+    percent.value = currentTime.value / curMusic.value.duration;
   })
 
   // 播放暂停功能
   const play = () => {
+    if(currentIndex.value == -1) return;
     store.commit('setIsPlaying', !isPlaying.value);
     if (isPlaying.value) {
       cxjPlayer.value.play();
@@ -97,11 +98,12 @@ export default function () {
   }
   // 修改音乐显示时间
   const changeProgress = per => {
-    currentTime.value = per * duration.value
+    currentTime.value = per * curMusic.value.duration
   }
   // 修改音乐播放时间
   const changeProgressEnd = per => {
-    cxjPlayer.value.currentTime = per * duration.value
+    // if(!curMusic.value.duration) return;
+    cxjPlayer.value.currentTime = per * curMusic.value.duration
   }
 
   // 修改鼠标是否按下
@@ -117,7 +119,7 @@ export default function () {
   }
 
   // 显示/隐藏播放列表
-  const showPlayList = () => {
+  const showPlayList = e => {
     isShowList.value = !isShowList.value;
   }
 
@@ -128,17 +130,18 @@ export default function () {
 
   onMounted(() => {
     bindKeyupEvent();
-    cxjPlayer.value.src = 'http://m7.music.126.net/20210327233531/85063a00c3f4fda348354904328fb9e8/ymusic/c7bc/455e/612c/0d891c5408be6d0af16c7fa64945de75.mp3'
+    console.log(curMusic.value)
+    cxjPlayer.value.src = curMusic.value.url
     cxjPlayer.value.volume = volume.value;
     // 缓冲事件
     cxjPlayer.value.onprogress = () => {
       if (cxjPlayer.value.buffered.length > 0) {
         let buffered = 0;
         cxjPlayer.value.buffered.end(0);
-        buffered = cxjPlayer.value.buffered.end(0) > duration.value ? cxjPlayer.value.buffered.end(0) : duration.value
-        loadPercent.value = buffered / duration.value;
+        buffered = cxjPlayer.value.buffered.end(0) > curMusic.value.duration ? cxjPlayer.value.buffered.end(0) : duration.value
+        loadPercent.value = buffered / curMusic.value.duration;
         // 缓冲进度动画
-        // let loadPer = buffered / duration.value;
+        // let loadPer = buffered / curMusic.value.duration;
         // gsap.to(loadPercent, {
         //   value: loadPer,
         //   duration: 5
@@ -166,7 +169,7 @@ export default function () {
     isMute,
     isMouseDown,
     curMusic,
-    duration,
+    currentIndex,
     currentTime,
     percent,
     loadPercent,

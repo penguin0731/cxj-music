@@ -1,28 +1,50 @@
 <template>
-  <div class="playlist_box">
+  <div class="playlist_box" @click.stop="stopTrigger">
     <div class="playlist_top">
       <h4>播放列表</h4>
       <div class="h-r">
         <div class="playlist_btn"><cxj-icon class="icon_clear" />清空列表</div>
-        <cxj-icon class="icon_close" @click="hideList" />
+        <cxj-icon class="icon_close" @click.stop="hideList" />
       </div>
     </div>
-    <div class="playlist_con">
-      
+    <div class="playlist_con mt20">
+      <div class="playlist_item" v-for="(item, index) in playList" :key="item.id" :class="{active: isPlaying}">
+        <div class="playlist_idx">
+          {{ index + 1 }}
+        </div>
+        <div class="song_name ellipsis ml10">{{ item.name }}</div>
+        <div class="song_opt">
+          <div v-show="!isPlaying" class="list_menu_sprite list_menu_play" title="播放" @click="play(index)"></div>
+          <div v-show="isPlaying" class="list_menu_sprite list_menu_pause" title="暂停" @click="pause"></div>
+        </div>
+        <div class="artist ellipsis" :title="item.singer.map(item => item.name).join('/')">
+          <template v-for="(art, i) in item.singer" :key="art.id">
+            {{ i == 0 ? '' : ' /' }}
+            <span>{{ art.name }}</span>
+          </template>
+        </div>
+        <div class="time ml20">{{ format(item.duration) }}</div>
+        <div class="list_menu_sprite list_menu_delete ml20" title="删除"></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { format } from "@/utils/util.js";
 import usePlayList from "./usePlayList";
 import cxjIcon from "@/baseComponents/cxj-icon/cxj-icon.vue";
+
+import mockList from '@/mock.js';
 
 export default {
   components: { cxjIcon },
   setup(props, context) {
 
     return {
+      format,
       ...usePlayList(context),
+      mockList,
     }
   },
 };
@@ -73,6 +95,77 @@ export default {
   cursor: pointer;
   &:hover {
     opacity: 1;
+  }
+}
+.playlist_item {
+  display: flex;
+  align-items: center;
+  padding: 0 25px;
+  height: 46px;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    .song_opt .list_menu_play, 
+    .song_opt .list_menu_pause, 
+    .list_menu_delete{
+      display: block;
+    }
+    .time {
+      display: none;
+    }
+  }
+  &.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    .playlist_idx {
+      width: 10px;
+      height: 10px;
+      background: url("@/assets/img/wave.gif") 0 0 no-repeat;
+      text-indent: -9999px;
+    }
+  }
+
+  .playlist_idx {
+    position: relative;
+  }
+  .song_opt {
+    flex: 1;
+    .list_menu_sprite {
+      display: none;
+      width: 36px;
+      height: 36px;
+    }
+    .list_menu_play {
+      background-position: -80px 0;
+      &:hover {
+        background-position: -120px 0;
+      }
+    }
+    .list_menu_pause {
+      background-position: -80px -200px;
+      &:hover {
+        background-position: -120px -200px;
+      }
+    }
+  }
+  .song_name, .artist {
+    flex: 2;
+  }
+  .artist {
+    span {
+      cursor: pointer;
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+  .list_menu_delete {
+    display: none;
+    width: 36px;
+    height: 36px;
+    background-position: -80px -160px;
+    &:hover {
+      background-position: -120px -160px;
+    }
   }
 }
 </style>

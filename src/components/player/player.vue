@@ -1,14 +1,14 @@
 <template>
   <div class="player_wrapper">
     <div class="player_box">
-      <div class="player_sprite player_prev" title="alt+←"></div>
+      <div class="player_sprite player_prev" title="alt+←" @click="prev"></div>
       <div
         class="player_sprite"
         title="[空格]"
         :class="{ player_pause: isPlaying, player_play: !isPlaying }"
         @click="play($event)"
       ></div>
-      <div class="player_sprite player_next" title="alt+→"></div>
+      <div class="player_sprite player_next" title="alt+→" @click="next"></div>
       <div
         class="player_pic"
         :style="{

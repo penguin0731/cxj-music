@@ -38,19 +38,19 @@ li {
 
 /* icon雪碧图 */
 .icon_sprite, .icon_sprite_before {
-  background-image: -webkit-image-set('@/assets/img/icon_sprite.png' 2x);
+  background-image: url('@/assets/img/icon_sprite.png');
 }
 
 /* player雪碧图 */
 .player_sprite, .player_sprite_before {
-  background-image: -webkit-image-set('@/assets/img/player_sprite.png' 2x);
+  background-image: url('@/assets/img/player_sprite.png');
   opacity: .8;
   cursor: pointer;
 }
 
 /* 播放列表雪碧图 */
 .list_menu_sprite, .list_menu_sprite_before {
-  background-image: -webkit-image-set('@/assets/img/list_menu_sprite.png' 2x);
+  background-image: url('@/assets/img/list_menu_sprite.png');
   cursor: pointer;
 }
 

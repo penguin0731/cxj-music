@@ -3,19 +3,19 @@
     <div class="playlist_top">
       <h4>播放列表</h4>
       <div class="h-r">
-        <div class="playlist_btn"><cxj-icon class="icon_clear" />清空列表</div>
+        <div class="playlist_btn" @click="clearList"><cxj-icon class="icon_clear" />清空列表</div>
         <cxj-icon class="icon_close" @click.stop="hideList" />
       </div>
     </div>
     <div class="playlist_con mt20">
-      <div class="playlist_item" v-for="(item, index) in playList" :key="item.id" :class="{'active': isPlaying && index == currentIndex}">
+      <div class="playlist_item" v-if="playList.length > 0" v-for="(item, index) in playList" :key="item.id" :class="{'active': isPlaying && index == currentIndex}">
         <div class="playlist_idx">
           {{ index + 1 }}
         </div>
-        <div class="song_name ellipsis ml10">{{ item.name }}</div>
+        <div class="song_name ellipsis ml10" :title="item.name">{{ item.name }}</div>
         <div class="song_opt">
-          <div v-show="!isPlaying" class="list_menu_sprite list_menu_play" title="播放" @click="play(index)"></div>
-          <div v-show="isPlaying" class="list_menu_sprite list_menu_pause" title="暂停" @click="pause"></div>
+          <div v-show="!(isPlaying && index == currentIndex)" class="list_menu_sprite list_menu_play" title="播放" @click="play(index)"></div>
+          <div v-show="isPlaying && index == currentIndex" class="list_menu_sprite list_menu_pause" title="暂停" @click="pause(index)"></div>
         </div>
         <div class="artist ellipsis" :title="item.singer.map(item => item.name).join('/')">
           <template v-for="(art, i) in item.singer" :key="art.id">
@@ -24,8 +24,9 @@
           </template>
         </div>
         <div class="time ml20">{{ format(item.duration) }}</div>
-        <div class="list_menu_sprite list_menu_delete ml20" title="删除"></div>
+        <div class="list_menu_sprite list_menu_delete ml20" title="删除" @click="remove(index)"></div>
       </div>
+      <div v-else class="playlist_con_text">啥也妹有啊！快去添加歌曲吧！</div>
     </div>
   </div>
 </template>
@@ -81,7 +82,7 @@ export default {
   }
 }
 .playlist_con {
-  max-height: 230px;
+  height: 230px;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 6px;
@@ -89,6 +90,11 @@ export default {
   &::-webkit-scrollbar-thumb {
     background-color: rgba(255,255,255,0.7);
     border-radius: 10px;
+  }
+  .playlist_con_text {
+    text-align: center;
+    line-height: 230px;
+    user-select: none;
   }
 }
 .icon_clear {

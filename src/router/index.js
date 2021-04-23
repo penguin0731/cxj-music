@@ -8,6 +8,10 @@ export default createRouter({
       redirect: '/music'
     },
     {
+      path: '/my',
+      component: () => import('@/page/my/my.vue'),
+    },
+    {
       path: '/music',
       component: () => import('@/page/music.vue'),
       redirect: '/music/recommend',

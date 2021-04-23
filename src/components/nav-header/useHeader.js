@@ -1,11 +1,12 @@
-import { ref, computed, reactive, onMounted, watchEffect, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, watchEffect, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import api from '@/api';
 import { setUid } from '@/utils/storage';
 
 export default function useNavHeader() {
   const router = useRouter();
+  const route = useRoute();
   const store = useStore();
   const navList = ref([
     {
@@ -60,6 +61,11 @@ export default function useNavHeader() {
     })
   }
 
+  const toMy = () => {
+    curNav.value = -1;
+    router.push({path: '/my', query: {id: Uid.value}})
+  }
+
   const logout = () => {
     api.login.logout().then(() => {
       store.commit('setUid', setUid(null));
@@ -82,6 +88,7 @@ export default function useNavHeader() {
     onClickNav,
     showLoginModal,
     closeLoginModal,
+    toMy,
     logout
   }
 }

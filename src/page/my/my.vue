@@ -32,7 +32,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@bodyWidth: 980px;
 .my-profile {
   height: 235px;
   padding-top: 45px;
@@ -41,7 +40,7 @@ export default {
   text-align: center;
   color: #fff;
   .my-profile-detail {
-    width: @bodyWidth;
+    width: var(--contentWidth);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -83,7 +82,7 @@ export default {
   }
 }
 .my-main {
-  width: @bodyWidth;
+  width: var(--contentWidth);
   min-height: 400px;
   background-color: #fff;
   margin: 0 auto;

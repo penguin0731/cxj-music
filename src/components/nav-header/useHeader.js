@@ -1,4 +1,4 @@
-import { ref, computed, watchEffect, watch } from 'vue';
+import { ref, computed, watchEffect, watch, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import api from '@/api';
@@ -34,7 +34,7 @@ export default function useNavHeader() {
       url: '/music/album',
     },
   ]);
-  let curNav = ref('0');
+  let curNav = ref(0);
   let loginVisible = ref(false);
   let Uid = computed(() => store.getters.Uid);
   let userInfo = ref({});
@@ -77,6 +77,8 @@ export default function useNavHeader() {
     if(Uid.value) {
       getUserDetail(Uid.value);
     }
+    console.log(route.path.includes('/music'))
+    curNav.value = route.path.includes('/music') ? 0 : -1;
   })
 
   return {

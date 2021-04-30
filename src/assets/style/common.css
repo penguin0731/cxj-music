@@ -3,6 +3,7 @@
   --themeColor: #ff3a3a;
   --themeColor2: #191919;
   --fontColor: #bdbdbe;
+  --contentWidth: 980px;
 }
 
 * {

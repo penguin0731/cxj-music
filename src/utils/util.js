@@ -45,3 +45,22 @@ export function clone(origin, deep = true) {
   }
   return obj;
 }
+
+/**
+ * 是否是string类型
+ * @param {*} str 字符串
+ */
+export function isString(str) {
+  return typeof str === 'string';
+}
+
+/**
+ * 将http转为https
+ * @param {*} url
+ */
+export function toHttps(url) {
+  if (!isString(url)) {
+    return url;
+  }
+  return url.replace('http://', 'https://');
+}

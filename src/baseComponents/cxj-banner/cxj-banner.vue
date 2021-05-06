@@ -3,7 +3,7 @@
     class="cxjBanner_wrap"
     :style="{
       backgroundImage: bannerList[curIndex]
-        ? `url(${bannerList[curIndex].imageUrl}?imageView&blur=40x20)`
+        ? `url(${toHttps(bannerList[curIndex].imageUrl)}?imageView&blur=40x20)`
         : '',
       backgroundSize: '6000px',
       backgroundPosition: 'center center',
@@ -44,11 +44,13 @@
 
 <script>
 import useBanner from './useBanner'
+import { toHttps } from '@/utils/util'
 
 export default {
   setup(props) {
     return {
       ...useBanner(props),
+      toHttps,
     };
   },
 };

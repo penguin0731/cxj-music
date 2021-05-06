@@ -1,5 +1,5 @@
 <template>
-  <div class="my-wrapper">
+  <div v-if="Uid" class="my-wrapper">
     <div class="my-profile">
       <div v-show="userInfo.userId" class="my-profile-detail">
         <img class="my-avatar" :src="userInfo.avatarUrl" />
@@ -18,11 +18,16 @@
     </div>
     <div class="my-main"></div>
   </div>
+  <not-found v-else />
 </template>
 
 <script>
 import useMy from './useMy'
+import NotFound from '@/components/not-found/not-found.vue'
 export default {
+  components: {
+    NotFound
+  },
   setup() {
     return {
       ...useMy(),

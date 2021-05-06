@@ -4,10 +4,10 @@ import api from '@/api';
 
 export default function() {
   const route = useRoute();
+  let Uid = ref('');
   let userInfo = ref({});
 
-  const getUserDetail = () => {
-    let id = route.query.id;
+  const getUserDetail = (id) => {
     if(!id) return;
     api.user.getDetail(id).then(res => {
       userInfo.value = res.profile;
@@ -16,10 +16,12 @@ export default function() {
   }
 
   onMounted(() => {
-    getUserDetail();
+    Uid.value = route.query.id
+    getUserDetail(Uid.value);
   })
 
   return {
+    Uid,
     userInfo,
   }
 }

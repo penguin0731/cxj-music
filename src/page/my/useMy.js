@@ -1,4 +1,4 @@
-import { ref, computed, reactive, onMounted } from 'vue';
+import { ref, computed, reactive, onMounted, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '@/api';
 
@@ -16,8 +16,14 @@ export default function() {
   }
 
   onMounted(() => {
-    Uid.value = route.query.id
+    console.log('useMy mounted')
+    Uid.value = route.query.id;
     getUserDetail(Uid.value);
+  })
+
+  watchEffect(() => {
+    let id = route.query.id;
+    Uid.value = id ? id : '';
   })
 
   return {

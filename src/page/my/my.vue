@@ -1,22 +1,22 @@
 <template>
-  <div v-if="Uid" class="my-wrapper">
-    <div class="my-profile">
-      <div v-show="userInfo.userId" class="my-profile-detail">
-        <img class="my-avatar" :src="userInfo.avatarUrl" />
-        <span class="my-nickname">{{ userInfo.nickname }}</span>
-        <div class="my-statistic mt10">
-          <div class="my-follows">
+  <div v-if="Uid" class="my_wrapper">
+    <div class="my_profile">
+      <div v-show="userInfo.userId" class="my_profile_detail contentArea">
+        <img class="my_avatar" :src="userInfo.avatarUrl" />
+        <span class="my_nickname">{{ userInfo.nickname }}</span>
+        <div class="my_statistic mt10">
+          <div class="my_follows">
             <span>{{ userInfo.follows }}</span>
             <span>关注</span>
           </div>
-          <div class="my-followeds">
+          <div class="my_followeds">
             <span>{{ userInfo.followeds }}</span>
             <span>粉丝</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="my-main"></div>
+    <div class="my_main contentArea"></div>
   </div>
   <not-found v-else />
 </template>
@@ -37,33 +37,32 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.my-profile {
+.my_profile {
   height: 235px;
   padding-top: 45px;
   background-image: url('@/assets/img/bg_profile.jpg');
   background-size: cover;
   text-align: center;
   color: #fff;
-  .my-profile-detail {
-    width: var(--contentWidth);
+  .my_profile-detail {
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 auto;
-    .my-avatar {
+    background-color: transparent;
+    .my_avatar {
       width: 102px;
       height: 102px;
       border: 4px solid #fff;
       border-radius: 50%;
       background: #fff;
     }
-    .my-nickname {
+    .my_nickname {
       font-size: 30px;
     }
-    .my-statistic {
+    .my_statistic {
       display: flex;
-      .my-follows, .my-followeds {
+      .my_follows, .my_followeds {
         display: flex;
         flex-direction: column;
         padding: 0 25px;
@@ -80,16 +79,10 @@ export default {
           color: #fff;
         }
       }
-      .my-follows {
+      .my_follows {
         border-right: 1px solid #24313d;
       }
     }
   }
-}
-.my-main {
-  width: var(--contentWidth);
-  min-height: 400px;
-  background-color: #fff;
-  margin: 0 auto;
 }
 </style>

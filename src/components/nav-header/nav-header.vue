@@ -2,7 +2,7 @@
   <div class="header">
     <div class="header_box">
       <div class="logo_header">cxj-music在线音乐播放器</div>
-      <div class="nav-header">
+      <div class="nav_header">
         <ul>
           <li 
             v-for="(item, index) in navList" 
@@ -68,7 +68,7 @@ export default {
   margin-right: 25px;
   color: #fff;
 }
-.nav-header > ul {
+.nav_header > ul {
   display: flex;
   padding: 0;
   margin: 0;

@@ -1,5 +1,5 @@
-import { ref, onMounted } from 'vue';
-import api from '@/api';
+import { ref, onMounted } from 'vue'
+import api from '@/api'
 
 export default function() {
   let bannerList = ref([]);

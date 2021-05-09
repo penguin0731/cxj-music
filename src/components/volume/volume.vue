@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import useVolume from "./useVolume";
-import CxjProgress from "@/baseComponents/cxj-progress/cxj-progress.vue";
+import useVolume from "./useVolume"
+import CxjProgress from "@/baseComponents/cxj-progress/cxj-progress.vue"
 export default {
   components: { CxjProgress },
   props: {

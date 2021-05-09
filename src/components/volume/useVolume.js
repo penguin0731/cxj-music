@@ -1,5 +1,5 @@
 import { ref } from "@vue/reactivity"
-import { watchEffect } from "@vue/runtime-core";
+import { watchEffect } from "@vue/runtime-core"
 
 export default function(props, { emit }) {
   let volumePercent = ref(0);

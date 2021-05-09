@@ -1,7 +1,7 @@
 <template>
   <div>
     <cxj-banner />
-    <div class="recommend-body"></div>
+    <div class="recommend_body"></div>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.recommend-body {
+.recommend_body {
   width: var(--contentWidth);
   min-height: 700px;
   margin: 0 auto;

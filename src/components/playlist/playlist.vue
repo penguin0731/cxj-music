@@ -32,11 +32,11 @@
 </template>
 
 <script>
-import { format } from "@/utils/util.js";
-import usePlayList from "./usePlayList";
-import cxjIcon from "@/baseComponents/cxj-icon/cxj-icon.vue";
+import { format } from "@/utils/util.js"
+import usePlayList from "./usePlayList"
+import cxjIcon from "@/baseComponents/cxj-icon/cxj-icon.vue"
 
-import mockList from '@/mock.js';
+import mockList from '@/mock.js'
 
 export default {
   components: { cxjIcon },

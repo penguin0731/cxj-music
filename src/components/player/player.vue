@@ -69,12 +69,12 @@
 </template>
 
 <script>
-import album from "@/assets/img/album.png";
-import { format } from "@/utils/util.js";
-import usePlayer from "./usePlayer";
-import CxjProgress from "@/baseComponents/cxj-progress/cxj-progress.vue";
-import Volume from "@/components/volume/volume.vue";
-import PlayList from "@/components/playlist/playlist.vue";
+import album from "@/assets/img/album.png"
+import { format } from "@/utils/util.js"
+import usePlayer from "./usePlayer"
+import CxjProgress from "@/baseComponents/cxj-progress/cxj-progress.vue"
+import Volume from "@/components/volume/volume.vue"
+import PlayList from "@/components/playlist/playlist.vue"
 
 
 export default {

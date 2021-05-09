@@ -27,6 +27,53 @@ export function format(duration) {
 }
 
 /**
+ * 歌词解析
+ * @param {*} lyric 歌词
+ */
+export function parseLyric(lyric) {
+  let lyricArr = lyric.split('\n');
+  lyricArr = lyricArr.map(lrc => {
+    if(!lrc) return null;
+    let timeParts = lrc.split(']')[0].replace('[', '').split(':');
+    let words = lrc.split(']')[1];
+    words = words ? words.trim() : words;
+    let minutes = parseInt(timeParts[0]);
+    let seconds = parseFloat(timeParts[1]);
+    let time = minutes * 60 + seconds;
+    return {
+      time,
+      words
+    }
+  }).filter(lrc => lrc);
+  return lyricArr;
+}
+
+/**
+ * 同步歌词
+ * @param {*} lyric 原歌词
+ * @param {*} tlyric 翻译歌词
+ */
+export function syncLyric(lyric, tlyric) {
+  let lyricFrontInfo = [];
+  for(let i = 0; i < lyric.length; i++) {
+    let lTime = lyric[i].time;
+    let tTime = tlyric[0].time;
+    if(lTime == tTime) break;
+    lyricFrontInfo.push(lyric.shift()); // 数组长度已改变
+    --i; // 调整索引
+  }
+  let nullFrontInfo = lyricFrontInfo.map(item => {
+    return {
+      time: item.time,
+      words: ''
+    }
+  })
+  lyric.unshift(...lyricFrontInfo)
+  tlyric.unshift(...nullFrontInfo)
+  return [lyric, tlyric];
+}
+
+/**
  * 克隆对象
  * @param {*} origin 目标对象
  * @param {*} deep 是否深度克隆

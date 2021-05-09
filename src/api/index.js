@@ -1,6 +1,7 @@
 import axios from '@/utils/axios'
 import login from './login'
 import user from './user'
+import song from './song'
 
 // 获取banner数据
 function getBanner() {
@@ -10,7 +11,8 @@ function getBanner() {
 let api = {
   getBanner,
   login,
-  user
+  user,
+  song
 };
 
 export default api;

@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router"
 
 export default createRouter({
   history: createWebHashHistory(),
@@ -41,6 +41,10 @@ export default createRouter({
           component: () => import('@/page/album/album.vue')
         },
       ]
+    },
+    {
+      path: '/song',
+      component: () => import('@/page/song/song.vue'),
     }
   ]
 })

@@ -34,7 +34,7 @@
       <div class="song_lyric_cont">
         <p class="mt10" v-for="(lrc, i) in lyric" :key="lrc.time">
           {{ lrc.words }}
-          <template v-if="tlyric[i].words">
+          <template v-if="tlyric[i] && tlyric[i].words">
             <br>
             {{ tlyric[i].words }}
           </template>

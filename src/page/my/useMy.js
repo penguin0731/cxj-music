@@ -15,15 +15,10 @@ export default function() {
     })
   }
 
-  onMounted(() => {
-    console.log('useMy mounted')
-    Uid.value = route.query.id;
-    getUserDetail(Uid.value);
-  })
-
   watchEffect(() => {
     let id = route.query.id;
     Uid.value = id ? id : '';
+    getUserDetail(Uid.value);
   })
 
   return {

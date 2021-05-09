@@ -97,4 +97,5 @@ li {
   min-height: calc(100% - 70px);
   background-color: #fff;
   margin: 0 auto;
+  padding-bottom: 73px !important;
 }

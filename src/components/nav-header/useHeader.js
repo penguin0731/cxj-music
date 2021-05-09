@@ -57,7 +57,6 @@ export default function useNavHeader() {
     if(!Uid) return;
     api.user.getDetail(Uid).then(res => {
       userInfo.value = res.profile;
-      console.log(userInfo.value)
     })
   }
 
@@ -77,7 +76,6 @@ export default function useNavHeader() {
     if(Uid.value) {
       getUserDetail(Uid.value);
     }
-    console.log(route.path.includes('/music'))
     curNav.value = route.path.includes('/music') ? 0 : -1;
   })
 

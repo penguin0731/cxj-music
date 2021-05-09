@@ -100,7 +100,7 @@ export default {
   left: 0;
   right: 0;
   height: 53px;
-  background-color: rgba(25, 25, 25, .9);
+  background-color: rgb(35, 35, 35);;
   display: flex;
   justify-content: center;
   color: var(--fontColor);

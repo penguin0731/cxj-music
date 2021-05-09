@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 axios.defaults.withCredentials = true; // 跨域请求

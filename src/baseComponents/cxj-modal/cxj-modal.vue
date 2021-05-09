@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import useModal from "./useModal";
-import cxjIcon from "@/baseComponents/cxj-icon/cxj-icon.vue";
+import useModal from "./useModal"
+import cxjIcon from "@/baseComponents/cxj-icon/cxj-icon.vue"
 export default {
   components: { cxjIcon },
   props: {

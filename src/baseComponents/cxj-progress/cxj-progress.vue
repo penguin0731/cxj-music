@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import useProgress from "./useProgress";
+import useProgress from "./useProgress"
 export default {
   props: {
     isMouseDown: {

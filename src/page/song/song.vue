@@ -1,10 +1,10 @@
 <template>
   <div class="song_wrapper contentArea">
     <div class="song_data">
-      <div class="song_cover">
+      <div v-show="al.picUrl" class="song_cover">
         <img :src="al.picUrl" :alt="al.name">
       </div>
-      <div class="song_cont">
+      <div v-show="name && commentTotal" class="song_cont">
         <h1 class="mt10">{{ name }}</h1>
         <div v-if="alia.length > 0" class="alia">{{ alia[0] }}</div>
         <div class="song_singer mt10">
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div class="song_lyric">
+    <div v-show="lyric.length > 0" class="song_lyric">
       <h2>歌词</h2>
       <div class="song_lyric_cont">
         <p class="mt10" v-for="(lrc, i) in lyric" :key="lrc.time">

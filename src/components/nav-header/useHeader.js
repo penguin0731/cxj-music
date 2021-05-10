@@ -72,11 +72,26 @@ export default function useNavHeader() {
     })
   }
 
+  const watchPath = () => {
+    let len = navList.value.length;
+    let path = route.path;
+    if(path.includes('/music')) {
+      for(let i = 0; i < len; i++) {
+        if(path === navList.value[i].url) {
+          curNav.value = i;
+          break;
+        }
+      }
+    }else {
+      curNav.value = -1;
+    }
+  }
+
   watchEffect(() => {
     if(Uid.value) {
       getUserDetail(Uid.value);
     }
-    curNav.value = route.path.includes('/music') ? 0 : -1;
+    watchPath();
   })
 
   return {

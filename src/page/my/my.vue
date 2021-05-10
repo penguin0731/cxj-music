@@ -1,7 +1,7 @@
 <template>
-  <div v-if="Uid" class="my_wrapper">
+  <div v-if="userInfo.userId && !show404" class="my_wrapper">
     <div class="my_profile">
-      <div v-show="userInfo.userId" class="my_profile_detail contentArea">
+      <div class="my_profile_detail contentArea">
         <img class="my_avatar" :src="userInfo.avatarUrl" />
         <span class="my_nickname">{{ userInfo.nickname }}</span>
         <div class="my_statistic mt10">
@@ -18,7 +18,7 @@
     </div>
     <div class="my_main contentArea"></div>
   </div>
-  <not-found v-else />
+  <not-found v-show="show404" />
 </template>
 
 <script>

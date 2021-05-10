@@ -18,12 +18,12 @@
       <div class="player_music_box" :class="[currentIndex == -1 ? 'disabled' : '']">
         <div v-if="currentIndex == -1">欢迎使用cxj-music播放器</div>
         <div v-else class="player_info">
-          <span class="player_info_name ellipsis">{{ curMusic.name }}</span>
+          <a :href="`/#/song?id=${curMusic.id}`" class="player_info_name ellipsis">{{ curMusic.name }}</a>
           -
           <div class="player_info_singers ellipsis" :title="curMusic.singer.map(item => item.name).join('/')">
             <template v-for="(art, i) in curMusic.singer" :key="art.id">
               {{ i == 0 ? '' : ' /' }}
-              <span>{{ art.name }}</span>
+              <a>{{ art.name }}</a>
             </template>
           </div>
         </div>
@@ -113,13 +113,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin: 0 7.638889%;
-  span {
-    cursor: pointer;
-    color: var(--fontColor);
-    &:hover {
-      color: #fff;
-    }
-  }
   .player_prev,
   .player_next {
     width: 19px;

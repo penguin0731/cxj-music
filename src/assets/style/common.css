@@ -30,8 +30,12 @@ html, body, #app {
 }
 
 a {
+  cursor: pointer;
   text-decoration: none;
   color: inherit;
+}
+a:hover {
+  color: #fff;
 }
 
 li {

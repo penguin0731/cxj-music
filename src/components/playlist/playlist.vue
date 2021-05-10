@@ -20,7 +20,7 @@
         <div class="artist ellipsis" :title="item.singer.map(item => item.name).join('/')">
           <template v-for="(art, i) in item.singer" :key="art.id">
             {{ i == 0 ? '' : ' /' }}
-            <span>{{ art.name }}</span>
+            <a>{{ art.name }}</a>
           </template>
         </div>
         <div class="time ml20">{{ format(item.duration) }}</div>
@@ -166,14 +166,6 @@ export default {
   }
   .song_name, .artist {
     flex: 2;
-  }
-  .artist {
-    span {
-      cursor: pointer;
-      &:hover {
-        color: #fff;
-      }
-    }
   }
   .list_menu_delete {
     display: none;

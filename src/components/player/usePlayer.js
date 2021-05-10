@@ -1,11 +1,13 @@
 import { ref, onMounted, computed, watchEffect, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { defaultVolume, playMode } from '@/config.js';
 import { randomIndex } from '@/utils/util.js';
 import gsap from 'gsap';
 
 export default function () {
   const store = useStore();
+  const router = useRouter();
   let cxjPlayer = ref(null); // radio元素
   let volume = ref(defaultVolume);
   let mode = computed(() => store.getters.mode);
@@ -19,20 +21,6 @@ export default function () {
   let loadPercent = ref(0); // 缓存进度
   let isMouseDown = ref(false); // 鼠标是否在音乐进度条中按下
   let isShowList = ref(false); // 是否显示播放列表
-  watchEffect(() => {
-    percent.value = currentTime.value / curMusic.value.duration;
-  })
-  watch(isPlaying, (isPlaying, oldVal) => {
-    isPlaying ? cxjPlayer.value.play() : cxjPlayer.value.pause();
-  })
-  watch(curMusic, (newMusic, oldMusic) => {
-    console.log(newMusic)
-    if(!newMusic.id) return;
-    if(newMusic.id == oldMusic.id) return;
-    cxjPlayer.value.src = newMusic.url;
-    cxjPlayer.value.currentTime = loadPercent.value = 0;
-    cxjPlayer.value.play();
-  })
 
   // 播放暂停功能
   const play = () => {
@@ -219,6 +207,21 @@ export default function () {
           break;
       }
     }
+  })
+
+  watchEffect(() => {
+    percent.value = currentTime.value / curMusic.value.duration;
+  })
+  watch(isPlaying, (isPlaying, oldVal) => {
+    isPlaying ? cxjPlayer.value.play() : cxjPlayer.value.pause();
+  })
+  watch(curMusic, (newMusic, oldMusic) => {
+    console.log(newMusic)
+    if(!newMusic.id) return;
+    if(newMusic.id == oldMusic.id) return;
+    cxjPlayer.value.src = newMusic.url;
+    cxjPlayer.value.currentTime = loadPercent.value = 0;
+    cxjPlayer.value.play();
   })
 
 

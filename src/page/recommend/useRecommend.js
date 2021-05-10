@@ -1,5 +1,6 @@
 import { ref, onMounted } from 'vue'
 import api from '@/api'
+import nProgress from 'nprogress'
 
 export default function() {
   let bannerList = ref([]);
@@ -12,8 +13,9 @@ export default function() {
     bannerList.value = res.banners;
   }
 
-  onMounted(() => {
-    getBanner();
+  onMounted(async () => {
+    await getBanner();
+    nProgress.done();
   })
 
   return {

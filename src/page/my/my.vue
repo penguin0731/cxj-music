@@ -44,7 +44,7 @@ export default {
   background-size: cover;
   text-align: center;
   color: #fff;
-  .my_profile-detail {
+  .my_profile_detail {
     height: 100%;
     display: flex;
     flex-direction: column;

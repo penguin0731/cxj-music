@@ -9,8 +9,6 @@ axios.interceptors.response.use(res => {
     return res.data
   }
   return Promise.reject(res)
-}, err => {
-  Promise.reject(err)
-})
+}, err => err)
 
 export default axios;

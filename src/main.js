@@ -10,15 +10,11 @@ import '@/assets/style/common.css'
 
 
 NProgress.configure({ showSpinner: false });
-window.NProgress = NProgress
 router.beforeEach((to, from, next) => {
   NProgress.start();
   next();
 })
 
-router.afterEach((to, from) => {
-  NProgress.done()
-})
 
 const app = createApp(App);
 app.use(router)

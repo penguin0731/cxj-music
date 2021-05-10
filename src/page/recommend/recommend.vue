@@ -1,16 +1,23 @@
 <template>
   <div>
-    <cxj-banner />
+    <cxj-banner :bannerList="bannerList" />
     <div class="recommend_body"></div>
   </div>
 </template>
 
 <script>
-import CxjBanner from '@/baseComponents/cxj-banner/cxj-banner.vue';
+import CxjBanner from '@/baseComponents/cxj-banner/cxj-banner.vue'
+import useRecommend from './useRecommend'
+
 
 export default {
   components: {
     CxjBanner
+  },
+  setup() {
+    return {
+      ...useRecommend(),
+    }
   }
 }
 </script>

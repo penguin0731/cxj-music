@@ -9,15 +9,16 @@
       backgroundPosition: 'center center',
     }"
     @click="click"
+    @mouseenter="pause"
+    @mouseleave="autoPlay"
   >
     <div class="cxjBanner_box">
       <transition-group name="fade">
         <a
-          class="active"
           href=""
           v-for="(banner, index) in bannerList"
-          :key="index"
           v-show="index == curIndex"
+          :key="index"
         >
           <img :src="banner.imageUrl" />
         </a>
@@ -47,6 +48,12 @@ import useBanner from './useBanner'
 import { toHttps } from '@/utils/util'
 
 export default {
+  props: {
+    bannerList: {
+      type: Array,
+      default: () => ([])
+    }
+  },
   setup(props) {
     return {
       ...useBanner(props),
@@ -61,15 +68,14 @@ export default {
   position: relative;
   overflow: hidden;
   .cxjBanner_box {
+    display: flex;
     position: relative;
     width: 980px;
     height: 363px;
     margin: 0 auto;
-    .active {
-      position: absolute;
-      img {
-        width: 980px;
-      }
+    overflow: hidden;
+    img {
+      width: 980px;
     }
   }
   .left_arrow, .right_arrow {

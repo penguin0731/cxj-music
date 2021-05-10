@@ -1,19 +1,9 @@
-import { ref, onMounted } from 'vue'
-import api from '@/api'
+import { ref, onMounted, computed } from 'vue'
 
-export default function() {
-  let bannerList = ref([]);
+export default function(props) {
+  let bannerList = computed(() => props.bannerList);
   let curIndex = ref(0);
   let timer = null;
-
-
-  /**
-   * 获取轮播图数据
-   */
-  const getBanner = async() => {
-    const res = await api.getBanner();
-    bannerList.value = res.banners;
-  }
 
   /**
    * 轮播图
@@ -67,17 +57,21 @@ export default function() {
     autoPlay();
   }
 
+  const pause = () => {
+    clearInterval(timer)
+  }
+
   // mounted
   onMounted(() => {
-    getBanner();
     autoPlay();
   })
 
   return {
-    bannerList,
     curIndex,
     prevClick,
     nextClick,
-    goTo
+    goTo,
+    autoPlay,
+    pause
   }
 }

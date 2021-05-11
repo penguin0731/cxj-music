@@ -19,16 +19,6 @@ html, body, #app {
   font-family: "Microsoft YaHei","Helvetica Neue",Helvetica,STHeiTi,sans-serif;
 }
 
-/* 全局滚动条样式 */
-::-webkit-scrollbar {
-  width: 8px;
-  background-color: var(--themeColor2);
-}
-::-webkit-scrollbar-thumb {
-  background-color: #bdbdbe;
-  border-radius: 10px;
-}
-
 a {
   cursor: pointer;
   text-decoration: none;

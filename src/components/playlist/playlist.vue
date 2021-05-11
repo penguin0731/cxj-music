@@ -88,8 +88,11 @@ export default {
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(255,255,255,0.7);
+    background-color: transparent;
     border-radius: 10px;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.7);
   }
   .playlist_con_text {
     text-align: center;

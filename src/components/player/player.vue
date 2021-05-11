@@ -70,7 +70,7 @@
 
 <script>
 import album from "@/assets/img/album.png"
-import { format } from "@/utils/util.js"
+import { format } from "@/utils/song.js"
 import usePlayer from "./usePlayer"
 import CxjProgress from "@/baseComponents/cxj-progress/cxj-progress.vue"
 import Volume from "@/components/volume/volume.vue"

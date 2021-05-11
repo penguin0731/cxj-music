@@ -24,12 +24,12 @@
           </li>
         </ul>
         <div class="song_actions">
-          <cxj-button type="primary" icon="player">播放</cxj-button>
+          <cxj-button type="primary" icon="player" @click="play">播放</cxj-button>
           <cxj-button icon="comment">评论({{ commentTotal }})</cxj-button>
         </div>
       </div>
     </div>
-    <div v-show="lyric.length > 0" class="song_lyric">
+    <div v-show="lyric.length > 0" class="song_lyric" :class="{'limit': lyricBtn == '展开'}">
       <h2>歌词</h2>
       <div class="song_lyric_cont">
         <p class="mt10" v-for="(lrc, i) in lyric" :key="lrc.time">
@@ -40,6 +40,7 @@
           </template>
         </p>
       </div>
+      <div class="lyricBtn" @click="openLyric">[{{ lyricBtn }}]</div>
     </div>
   </div>
 </template>
@@ -111,6 +112,20 @@ export default {
     left: 0;
     bottom: 15px;
     display: flex;
+  }
+}
+
+.song_lyric {
+  &.limit {
+    .song_lyric_cont {
+      max-height: 380px;
+      overflow: hidden;
+    }
+  }
+  .lyricBtn {
+    margin-top: 5px;
+    color: var(--themeColor);
+    cursor: pointer;
   }
 }
 

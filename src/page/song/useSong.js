@@ -1,17 +1,20 @@
 import { ref, computed, reactive, onMounted, watchEffect, toRefs } from 'vue'
+import { useStore } from 'vuex'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import api from '@/api'
-import { parseLyric, syncLyric } from '@/utils/util'
+import { parseLyric, syncLyric } from '@/utils/song'
+import { clone } from '@/utils/util'
 import nProgress from 'nprogress'
 
 export default function() {
+  const store = useStore();
   const route = useRoute();
   let songInfo = reactive({
-    name: '',
-    alia: [],
-    ar: [],
-    al: [],
-    publishTime: 0,
+    name: '', // 歌名
+    alia: [], // 别称
+    ar: [], // 歌手
+    al: {}, // 专辑
+    publishTime: 0, // 发行时间
   });
   let lyric = reactive({
     lyric: {},
@@ -22,7 +25,20 @@ export default function() {
     hotComments: [],
     commentTotal: 0
   });
+  let lyricBtn = ref('展开');
+  let playList = computed(() => store.getters.playList);
   
+  const openLyric = () => {
+    lyricBtn.value = lyricBtn.value == '展开' ? '收起' : '展开';
+  }
+
+  const play = () => {
+    // let list = clone(playList.value);
+    // list.unshift({
+
+    // })
+    // store.commit('setPlayList', list);
+  }
 
   const getDetailCallBack = res => {
     if(res.songs.length > 0) {
@@ -84,6 +100,9 @@ export default function() {
   return {
     ...toRefs(songInfo),
     ...toRefs(comment),
-    ...toRefs(lyric)
+    ...toRefs(lyric),
+    lyricBtn,
+    openLyric,
+    play,
   }
 }

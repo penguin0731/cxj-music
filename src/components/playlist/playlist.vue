@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { format } from "@/utils/util.js"
+import { format } from "@/utils/song.js"
 import usePlayList from "./usePlayList"
 import cxjIcon from "@/baseComponents/cxj-icon/cxj-icon.vue"
 

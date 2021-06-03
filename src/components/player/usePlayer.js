@@ -16,10 +16,10 @@ export default function () {
   let curMusic = computed(() => store.getters.curMusic);
   let currentIndex = computed(() => store.getters.currentIndex);
   let playList = computed(() => store.getters.playList);
-  let currentTime = ref(0); // 当前播放时间
+  let currentTime = computed(() => store.getters.currentTime); // 当前播放时间
   let percent = ref(0); // 播放进度
   let loadPercent = ref(0); // 缓存进度
-  let isMouseDown = ref(false); // 鼠标是否在音乐进度条中按下
+  let isMouseDown = computed(() => store.getters.isMouseDown); // 鼠标是否在音乐进度条中按下
   let isShowList = ref(false); // 是否显示播放列表
 
   // 播放暂停功能
@@ -112,7 +112,7 @@ export default function () {
   }
   // 修改音乐显示时间
   const changeProgress = per => {
-    currentTime.value = per * curMusic.value.duration
+    store.commit('setCurrentTime', per * curMusic.value.duration);
   }
   // 修改音乐播放时间
   const changeProgressEnd = per => {
@@ -122,7 +122,8 @@ export default function () {
 
   // 修改鼠标是否按下
   const changeMouseDownVal = val => {
-    isMouseDown.value = val;
+    store.commit('setIsMouseDown', val)
+    // isMouseDown.value = val;
   }
 
   // 修改音量
@@ -161,6 +162,7 @@ export default function () {
   onMounted(() => {
     bindKeyupEvent();
 
+    store.commit('setAudioDom', cxjPlayer.value);
     cxjPlayer.value.volume = volume.value;
     // 缓冲事件
     cxjPlayer.value.onprogress = () => {
@@ -180,16 +182,17 @@ export default function () {
     // 获取当前播放时间
     cxjPlayer.value.ontimeupdate = () => {
       if (!isMouseDown.value) {
-        currentTime.value = cxjPlayer.value.currentTime;
+        // currentTime.value = cxjPlayer.value.currentTime;
+        store.commit('setCurrentTime', cxjPlayer.value.currentTime);
       }
     }
     // 播放结束事件
     cxjPlayer.value.onended = () => {
       switch(mode.value) {
-        case playMode.list:
+        case playMode.list: // 列表循环
           next();
           break;
-        case playMode.order:
+        case playMode.order: // 顺序循环
           if(currentIndex.value == playList.value.length - 1) {
             store.commit('setIsPlaying', false);
             store.commit('setCurrentIndex', -1);
@@ -197,11 +200,11 @@ export default function () {
             store.commit('setCurrentIndex', currentIndex.value + 1);
           }
           break;
-        case playMode.random:
+        case playMode.random: // 随机播放
           let index = randomIndex(playList.value.length);
           store.commit('setCurrentIndex', index);
           break;
-        case playMode.single:
+        case playMode.single: // 单曲循环
           cxjPlayer.value.currentTime = loadPercent.value = 0;
           cxjPlayer.value.play();
           break;
@@ -212,11 +215,13 @@ export default function () {
   watchEffect(() => {
     percent.value = currentTime.value / curMusic.value.duration;
   })
+  // 监听播放器播放状态
   watch(isPlaying, (isPlaying, oldVal) => {
     isPlaying ? cxjPlayer.value.play() : cxjPlayer.value.pause();
   })
+  // 监听当前播放音乐
   watch(curMusic, (newMusic, oldMusic) => {
-    console.log(newMusic)
+    console.log('watch curMusic', newMusic)
     if(!newMusic.id) return;
     if(newMusic.id == oldMusic.id) return;
     cxjPlayer.value.src = newMusic.url;

@@ -31,15 +31,24 @@
     </div>
     <div v-show="lyric.length > 0" class="song_lyric" :class="{'limit': lyricBtn == '展开'}">
       <h2>歌词</h2>
-      <div class="song_lyric_cont">
-        <p class="mt10" v-for="(lrc, i) in lyric" :key="lrc.time">
-          {{ lrc.words }}
-          <template v-if="tlyric[i] && tlyric[i].words">
-            <br>
-            {{ tlyric[i].words }}
-          </template>
-        </p>
+      <div class="song_lyric_box" ref="lyric_box">
+        <div class="song_lyric_cont" :style="{marginTop: `${lyricBtn == '展开' && curMusic.id == id ? marginTop : 0}px`}">
+          <p 
+            v-for="(lrc, i) in lyric" 
+            :key="lrc.time" 
+            :class="{active: curMusic.id == id && lyricIdx == i}" 
+            :ref="el => {if (el) pRefs[i] = el}"
+            :style="{lineHeight: tlyric[i] && tlyric[i].words ? '20px' : '40px'}"
+          >
+            {{ lrc.words }}
+            <template v-if="tlyric[i] && tlyric[i].words">
+              <br>
+              {{ tlyric[i].words }}
+            </template>
+          </p>
+        </div>
       </div>
+      
       <div class="lyricBtn" @click="openLyric">[{{ lyricBtn }}]</div>
     </div>
   </div>
@@ -117,9 +126,19 @@ export default {
 
 .song_lyric {
   &.limit {
-    .song_lyric_cont {
-      max-height: 380px;
+    .song_lyric_box {
+      max-height: 350px;
       overflow: hidden;
+      position: relative;
+      .song_lyric_cont {
+        transition: all .5s;
+      }
+    }
+  }
+  p {
+    padding: 5px 0;
+    &.active {
+      font-weight: bold;
     }
   }
   .lyricBtn {

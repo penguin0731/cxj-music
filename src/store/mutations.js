@@ -14,8 +14,14 @@ export default {
   setCurrentIndex(state, index) {
     state.currentIndex = index;
   },
+  setCurrentTime(state, time) {
+    state.currentTime = time;
+  },
   setIsMute(state, isMute) {
     state.isMute = isMute;
+  },
+  setIsMouseDown(state, boolean) {
+    state.isMouseDown = boolean;
   },
   setUid(state, Uid) {
     state.Uid = Uid;

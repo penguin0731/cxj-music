@@ -29,27 +29,9 @@
         </div>
       </div>
     </div>
-    <div v-show="lyric.length > 0" class="song_lyric" :class="{'limit': lyricBtn == '展开'}">
-      <h2>歌词</h2>
-      <div class="song_lyric_box" ref="lyric_box">
-        <div class="song_lyric_cont" :style="{marginTop: `${lyricBtn == '展开' && curMusic.id == id ? marginTop : 0}px`}">
-          <p 
-            v-for="(lrc, i) in lyric" 
-            :key="lrc.time" 
-            :class="{active: curMusic.id == id && lyricIdx == i}" 
-            :ref="el => {if (el) pRefs[i] = el}"
-            :style="{lineHeight: tlyric[i] && tlyric[i].words ? '20px' : '40px'}"
-          >
-            {{ lrc.words }}
-            <template v-if="tlyric[i] && tlyric[i].words">
-              <br>
-              {{ tlyric[i].words }}
-            </template>
-          </p>
-        </div>
-      </div>
-      
-      <div class="lyricBtn" @click="openLyric">[{{ lyricBtn }}]</div>
+    <lyric v-show="lyric" :curId="id" :lyric="lyric" :tlyric="tlyric" />
+    <div class="song_comments">
+      <h2>评论</h2>
     </div>
   </div>
 </template>
@@ -58,12 +40,14 @@
 import useSong from './useSong'
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue'
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue'
+import lyric from '@/components/lyric/lyric.vue'
 import moment from 'moment'
 
 export default {
   components: {
     cxjIcon, 
-    cxjButton 
+    cxjButton,
+    lyric
   },
   setup() {
     return {
@@ -121,30 +105,6 @@ export default {
     left: 0;
     bottom: 15px;
     display: flex;
-  }
-}
-
-.song_lyric {
-  &.limit {
-    .song_lyric_box {
-      max-height: 350px;
-      overflow: hidden;
-      position: relative;
-      .song_lyric_cont {
-        transition: all .5s;
-      }
-    }
-  }
-  p {
-    padding: 5px 0;
-    &.active {
-      font-weight: bold;
-    }
-  }
-  .lyricBtn {
-    margin-top: 5px;
-    color: var(--themeColor);
-    cursor: pointer;
   }
 }
 

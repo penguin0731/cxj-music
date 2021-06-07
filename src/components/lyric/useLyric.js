@@ -66,7 +66,6 @@ export default function(props) {
   }
 
   const getLineHeight = i => {
-    console.log('getLineHeight', i)
     if(tlyricList.value.length == 0) { // 没有翻译歌词
       return '20px';
     }else {

@@ -93,3 +93,7 @@ li {
   margin: 0 auto;
   padding-bottom: 73px !important;
 }
+
+.emoji {
+  vertical-align: middle;
+}

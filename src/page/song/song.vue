@@ -30,9 +30,14 @@
       </div>
     </div>
     <lyric v-show="lyric" :curId="id" :lyric="lyric" :tlyric="tlyric" />
-    <div class="song_comments">
-      <h2>评论</h2>
-    </div>
+    <comments 
+      v-show="commentTotal > 0" 
+      class="mt40" 
+      title="最新评论" 
+      :hotComments="hotComments"
+      :comments="comments" 
+      :total="commentTotal"
+    />
   </div>
 </template>
 
@@ -41,13 +46,15 @@ import useSong from './useSong'
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue'
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue'
 import lyric from '@/components/lyric/lyric.vue'
+import comments from '@/components/comments/comments.vue'
 import moment from 'moment'
 
 export default {
   components: {
     cxjIcon, 
     cxjButton,
-    lyric
+    lyric,
+    comments
   },
   setup() {
     return {
@@ -59,6 +66,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.mt40 {
+  margin-top: 40px;
+}
 .song_wrapper {
   box-sizing: border-box;
   padding: 0 40px;

@@ -50,6 +50,11 @@ li {
   cursor: pointer;
 }
 
+/* 评论雪碧图 */
+.comments_sprite {
+  background-image: url('@/assets/img/comments_sprite.png');
+}
+
 /* 悬浮高亮 */
 .icon_sprite:hover, 
 .icon_sprite_before:hover, 

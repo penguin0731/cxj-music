@@ -7,7 +7,14 @@
           <img :src="item.user.avatarUrl">
         </div>
         <h4 class="song_commentsItem_nickname">{{ item.user.nickname }}</h4>
-        <div class="song_commentsItem_date">{{ moment(item.time).format('YYYY年MM月DD日 HH:mm') }}</div>
+        <div class="song_commentsItem_info">
+          <div class="song_commentsItem_date">{{ moment(item.time).format('YYYY年MM月DD日 HH:mm') }}</div>
+          <div class="song_commentsItem_like">
+            <div class="comments_sprite comment_like"></div>
+            {{ item.likedCount }}
+          </div>
+        </div>
+        
         <div v-html="handleComments(item.content)" class="song_commentsItem_cont mt10"></div>
       </div>
     </div>
@@ -18,7 +25,13 @@
           <img :src="item.user.avatarUrl">
         </div>
         <h4 class="song_commentsItem_nickname">{{ item.user.nickname }}</h4>
-        <div class="song_commentsItem_date">{{ moment(item.time).format('YYYY年MM月DD日 HH:mm') }}</div>
+        <div class="song_commentsItem_info">
+          <div class="song_commentsItem_date">{{ moment(item.time).format('YYYY年MM月DD日 HH:mm') }}</div>
+          <div class="song_commentsItem_like">
+            <div class="comments_sprite comment_like"></div>
+            {{ item.likedCount ? item.likedCount : '' }}
+          </div>
+        </div>
         <div v-html="handleComments(item.content)" class="song_commentsItem_cont mt10"></div>
       </div>
     </div>
@@ -84,10 +97,26 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.song_commentsItem_info {
+  display: flex;
+  justify-content: space-between;
+}
 .song_commentsItem_date {
   color: #999;
   height: 20px;
   line-height: 20px;
+}
+.song_commentsItem_like {
+  display: flex;
+  width: 80px;
+}
+.comments_sprite {
+  width: 17px;
+  height: 17px;
+  margin-right: 5px;
+}
+.comment_like {
+  background-position: -25px -25px;
 }
 .song_commentsItem_cont {
   overflow: hidden;

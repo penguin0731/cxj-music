@@ -3,16 +3,14 @@ import login from './login'
 import user from './user'
 import song from './song'
 
-// 获取banner数据
-function getBanner() {
-  return axios.get('/banner');
-}
-
-let api = {
-  getBanner,
+export default {
+  /**
+   * 获取banner数据
+   */
+  getBanner() {
+    return axios.get('/banner');
+  },
   login,
   user,
   song
 };
-
-export default api;

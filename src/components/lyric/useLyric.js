@@ -10,7 +10,8 @@ export default function(props) {
   let tlyricList = ref([]); // 翻译歌词列表
   let lyricIdx = ref(0); // 当前歌词的索引
   let pRefs = ref([]);
-  let lyric_box = ref(null)
+  let lyric_box = ref(null);
+  let song_lyric_cont = ref(null);
   let cxjPlayer = computed(() => store.getters.audioDom);
   let curMusic = computed(() => store.getters.curMusic);
   let isMouseDown = computed(() => store.getters.isMouseDown);
@@ -40,7 +41,7 @@ export default function(props) {
 
   // 获取当前歌词的索引
   const getCurrentIndex = () => {
-    let playTime = cxjPlayer.value.currentTime;
+    let playTime = cxjPlayer.value.currentTime + 0.5; // 修正值0.8
     for(let i = lyricList.value.length - 1; i >= 0; i--) {
       let lyrObj = lyricList.value[i];
       if(playTime >= lyrObj.time) {
@@ -59,9 +60,13 @@ export default function(props) {
 
   // 通过当前歌词索引计算需要上移的偏移量
   const setMarginTop = () => {
+    if(!lyric_box.value.clientHeight) return;
     let midHeight = lyric_box.value.clientHeight / 2 - pRefs.value[lyricIdx.value].clientHeight / 2;
     let top = midHeight - pRefs.value[lyricIdx.value].clientHeight * lyricIdx.value;
-    if(top > 0) top = 0; // marginTop不能为正数
+     // marginTop不能为正数
+    if(top > 0) top = 0;
+    // 当滚动的距离+容器高度>歌词内容高度时，则不再滚动
+    if(lyric_box.value.clientHeight - top > song_lyric_cont.value.clientHeight) return;
     marginTop.value = top;
   }
 
@@ -103,6 +108,7 @@ export default function(props) {
     lyricIdx,
     pRefs,
     lyric_box,
+    song_lyric_cont,
     marginTop,
     openLyric,
     getLineHeight

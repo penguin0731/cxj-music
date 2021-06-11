@@ -11,6 +11,11 @@
   padding: 0;
 }
 
+::selection {
+  background-color: var(--themeColor);
+  color: #fff;
+}
+
 html, body, #app {
   font-size: 14px;
   width: 100%;

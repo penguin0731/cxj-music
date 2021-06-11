@@ -2,6 +2,7 @@ import axios from '@/utils/axios'
 import login from './login'
 import user from './user'
 import song from './song'
+import artist from './artist'
 
 export default {
   /**
@@ -12,5 +13,6 @@ export default {
   },
   login,
   user,
-  song
+  song,
+  artist
 };

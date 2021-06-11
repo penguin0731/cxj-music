@@ -20,7 +20,7 @@
         <div class="artist ellipsis" :title="item.singer.map(item => item.name).join('/')">
           <template v-for="(art, i) in item.singer" :key="art.id">
             {{ i == 0 ? '' : ' /' }}
-            <a>{{ art.name }}</a>
+            <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
           </template>
         </div>
         <div class="time ml20">{{ format(item.duration) }}</div>

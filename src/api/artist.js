@@ -6,7 +6,7 @@ export default {
    * @param {*} id 歌手id
    */
   getArtists(id) {
-    return axios.get(`/artists?id${id}`);
+    return axios.get(`/artists?id=${id}`);
   },
   /**
    * 获取歌手详情

@@ -23,7 +23,7 @@
           <div class="player_info_singers ellipsis" :title="curMusic.singer.map(item => item.name).join('/')">
             <template v-for="(art, i) in curMusic.singer" :key="art.id">
               {{ i == 0 ? '' : ' /' }}
-              <a>{{ art.name }}</a>
+              <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
             </template>
           </div>
         </div>

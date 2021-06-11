@@ -3,6 +3,7 @@
       <h2>歌词</h2>
       <div class="song_lyric_box" ref="lyric_box">
         <div 
+          ref="song_lyric_cont"
           class="song_lyric_cont" 
           :style="{
             marginTop: `${lyricBtn == '展开' && curMusic.id == curId ? marginTop : 0}px`
@@ -66,6 +67,8 @@ export default {
   }
   p {
     padding: 5px 0;
+    box-sizing: border-box;
+    height: 50px;
     &.active {
       font-weight: bold;
     }

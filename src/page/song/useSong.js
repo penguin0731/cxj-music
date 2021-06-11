@@ -86,12 +86,12 @@ export default function() {
     resArr.forEach((res, index) => {
       cbArr[index](res);
     });
-    nProgress.done();
   }
 
   onMounted(async () => {
     let id = route.query.id;
     await getSongDetail(id);
+    nProgress.done();
   })
 
   // 路由参数中的id变化时，重新调用接口
@@ -100,6 +100,7 @@ export default function() {
     let fromId = from.query.id;
     if (toId !== fromId) {
       await getSongDetail(toId);
+      nProgress.done();
     }
   })
 

@@ -27,7 +27,7 @@ export default function useNavHeader() {
     },
     {
       label: '歌手',
-      url: '/music/artist',
+      url: '/music/artistList',
     },
     {
       label: '新碟上架',

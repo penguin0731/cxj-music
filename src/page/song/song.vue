@@ -33,7 +33,6 @@
     <comments 
       v-show="commentTotal > 0" 
       class="mt40" 
-      title="最新评论" 
       :hotComments="hotComments"
       :comments="comments" 
       :total="commentTotal"

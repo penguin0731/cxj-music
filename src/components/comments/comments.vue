@@ -44,10 +44,6 @@ import useComments from './useCommets'
 import { handleComments } from '@/utils/song'
 export default {
   props: {
-    title: {
-      type: String,
-      default: ''
-    },
     hotComments: {
       type: Array,
       default: () => ([])

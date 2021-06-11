@@ -33,8 +33,8 @@ export default createRouter({
           component: () => import('@/page/djRadio/djRadio.vue')
         },
         {
-          path: 'artist',
-          component: () => import('@/page/artist/artist.vue')
+          path: 'artistList',
+          component: () => import('@/page/artistList/artistList.vue')
         },
         {
           path: 'album',
@@ -45,6 +45,10 @@ export default createRouter({
     {
       path: '/song',
       component: () => import('@/page/song/song.vue'),
-    }
+    },
+    {
+      path: '/artist',
+      component: () => import('@/page/artist/artist.vue'),
+    },
   ]
 })

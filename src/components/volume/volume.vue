@@ -10,22 +10,22 @@
 </template>
 
 <script>
-import useVolume from "./useVolume"
-import CxjProgress from "@/baseComponents/cxj-progress/cxj-progress.vue"
+import useVolume from './useVolume';
+import CxjProgress from '@/baseComponents/cxj-progress/cxj-progress.vue';
 export default {
   components: { CxjProgress },
   props: {
     volume: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
   emits: ['changeVolume'],
   setup(props, context) {
     return {
-      ...useVolume(props, context),
+      ...useVolume(props, context)
     };
-  },
+  }
 };
 </script>
 

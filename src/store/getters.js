@@ -18,5 +18,5 @@ export default {
   // 当前播放音乐
   curMusic: state => state.playList[state.currentIndex] || {},
   // 用户id
-  Uid: state => state.Uid,
-}
+  Uid: state => state.Uid
+};

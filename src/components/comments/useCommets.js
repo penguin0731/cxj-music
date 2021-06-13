@@ -1,8 +1,5 @@
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-export default function() {
-
-  return {
-
-  }
+export default function () {
+  return {};
 }

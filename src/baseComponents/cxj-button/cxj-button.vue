@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import cxjIcon from '../cxj-icon/cxj-icon.vue'
+import cxjIcon from '../cxj-icon/cxj-icon.vue';
 export default {
   components: { cxjIcon },
   props: {
@@ -18,7 +18,7 @@ export default {
       type: String
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

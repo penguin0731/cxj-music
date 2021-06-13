@@ -3,7 +3,7 @@ export default {
     state.audioDom = dom;
   },
   setMode(state, mode) {
-    mode >= 4 ? state.mode = 0 : state.mode = mode;
+    mode >= 4 ? (state.mode = 0) : (state.mode = mode);
   },
   setIsPlaying(state, isPlaying) {
     state.isPlaying = isPlaying;
@@ -26,4 +26,4 @@ export default {
   setUid(state, Uid) {
     state.Uid = Uid;
   }
-}
+};

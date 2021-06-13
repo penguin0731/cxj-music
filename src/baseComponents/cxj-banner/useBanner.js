@@ -1,6 +1,6 @@
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue';
 
-export default function(props) {
+export default function (props) {
   let bannerList = computed(() => props.bannerList);
   let curIndex = ref(0);
   let timer = null;
@@ -10,18 +10,18 @@ export default function(props) {
    * @param {*} type
    */
   const fade = (type = 'next') => {
-    if(type == 'prev') {
+    if (type == 'prev') {
       --curIndex.value;
-      if(curIndex.value < 0) {
+      if (curIndex.value < 0) {
         curIndex.value = bannerList.value.length - 1;
       }
-    }else {
+    } else {
       ++curIndex.value;
-      if(curIndex.value > bannerList.value.length - 1) {
+      if (curIndex.value > bannerList.value.length - 1) {
         curIndex.value = 0;
       }
     }
-  }
+  };
 
   /**
    * 轮播前一张图
@@ -30,7 +30,7 @@ export default function(props) {
     clearInterval(timer);
     fade('prev');
     autoPlay();
-  }
+  };
 
   /**
    * 轮播后一张图
@@ -39,7 +39,7 @@ export default function(props) {
     clearInterval(timer);
     fade('next');
     autoPlay();
-  }
+  };
 
   /**
    * 自动轮播
@@ -49,22 +49,22 @@ export default function(props) {
     timer = setInterval(() => {
       fade('next');
     }, 4000);
-  }
+  };
 
-  const goTo = (dotIndex) => {
+  const goTo = dotIndex => {
     clearInterval(timer);
     curIndex.value = dotIndex;
     autoPlay();
-  }
+  };
 
   const pause = () => {
-    clearInterval(timer)
-  }
+    clearInterval(timer);
+  };
 
   // mounted
   onMounted(() => {
     autoPlay();
-  })
+  });
 
   return {
     curIndex,
@@ -73,5 +73,5 @@ export default function(props) {
     goTo,
     autoPlay,
     pause
-  }
+  };
 }

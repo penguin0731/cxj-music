@@ -1,4 +1,4 @@
-import axios from '@/utils/axios'
+import axios from '@/utils/axios';
 
 export default {
   /**
@@ -12,7 +12,9 @@ export default {
    * @param {*} key 二维码key
    */
   qrCreate(key) {
-    return axios.get(`/login/qr/create?key=${key}&qrimg=true&timerstamp=${Date.now()}`);
+    return axios.get(
+      `/login/qr/create?key=${key}&qrimg=true&timerstamp=${Date.now()}`
+    );
   },
   /**
    * 二维码检测扫码状态接口

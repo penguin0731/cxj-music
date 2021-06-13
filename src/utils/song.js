@@ -1,4 +1,4 @@
-import emoji from '../../emoji.json'
+import emoji from '../../emoji.json';
 
 export class Song {
   constructor({ id, name, singer, album, image, duration, url }) {
@@ -27,7 +27,7 @@ export function createSong(music) {
     image: music.al.picUrl,
     duration: music.dt,
     url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`
-  })
+  });
 }
 
 /**
@@ -41,7 +41,7 @@ export function createSongList(list) {
 /**
  * 补0函数
  * @param {*} s 数字
- * @returns 
+ * @returns
  */
 export function addZero(s) {
   return s < 10 ? `0${s}` : s;
@@ -50,7 +50,7 @@ export function addZero(s) {
 /**
  * 格式化歌曲时间
  * @param {*} duration 歌曲时间(s)
- * @returns 
+ * @returns
  */
 export function format(duration) {
   let minutes = Math.floor(duration / 60);
@@ -64,19 +64,21 @@ export function format(duration) {
  */
 export function parseLyric(lyric) {
   let lyricArr = lyric.split('\n');
-  lyricArr = lyricArr.map(lrc => {
-    if(!lrc) return null;
-    let timeParts = lrc.split(']')[0].replace('[', '').split(':');
-    let words = lrc.split(']')[1];
-    words = words ? words.trim() : words;
-    let minutes = parseInt(timeParts[0]);
-    let seconds = parseFloat(timeParts[1]);
-    let time = minutes * 60 + seconds;
-    return {
-      time,
-      words
-    }
-  }).filter(lrc => lrc);
+  lyricArr = lyricArr
+    .map(lrc => {
+      if (!lrc) return null;
+      let timeParts = lrc.split(']')[0].replace('[', '').split(':');
+      let words = lrc.split(']')[1];
+      words = words ? words.trim() : words;
+      let minutes = parseInt(timeParts[0]);
+      let seconds = parseFloat(timeParts[1]);
+      let time = minutes * 60 + seconds;
+      return {
+        time,
+        words
+      };
+    })
+    .filter(lrc => lrc);
   return lyricArr;
 }
 
@@ -87,10 +89,10 @@ export function parseLyric(lyric) {
  */
 export function syncLyric(lyric, tlyric) {
   let lyricFrontInfo = [];
-  for(let i = 0; i < lyric.length; i++) {
+  for (let i = 0; i < lyric.length; i++) {
     let lTime = lyric[i].time;
     let tTime = tlyric[0].time;
-    if(lTime == tTime) break;
+    if (lTime == tTime) break;
     lyricFrontInfo.push(lyric.shift()); // 数组长度已改变
     --i; // 调整索引
   }
@@ -98,10 +100,10 @@ export function syncLyric(lyric, tlyric) {
     return {
       time: item.time,
       words: ''
-    }
-  })
-  lyric.unshift(...lyricFrontInfo)
-  tlyric.unshift(...nullFrontInfo)
+    };
+  });
+  lyric.unshift(...lyricFrontInfo);
+  tlyric.unshift(...nullFrontInfo);
   return [lyric, tlyric];
 }
 
@@ -113,12 +115,12 @@ export function syncLyric(lyric, tlyric) {
 export function handleComments(content) {
   let cont = content.replace(/\n/g, '<br>');
   let matchArr = cont.match(/\[.*?\]/g);
-  if(!matchArr) return cont;
+  if (!matchArr) return cont;
   let matchArrLen = matchArr.length;
-  for(let i = 0; i < matchArrLen; i++) {
+  for (let i = 0; i < matchArrLen; i++) {
     let item = matchArr[i];
     let emojiKey = item.replace('[', '').replace(']', '');
-    if(!emoji.hasOwnProperty(emojiKey)) continue;
+    if (!emoji.hasOwnProperty(emojiKey)) continue;
     let emojiValue = emoji[emojiKey];
     let replaceStr = `<img class="emoji" src="http://s1.music.126.net/style/web2/emt/emoji_${emojiValue}.png">`;
     cont = cont.replace(item, replaceStr);

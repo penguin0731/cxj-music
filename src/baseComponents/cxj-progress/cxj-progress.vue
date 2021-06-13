@@ -18,27 +18,27 @@
 </template>
 
 <script>
-import useProgress from "./useProgress"
+import useProgress from './useProgress';
 export default {
   props: {
     isMouseDown: {
-      type: Boolean,
+      type: Boolean
     },
     percent: {
       type: Number,
-      default: 0,
+      default: 0
     },
     loadPercent: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
   emits: ['changeProgress', 'changeProgressEnd', 'changeMouseDownVal'],
   setup(props, context) {
     return {
-      ...useProgress(props, context),
+      ...useProgress(props, context)
     };
-  },
+  }
 };
 </script>
 

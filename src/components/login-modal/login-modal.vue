@@ -12,7 +12,7 @@
                 <p>二维码已失效</p>
                 <div class="qrMask_btn mt10" @click="qrcodeLogin">点击刷新</div>
               </div>
-              <img class="qrImg" :src="qrImg">
+              <img class="qrImg" :src="qrImg" />
             </div>
             <p class="txt">使用 网易云音乐APP 扫码登录</p>
           </div>
@@ -28,18 +28,41 @@
     <!-- uidLogin -->
     <div v-show="!isQRCodeLogin" class="uidLogin_body">
       <div class="toqrcode" title="扫描二维码登录" @click="toQRCode">
-        <svg t="1616909170380"  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="33162" width="32" height="32"><path d="M128 896h256V640l76.8-76.8v409.6H51.2l76.8-76.8z m512-332.8v179.2h76.8v76.8h-76.8v76.8h76.8v76.8h-153.6V563.2h76.8z m256 256v76.8h76.8v76.8h-153.6v-153.6h76.8z m-563.2-128v153.6H179.2l153.6-153.6z m640-128v204.8h-76.8v-51.2h-76.8v102.4h-76.8v-102.4h76.8v-76.8h76.8v-76.8h76.8z m-153.6 0v76.8h-102.4v-76.8h102.4z m153.6-512v409.6H563.2l76.8-76.8h256V128l76.8-76.8z m-128 128v153.6h-153.6l153.6-153.6z" fill="#bdbdbe" p-id="33163"></path></svg>
+        <svg
+          t="1616909170380"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          p-id="33162"
+          width="32"
+          height="32"
+        >
+          <path
+            d="M128 896h256V640l76.8-76.8v409.6H51.2l76.8-76.8z m512-332.8v179.2h76.8v76.8h-76.8v76.8h76.8v76.8h-153.6V563.2h76.8z m256 256v76.8h76.8v76.8h-153.6v-153.6h76.8z m-563.2-128v153.6H179.2l153.6-153.6z m640-128v204.8h-76.8v-51.2h-76.8v102.4h-76.8v-102.4h76.8v-76.8h76.8v-76.8h76.8z m-153.6 0v76.8h-102.4v-76.8h102.4z m153.6-512v409.6H563.2l76.8-76.8h256V128l76.8-76.8z m-128 128v153.6h-153.6l153.6-153.6z"
+            fill="#bdbdbe"
+            p-id="33163"
+          ></path>
+        </svg>
       </div>
-      
+
       <div class="uidLogin_row">
-        <input class="uidLogin_input" v-model="Uid" type="text" placeholder="请输入您的网易云UID">
+        <input
+          class="uidLogin_input"
+          v-model="Uid"
+          type="text"
+          placeholder="请输入您的网易云UID"
+        />
         <div class="uidLogin_btn ml20" @click="UidLogin">登录</div>
         <cxj-toast ref="toastRef" />
       </div>
       <div class="uidLogin_text mt20">
         <h4>提示：</h4>
-        <p> 1、
-          <a target="_blank" href="https://music.163.com"> 点我（https://music.163.com）</a>打开网易云音乐官网
+        <p>
+          1、
+          <a target="_blank" href="https://music.163.com">
+            点我（https://music.163.com）
+          </a>
+          打开网易云音乐官网
         </p>
         <p>2、点击页面右上角的“登录”</p>
         <p>3、点击您的头像，进入我的主页</p>
@@ -50,24 +73,24 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import useLoginModal from './useLoginModal'
-import CxjModal from '@/baseComponents/cxj-modal/cxj-modal.vue'
-import CxjToast from '../../baseComponents/cxj-toast/cxj-toast.vue'
+import { computed } from 'vue';
+import useLoginModal from './useLoginModal';
+import CxjModal from '@/baseComponents/cxj-modal/cxj-modal.vue';
+import CxjToast from '../../baseComponents/cxj-toast/cxj-toast.vue';
 
 export default {
-  components: { 
+  components: {
     CxjModal,
-    CxjToast,
+    CxjToast
   },
   emits: ['close'],
   setup(props, context) {
-    let loginVisibleRef = computed(() => props.loginVisible)
+    let loginVisibleRef = computed(() => props.loginVisible);
     return {
-      ...useLoginModal(loginVisibleRef, context),
-    }
+      ...useLoginModal(loginVisibleRef, context)
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -163,7 +186,7 @@ export default {
   .uidLogin_btn {
     padding: 9px 25px;
     border-radius: 3px;
-    border: 1px solid hsla(0,0%,100%,.6);
+    border: 1px solid hsla(0, 0%, 100%, 0.6);
     font-size: 14px;
     text-align: center;
     user-select: none;
@@ -185,7 +208,7 @@ export default {
   position: absolute;
   right: 0;
   bottom: 0;
-  opacity: .8;
+  opacity: 0.8;
   cursor: pointer;
   &:hover {
     opacity: 1;

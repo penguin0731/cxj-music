@@ -4,18 +4,20 @@
       <div class="logo_header">cxj-music在线音乐播放器</div>
       <div class="nav_header">
         <ul>
-          <li 
-            v-for="(item, index) in navList" 
-            :key="index" 
-            :class="{'actived': curNav == index}"
+          <li
+            v-for="(item, index) in navList"
+            :key="index"
+            :class="{ actived: curNav == index }"
             @click="onClickNav(item.url, index)"
-          >{{ item.label }}</li>
+          >
+            {{ item.label }}
+          </li>
         </ul>
       </div>
-      <cxj-search style="margin: 0px 25px;" />
+      <cxj-search style="margin: 0px 25px" />
       <div class="user_header">
         <div v-if="userInfo.userId" class="user_box">
-          <img class="avatar" :src="userInfo.avatarUrl" @click="toMy">
+          <img class="avatar" :src="userInfo.avatarUrl" @click="toMy" />
           <div class="username_wrapper">
             <span class="username" @click="toMy">{{ userInfo.nickname }}</span>
             <span class="logout ml10" @click="logout">退出</span>
@@ -30,9 +32,9 @@
 </template>
 
 <script>
-import useHeader from './useHeader'
-import CxjSearch from '@/baseComponents/cxj-search/cxj-search.vue'
-import LoginModal from '@/components/login-modal/login-modal.vue'
+import useHeader from './useHeader';
+import CxjSearch from '@/baseComponents/cxj-search/cxj-search.vue';
+import LoginModal from '@/components/login-modal/login-modal.vue';
 
 export default {
   components: {
@@ -41,10 +43,10 @@ export default {
   },
   setup() {
     return {
-      ...useHeader(),
-    }
+      ...useHeader()
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -77,9 +79,10 @@ export default {
     position: relative;
     padding: 0 20px;
     cursor: pointer;
-    color: hsla(0,0%,100%,.6);
+    color: hsla(0, 0%, 100%, 0.6);
   }
-  li.actived, li:hover {
+  li.actived,
+  li:hover {
     color: #fff;
   }
   li::after {
@@ -122,7 +125,7 @@ export default {
         cursor: pointer;
       }
       .logout {
-        color: hsla(0,0%,100%,.6);
+        color: hsla(0, 0%, 100%, 0.6);
         cursor: pointer;
         &:hover {
           color: #fff;
@@ -131,5 +134,4 @@ export default {
     }
   }
 }
-
 </style>

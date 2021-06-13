@@ -6,9 +6,8 @@
 </template>
 
 <script>
-import CxjBanner from '@/baseComponents/cxj-banner/cxj-banner.vue'
-import useRecommend from './useRecommend'
-
+import CxjBanner from '@/baseComponents/cxj-banner/cxj-banner.vue';
+import useRecommend from './useRecommend';
 
 export default {
   components: {
@@ -16,10 +15,10 @@ export default {
   },
   setup() {
     return {
-      ...useRecommend(),
-    }
+      ...useRecommend()
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

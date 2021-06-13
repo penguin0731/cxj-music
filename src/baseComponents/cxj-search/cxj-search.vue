@@ -1,6 +1,6 @@
 <template>
   <div class="cxjSearch_box">
-    <input type="text" placeholder="音乐/歌手/专辑/用户">
+    <input type="text" placeholder="音乐/歌手/专辑/用户" />
     <button class="cxjSearch_btn">
       <i class="icon_sprite icon_search"></i>
     </button>
@@ -8,9 +8,7 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style lang="less" scoped>

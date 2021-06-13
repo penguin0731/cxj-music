@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from "vue-router"
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 export default createRouter({
   history: createWebHashHistory(),
@@ -9,7 +9,7 @@ export default createRouter({
     },
     {
       path: '/my',
-      component: () => import('@/page/my/my.vue'),
+      component: () => import('@/page/my/my.vue')
     },
     {
       path: '/music',
@@ -39,16 +39,16 @@ export default createRouter({
         {
           path: 'album',
           component: () => import('@/page/album/album.vue')
-        },
+        }
       ]
     },
     {
       path: '/song',
-      component: () => import('@/page/song/song.vue'),
+      component: () => import('@/page/song/song.vue')
     },
     {
       path: '/artist',
-      component: () => import('@/page/artist/artist.vue'),
-    },
+      component: () => import('@/page/artist/artist.vue')
+    }
   ]
-})
+});

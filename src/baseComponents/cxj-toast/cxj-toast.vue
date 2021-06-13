@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref } from 'vue';
 export default {
   setup() {
     let visible = ref(false);
@@ -15,10 +15,10 @@ export default {
     let timer;
 
     const show = (text, duration = 1500) => {
-      if(typeof duration != 'number') {
+      if (typeof duration != 'number') {
         throw TypeError('duration muse be a number');
       }
-      if(visible.value) return;
+      if (visible.value) return;
       clearTimeout(timer);
       message.value = text;
       visible.value = true;
@@ -26,15 +26,15 @@ export default {
         visible.value = false;
         message.value = '';
       }, duration);
-    }
+    };
 
     return {
       visible,
       message,
-      show,
-    }
+      show
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -43,7 +43,7 @@ export default {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, .9);
+  background-color: rgba(0, 0, 0, 0.9);
   color: #fff;
   text-align: center;
   max-width: 80%;
@@ -58,7 +58,7 @@ export default {
 }
 
 .toast-fade-enter-active {
-  transition: all .3s;
+  transition: all 0.3s;
 }
 .toast-fade-enter-from {
   opacity: 0;

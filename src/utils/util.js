@@ -3,7 +3,7 @@
  * @param {*} num
  */
 export function randomIndex(high) {
-  return Math.floor(Math.random() * high)
+  return Math.floor(Math.random() * high);
 }
 
 /**
@@ -12,13 +12,13 @@ export function randomIndex(high) {
  * @param {*} deep 是否深度克隆
  */
 export function clone(origin, deep = true) {
-  if(typeof origin != 'object') return origin;
+  if (typeof origin != 'object') return origin;
   let obj = Array.isArray(origin) ? [] : {};
   for (const key in origin) {
     if (Object.hasOwnProperty.call(origin, key)) {
-      if(deep) {
+      if (deep) {
         obj[key] = clone(origin[key]);
-      }else {
+      } else {
         obj[key] = origin[key];
       }
     }

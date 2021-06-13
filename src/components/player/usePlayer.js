@@ -24,13 +24,13 @@ export default function () {
 
   // 播放暂停功能
   const play = () => {
-    if(currentIndex.value == -1) return;
+    if (currentIndex.value == -1) return;
     store.commit('setIsPlaying', !isPlaying.value);
-  }
+  };
   // 切换播放模式
   const setMode = () => {
     store.commit('setMode', mode.value + 1);
-  }
+  };
   // 获取播放模式枚举
   const getModeEnum = () => {
     return {
@@ -49,38 +49,39 @@ export default function () {
       [playMode.single]: {
         title: '单曲循环',
         className: 'playMode_single'
-      },
+      }
     }[mode.value];
-  }
+  };
   // 下一首
   const next = () => {
-    if(currentIndex.value == playList.value.length - 1) {
+    if (currentIndex.value == playList.value.length - 1) {
       store.commit('setCurrentIndex', 0);
-    }else {
+    } else {
       store.commit('setCurrentIndex', currentIndex.value + 1);
     }
-  }
+  };
   // 上一首
   const prev = () => {
-    if(currentIndex.value == 0) {
+    if (currentIndex.value == 0) {
       store.commit('setCurrentIndex', playList.value.length - 1);
-    }else {
-      store.commit('setCurrentIndex', currentIndex.value -1);
+    } else {
+      store.commit('setCurrentIndex', currentIndex.value - 1);
     }
-  }
+  };
   // 是否静音
   const setIsMute = () => {
     store.commit('setIsMute', !isMute.value);
-    if(isMute.value) {
+    if (isMute.value) {
       cxjPlayer.value.volume = 0;
     }
-  }
+  };
   // 播放器键盘事件
   const bindKeyupEvent = () => {
     document.addEventListener('keyup', e => {
       let altKey = e.altKey;
       let code = e.code;
-      if (altKey) { // 按下alt键
+      if (altKey) {
+        // 按下alt键
         switch (code) {
           case 'ArrowUp': // 增加音量
             addVolume();
@@ -108,56 +109,56 @@ export default function () {
             break;
         }
       }
-    })
-  }
+    });
+  };
   // 修改音乐显示时间
   const changeProgress = per => {
     store.commit('setCurrentTime', per * curMusic.value.duration);
-  }
+  };
   // 修改音乐播放时间
   const changeProgressEnd = per => {
     // if(!curMusic.value.duration) return;
-    cxjPlayer.value.currentTime = per * curMusic.value.duration
-  }
+    cxjPlayer.value.currentTime = per * curMusic.value.duration;
+  };
 
   // 修改鼠标是否按下
   const changeMouseDownVal = val => {
-    store.commit('setIsMouseDown', val)
+    store.commit('setIsMouseDown', val);
     // isMouseDown.value = val;
-  }
+  };
 
   // 修改音量
   const changeVolume = val => {
     volume.value = val;
     cxjPlayer.value.volume = volume.value;
     store.commit('setIsMute', volume.value == 0);
-  }
+  };
   // 增加音量
   const addVolume = () => {
-    let vol = volume.value += 0.1;
-    if(vol >= 1) {
+    let vol = (volume.value += 0.1);
+    if (vol >= 1) {
       vol = 1;
     }
     changeVolume(vol);
-  }
+  };
   // 降低音量
   const reduceVolume = () => {
-    let vol = volume.value -= 0.1;
-    if(vol <= 0) {
+    let vol = (volume.value -= 0.1);
+    if (vol <= 0) {
       vol = 0;
     }
     changeVolume(vol);
-  }
+  };
 
   // 显示/隐藏播放列表
   const showPlayList = e => {
     isShowList.value = !isShowList.value;
-  }
+  };
 
   // 隐藏播放列表
   const hideList = () => {
     isShowList.value = false;
-  }
+  };
 
   onMounted(() => {
     bindKeyupEvent();
@@ -169,7 +170,10 @@ export default function () {
       if (cxjPlayer.value.buffered.length > 0) {
         let buffered = 0;
         cxjPlayer.value.buffered.end(0);
-        buffered = cxjPlayer.value.buffered.end(0) > curMusic.value.duration ? cxjPlayer.value.buffered.end(0) : curMusic.value.duration
+        buffered =
+          cxjPlayer.value.buffered.end(0) > curMusic.value.duration
+            ? cxjPlayer.value.buffered.end(0)
+            : curMusic.value.duration;
         loadPercent.value = buffered / curMusic.value.duration;
         // 缓冲进度动画
         // let loadPer = buffered / curMusic.value.duration;
@@ -178,25 +182,25 @@ export default function () {
         //   duration: 5
         // })
       }
-    }
+    };
     // 获取当前播放时间
     cxjPlayer.value.ontimeupdate = () => {
       if (!isMouseDown.value) {
         // currentTime.value = cxjPlayer.value.currentTime;
         store.commit('setCurrentTime', cxjPlayer.value.currentTime);
       }
-    }
+    };
     // 播放结束事件
     cxjPlayer.value.onended = () => {
-      switch(mode.value) {
+      switch (mode.value) {
         case playMode.list: // 列表循环
           next();
           break;
         case playMode.order: // 顺序循环
-          if(currentIndex.value == playList.value.length - 1) {
+          if (currentIndex.value == playList.value.length - 1) {
             store.commit('setIsPlaying', false);
             store.commit('setCurrentIndex', -1);
-          }else {
+          } else {
             store.commit('setCurrentIndex', currentIndex.value + 1);
           }
           break;
@@ -209,26 +213,25 @@ export default function () {
           cxjPlayer.value.play();
           break;
       }
-    }
-  })
+    };
+  });
 
   watchEffect(() => {
     percent.value = currentTime.value / curMusic.value.duration;
-  })
+  });
   // 监听播放器播放状态
   watch(isPlaying, (isPlaying, oldVal) => {
     isPlaying ? cxjPlayer.value.play() : cxjPlayer.value.pause();
-  })
+  });
   // 监听当前播放音乐
   watch(curMusic, (newMusic, oldMusic) => {
-    console.log('watch curMusic', newMusic)
-    if(!newMusic.id) return;
-    if(newMusic.id == oldMusic.id) return;
+    console.log('watch curMusic', newMusic);
+    if (!newMusic.id) return;
+    if (newMusic.id == oldMusic.id) return;
     cxjPlayer.value.src = newMusic.url;
     cxjPlayer.value.currentTime = loadPercent.value = 0;
     cxjPlayer.value.play();
-  })
-
+  });
 
   return {
     cxjPlayer,
@@ -254,6 +257,6 @@ export default function () {
     changeProgressEnd,
     changeVolume,
     showPlayList,
-    hideList,
-  }
+    hideList
+  };
 }

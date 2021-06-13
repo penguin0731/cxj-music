@@ -1,35 +1,41 @@
 <template>
-  <div class="song_lyric" :class="{'limit': lyricBtn == '展开'}">
-      <h2>歌词</h2>
-      <div class="song_lyric_box" ref="lyric_box">
-        <div 
-          ref="song_lyric_cont"
-          class="song_lyric_cont" 
-          :style="{
-            marginTop: `${lyricBtn == '展开' && curMusic.id == curId ? marginTop : 0}px`
-          }"
+  <div class="song_lyric" :class="{ limit: lyricBtn == '展开' }">
+    <h2>歌词</h2>
+    <div class="song_lyric_box" ref="lyric_box">
+      <div
+        ref="song_lyric_cont"
+        class="song_lyric_cont"
+        :style="{
+          marginTop: `${
+            lyricBtn == '展开' && curMusic.id == curId ? marginTop : 0
+          }px`
+        }"
+      >
+        <p
+          v-for="(lrc, i) in lyricList"
+          :key="lrc.time"
+          :class="{ active: curMusic.id == curId && lyricIdx == i }"
+          :ref="
+            el => {
+              if (el) pRefs[i] = el;
+            }
+          "
+          :style="{ lineHeight: getLineHeight(i) }"
         >
-          <p 
-            v-for="(lrc, i) in lyricList" 
-            :key="lrc.time" 
-            :class="{active: curMusic.id == curId && lyricIdx == i}" 
-            :ref="el => {if (el) pRefs[i] = el}"
-            :style="{ lineHeight: getLineHeight(i) }"
-          >
-            {{ lrc.words }}
-            <template v-if="tlyricList[i] && tlyricList[i].words">
-              <br>
-              {{ tlyricList[i].words }}
-            </template>
-          </p>
-        </div>
+          {{ lrc.words }}
+          <template v-if="tlyricList[i] && tlyricList[i].words">
+            <br />
+            {{ tlyricList[i].words }}
+          </template>
+        </p>
       </div>
-      <div class="lyricBtn" @click="openLyric">[{{ lyricBtn }}]</div>
     </div>
+    <div class="lyricBtn" @click="openLyric">[{{ lyricBtn }}]</div>
+  </div>
 </template>
 
 <script>
-import useLyric from './useLyric'
+import useLyric from './useLyric';
 export default {
   props: {
     curId: {
@@ -45,12 +51,11 @@ export default {
     }
   },
   setup(props) {
-
     return {
       ...useLyric(props)
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -61,7 +66,7 @@ export default {
       overflow: hidden;
       position: relative;
       .song_lyric_cont {
-        transition: all .5s;
+        transition: all 0.5s;
       }
     }
   }

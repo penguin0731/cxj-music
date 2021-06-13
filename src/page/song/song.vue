@@ -2,7 +2,7 @@
   <div class="song_wrapper contentArea">
     <div class="song_data">
       <div v-show="al.picUrl" class="song_cover">
-        <img :src="al.picUrl" :alt="al.name">
+        <img :src="al.picUrl" :alt="al.name" />
       </div>
       <div v-show="name && commentTotal" class="song_cont">
         <h1 class="mt10">{{ name }}</h1>
@@ -24,33 +24,35 @@
           </li>
         </ul>
         <div class="song_actions">
-          <cxj-button type="primary" icon="player" @click="play">播放</cxj-button>
+          <cxj-button type="primary" icon="player" @click="play">
+            播放
+          </cxj-button>
           <cxj-button icon="comment">评论({{ commentTotal }})</cxj-button>
         </div>
       </div>
     </div>
     <lyric v-show="lyric" :curId="id" :lyric="lyric" :tlyric="tlyric" />
-    <comments 
-      v-show="commentTotal > 0" 
-      class="mt40" 
+    <comments
+      v-show="commentTotal > 0"
+      class="mt40"
       :hotComments="hotComments"
-      :comments="comments" 
+      :comments="comments"
       :total="commentTotal"
     />
   </div>
 </template>
 
 <script>
-import useSong from './useSong'
-import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue'
-import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue'
-import lyric from '@/components/lyric/lyric.vue'
-import comments from '@/components/comments/comments.vue'
-import moment from 'moment'
+import useSong from './useSong';
+import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
+import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
+import lyric from '@/components/lyric/lyric.vue';
+import comments from '@/components/comments/comments.vue';
+import moment from 'moment';
 
 export default {
   components: {
-    cxjIcon, 
+    cxjIcon,
     cxjButton,
     lyric,
     comments
@@ -58,10 +60,10 @@ export default {
   setup() {
     return {
       moment,
-      ...useSong(),
-    }
+      ...useSong()
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -117,7 +119,8 @@ export default {
   }
 }
 
-.song_singer span, .song_info__item span {
+.song_singer span,
+.song_info__item span {
   cursor: pointer;
 }
 .icon_singer {

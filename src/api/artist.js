@@ -1,4 +1,4 @@
-import axios from '@/utils/axios'
+import axios from '@/utils/axios';
 
 export default {
   /**
@@ -17,7 +17,7 @@ export default {
   },
   /**
    * 获取歌手全部歌曲
-   * @param {*} params 
+   * @param {*} params
    */
   getSongs(params) {
     return axios.get(`/artist/songs`, { params });
@@ -33,7 +33,7 @@ export default {
    * 获取歌手MV
    * @param {*} id 歌手id
    */
-   getMV(id) {
+  getMV(id) {
     return axios.get(`/artist/mv?id=${id}`);
-  },
+  }
 };

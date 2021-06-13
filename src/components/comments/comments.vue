@@ -2,55 +2,73 @@
   <div class="song_comments">
     <h2>热门评论</h2>
     <div class="song_commentsList mt10">
-      <div class="song_commentsItem" v-for="item in hotComments" :key="item.commentId">
+      <div
+        class="song_commentsItem"
+        v-for="item in hotComments"
+        :key="item.commentId"
+      >
         <div class="song_commentsItem_avatar">
-          <img :src="item.user.avatarUrl">
+          <img :src="item.user.avatarUrl" />
         </div>
         <h4 class="song_commentsItem_nickname">{{ item.user.nickname }}</h4>
         <div class="song_commentsItem_info">
-          <div class="song_commentsItem_date">{{ moment(item.time).format('YYYY年MM月DD日 HH:mm') }}</div>
+          <div class="song_commentsItem_date">
+            {{ moment(item.time).format('YYYY年MM月DD日 HH:mm') }}
+          </div>
           <div class="song_commentsItem_like">
             <div class="comments_sprite comment_like"></div>
             {{ item.likedCount }}
           </div>
         </div>
-        
-        <div v-html="handleComments(item.content)" class="song_commentsItem_cont mt10"></div>
+
+        <div
+          v-html="handleComments(item.content)"
+          class="song_commentsItem_cont mt10"
+        ></div>
       </div>
     </div>
     <h2 class="mt40">最新评论({{ total }})</h2>
     <div class="song_commentsList mt10">
-      <div class="song_commentsItem" v-for="item in comments" :key="item.commentId">
+      <div
+        class="song_commentsItem"
+        v-for="item in comments"
+        :key="item.commentId"
+      >
         <div class="song_commentsItem_avatar">
-          <img :src="item.user.avatarUrl">
+          <img :src="item.user.avatarUrl" />
         </div>
         <h4 class="song_commentsItem_nickname">{{ item.user.nickname }}</h4>
         <div class="song_commentsItem_info">
-          <div class="song_commentsItem_date">{{ moment(item.time).format('YYYY年MM月DD日 HH:mm') }}</div>
+          <div class="song_commentsItem_date">
+            {{ moment(item.time).format('YYYY年MM月DD日 HH:mm') }}
+          </div>
           <div class="song_commentsItem_like">
             <div class="comments_sprite comment_like"></div>
             {{ item.likedCount ? item.likedCount : '' }}
           </div>
         </div>
-        <div v-html="handleComments(item.content)" class="song_commentsItem_cont mt10"></div>
+        <div
+          v-html="handleComments(item.content)"
+          class="song_commentsItem_cont mt10"
+        ></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import moment from 'moment'
-import useComments from './useCommets'
-import { handleComments } from '@/utils/song'
+import moment from 'moment';
+import useComments from './useCommets';
+import { handleComments } from '@/utils/song';
 export default {
   props: {
     hotComments: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
     comments: {
       type: Array,
-      default: () => ([])
+      default: () => []
     },
     total: {
       type: Number
@@ -60,10 +78,10 @@ export default {
     return {
       moment,
       handleComments,
-      ...useComments(),
-    }
+      ...useComments()
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

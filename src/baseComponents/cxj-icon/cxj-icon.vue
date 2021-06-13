@@ -3,7 +3,7 @@
     class="cxjIcon"
     :class="{
       icon_sprite: type == 'icon',
-      player_sprite: type == 'player',
+      player_sprite: type == 'player'
     }"
   ></i>
 </template>
@@ -13,17 +13,17 @@ export default {
   props: {
     type: {
       type: String,
-      default: "icon",
+      default: 'icon'
     },
     icon: {
-      type: String,
-    },
+      type: String
+    }
   },
   setup(props) {
     return {
-      ...props,
+      ...props
     };
-  },
+  }
 };
 </script>
 

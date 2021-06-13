@@ -22,18 +22,18 @@
 </template>
 
 <script>
-import useMy from './useMy'
-import NotFound from '@/components/not-found/not-found.vue'
+import useMy from './useMy';
+import NotFound from '@/components/not-found/not-found.vue';
 export default {
   components: {
     NotFound
   },
   setup() {
     return {
-      ...useMy(),
-    }
+      ...useMy()
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
@@ -62,7 +62,8 @@ export default {
     }
     .my_statistic {
       display: flex;
-      .my_follows, .my_followeds {
+      .my_follows,
+      .my_followeds {
         display: flex;
         flex-direction: column;
         padding: 0 25px;
@@ -75,7 +76,7 @@ export default {
         span:last-child {
           font-size: 14px;
         }
-        &:hover span{
+        &:hover span {
           color: #fff;
         }
       }

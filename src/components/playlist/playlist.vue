@@ -3,28 +3,56 @@
     <div class="playlist_top">
       <h4>播放列表</h4>
       <div class="h-r">
-        <div class="playlist_btn" @click="clearList"><cxj-icon class="icon_clear" />清空列表</div>
+        <div class="playlist_btn" @click="clearList">
+          <cxj-icon class="icon_clear" />
+          清空列表
+        </div>
         <cxj-icon class="icon_close" @click.stop="hideList" />
       </div>
     </div>
     <div class="playlist_con mt20">
-      <div class="playlist_item" v-if="playList.length > 0" v-for="(item, index) in playList" :key="item.id" :class="{'active': isPlaying && index == currentIndex}">
+      <div
+        class="playlist_item"
+        v-if="playList.length > 0"
+        v-for="(item, index) in playList"
+        :key="item.id"
+        :class="{ active: isPlaying && index == currentIndex }"
+      >
         <div class="playlist_idx">
           {{ index + 1 }}
         </div>
-        <div class="song_name ellipsis ml10" :title="item.name">{{ item.name }}</div>
-        <div class="song_opt">
-          <div v-show="!(isPlaying && index == currentIndex)" class="list_menu_sprite list_menu_play" title="播放" @click="play(index)"></div>
-          <div v-show="isPlaying && index == currentIndex" class="list_menu_sprite list_menu_pause" title="暂停" @click="pause(index)"></div>
+        <div class="song_name ellipsis ml10" :title="item.name">
+          {{ item.name }}
         </div>
-        <div class="artist ellipsis" :title="item.singer.map(item => item.name).join('/')">
+        <div class="song_opt">
+          <div
+            v-show="!(isPlaying && index == currentIndex)"
+            class="list_menu_sprite list_menu_play"
+            title="播放"
+            @click="play(index)"
+          ></div>
+          <div
+            v-show="isPlaying && index == currentIndex"
+            class="list_menu_sprite list_menu_pause"
+            title="暂停"
+            @click="pause(index)"
+          ></div>
+        </div>
+        <div
+          class="artist ellipsis"
+          :title="item.singer.map(item => item.name).join('/')"
+        >
           <template v-for="(art, i) in item.singer" :key="art.id">
             {{ i == 0 ? '' : ' /' }}
             <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
           </template>
         </div>
         <div class="time ml20">{{ format(item.duration) }}</div>
-        <div class="list_menu_sprite list_menu_delete ml20" title="删除" @click="remove(index)"></div>
+        <div
+          class="list_menu_sprite list_menu_delete ml20"
+          title="删除"
+          @click="remove(index)"
+        ></div>
       </div>
       <div v-else class="playlist_con_text">啥也妹有啊！快去添加歌曲吧！</div>
     </div>
@@ -32,22 +60,21 @@
 </template>
 
 <script>
-import { format } from "@/utils/song.js"
-import usePlayList from "./usePlayList"
-import cxjIcon from "@/baseComponents/cxj-icon/cxj-icon.vue"
+import { format } from '@/utils/song.js';
+import usePlayList from './usePlayList';
+import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 
-import mockList from '@/mock.js'
+import mockList from '@/mock.js';
 
 export default {
   components: { cxjIcon },
   setup(props, context) {
-
     return {
       format,
       ...usePlayList(context),
-      mockList,
-    }
-  },
+      mockList
+    };
+  }
 };
 </script>
 
@@ -92,7 +119,7 @@ export default {
     border-radius: 10px;
   }
   &:hover::-webkit-scrollbar-thumb {
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255, 255, 255, 0.7);
   }
   .playlist_con_text {
     text-align: center;
@@ -124,9 +151,9 @@ export default {
   height: 46px;
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    .song_opt .list_menu_play, 
-    .song_opt .list_menu_pause, 
-    .list_menu_delete{
+    .song_opt .list_menu_play,
+    .song_opt .list_menu_pause,
+    .list_menu_delete {
       display: block;
     }
     .time {
@@ -139,7 +166,7 @@ export default {
     .playlist_idx {
       width: 10px;
       height: 10px;
-      background: url("@/assets/img/wave.gif") 0 0 no-repeat;
+      background: url('@/assets/img/wave.gif') 0 0 no-repeat;
       text-indent: -9999px;
     }
   }
@@ -167,7 +194,8 @@ export default {
       }
     }
   }
-  .song_name, .artist {
+  .song_name,
+  .artist {
     flex: 2;
   }
   .list_menu_delete {

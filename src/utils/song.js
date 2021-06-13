@@ -31,6 +31,14 @@ export function createSong(music) {
 }
 
 /**
+ * 毫秒转秒
+ * @param {*} ms 毫秒
+ */
+export function microSecToSec(ms) {
+  return parseFloat(ms / 1000);
+}
+
+/**
  * 创建歌曲列表
  * @param {*} list 歌曲列表
  */
@@ -52,9 +60,11 @@ export function addZero(s) {
  * @param {*} duration 歌曲时间(s)
  * @returns
  */
-export function format(duration) {
-  let minutes = Math.floor(duration / 60);
-  let seconds = Math.floor(duration % 60);
+export function format(duration, isSec = true) {
+  let dt = 0
+  dt = isSec ? duration : microSecToSec(duration);
+  let minutes = Math.floor(dt / 60);
+  let seconds = Math.floor(dt % 60);
   return `${addZero(minutes)}:${addZero(seconds)}`;
 }
 
@@ -105,25 +115,4 @@ export function syncLyric(lyric, tlyric) {
   lyric.unshift(...lyricFrontInfo);
   tlyric.unshift(...nullFrontInfo);
   return [lyric, tlyric];
-}
-
-/**
- * 处理带有emoji字符的评论
- * @param {*} content 评论
- * @returns 带有emoji的评论
- */
-export function handleComments(content) {
-  let cont = content.replace(/\n/g, '<br>');
-  let matchArr = cont.match(/\[.*?\]/g);
-  if (!matchArr) return cont;
-  let matchArrLen = matchArr.length;
-  for (let i = 0; i < matchArrLen; i++) {
-    let item = matchArr[i];
-    let emojiKey = item.replace('[', '').replace(']', '');
-    if (!emoji.hasOwnProperty(emojiKey)) continue;
-    let emojiValue = emoji[emojiKey];
-    let replaceStr = `<img class="emoji" src="http://s1.music.126.net/style/web2/emt/emoji_${emojiValue}.png">`;
-    cont = cont.replace(item, replaceStr);
-  }
-  return cont;
 }

@@ -40,6 +40,23 @@ li {
   list-style: none;
 }
 
+table {
+  border-spacing: 0;
+}
+
+thead tr {
+  background-color: rgba(0, 0, 0, .03);
+}
+
+thead th {
+  color: #999;
+  font-weight: normal;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: rgba(0, 0, 0, .03);
+}
+
 /* icon雪碧图 */
 .icon_sprite,
 .icon_sprite_before {

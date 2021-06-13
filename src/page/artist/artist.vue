@@ -1,7 +1,7 @@
 <template>
   <div class="artist_wrapper contentArea">
     <div class="artist_header">
-      <img class="artist_cover" :src="`${cover}?param=250y250`" alt="" />
+      <img class="artist_cover" :src="`${cover}?param=200y200`" alt="" />
       <div class="artist_cont">
         <h1 class="artist_name">{{ name }}</h1>
         <div class="artist_desc">
@@ -23,14 +23,110 @@
         </div>
       </div>
     </div>
+    <div class="artist_body mt20">
+      <div class="artist_body_hd">
+        <h2 class="mr10">热门歌曲</h2>
+        <cxj-button type="primary" icon="player" @click="playAll">
+          播放全部
+        </cxj-button>
+      </div>
+      <cxj-table
+        class="mt20"
+        :columns="columns"
+        :dataSource="hotSongsRef"
+        rowKey="id"
+      >
+        <template #songValue="{ item: { row } }">
+          <div class="songValue ellipsis">
+            <a :href="`/#/song?id=${row.id}`" :title="row.name">
+              {{ row.name }}
+            </a>
+            <span
+              v-if="row.alia.length > 0"
+              class="alia ml10"
+              :title="row.alia[0]"
+            >
+              {{ row.alia[0] }}
+            </span>
+          </div>
+        </template>
+        <template #albumValue="{ item: { row } }">
+          <a class="ellipsis" :href="`/#/album?id=${row.al.id}`">
+            {{ row.al.name }}
+          </a>
+        </template>
+        <template #timeValue="{ item: { row, $index } }">
+          {{ format(row.dt, false) }}
+        </template>
+      </cxj-table>
+    </div>
   </div>
 </template>
 
 <script>
 import useArtist from './useArtist';
+import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
+import cxjTable from '@/baseComponents/cxj-table/cxj-table.vue';
+import { format } from '@/utils/song';
 export default {
+  components: {
+    cxjButton,
+    cxjTable
+  },
   setup() {
+    let columns = [
+      {
+        lable: '歌曲',
+        prop: 'name',
+        width: '54%',
+        slotHeader: 'songLabel',
+        slot: 'songValue'
+      },
+      {
+        lable: '专辑',
+        prop: 'al.name',
+        width: '36%',
+        slotHeader: 'albumLabel',
+        slot: 'albumValue'
+      },
+      {
+        lable: '时长',
+        prop: 'time',
+        width: '10%',
+        slotHeader: 'timeLabel',
+        slot: 'timeValue'
+      }
+    ];
+    let dataSource = [
+      {
+        id: 1,
+        name: 'pop/start',
+        album: 'ada',
+        time: '102548'
+      },
+      {
+        id: 2,
+        name: 'abc',
+        album: 'xxx',
+        time: '102548'
+      },
+      {
+        id: 3,
+        name: 'qwe',
+        album: 'ada',
+        time: '102548'
+      },
+      {
+        id: 4,
+        name: '呀哈哈',
+        album: 'ada',
+        time: '102548'
+      }
+    ];
     return {
+      columns,
+      dataSource,
+      format,
       ...useArtist()
     };
   }
@@ -38,21 +134,26 @@ export default {
 </script>
 
 <style lang="less" scoped>
+a:hover {
+  color: initial;
+  text-decoration: underline;
+}
 .artist_header {
   position: relative;
-  height: 250px;
-  padding-top: 40px;
-  padding-bottom: 35px;
-  padding-left: 335px;
+  height: 205px;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  padding-left: 280px;
+  padding-right: 40px;
 }
 .artist_cover {
   position: absolute;
   top: 50%;
   left: 40px;
   transform: translateY(-50%);
-  border-radius: 50%;
 }
 .artist_cont {
+  position: relative;
   padding-top: 30px;
   .artist_name {
     font-size: 38px;
@@ -91,5 +192,21 @@ export default {
       }
     }
   }
+  .artist_actions {
+    display: flex;
+  }
+}
+.artist_body {
+  padding: 0 40px;
+}
+.artist_body_hd {
+  display: flex;
+  align-items: center;
+}
+.songValue {
+  max-width: 60%;
+}
+.alia {
+  color: #aeaeae;
 }
 </style>

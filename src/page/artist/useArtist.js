@@ -13,6 +13,7 @@ export default function () {
     albumSize: '',
     desc: ''
   });
+  let hotSongsRef = ref([]);
 
   // 获取歌手详情，包含部分热门歌曲
   const getArtists = async id => {
@@ -23,6 +24,7 @@ export default function () {
     detail.mvSize = artist.mvSize;
     detail.albumSize = artist.albumSize;
     detail.desc = artist.briefDesc;
+    hotSongsRef.value = hotSongs;
   };
 
   onMounted(async () => {
@@ -42,6 +44,7 @@ export default function () {
   });
 
   return {
-    ...toRefs(detail)
+    ...toRefs(detail),
+    hotSongsRef
   };
 }

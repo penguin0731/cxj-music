@@ -59,7 +59,6 @@
 <script>
 import moment from 'moment';
 import useComments from './useCommets';
-import { handleComments } from '@/utils/song';
 export default {
   props: {
     hotComments: {
@@ -77,7 +76,6 @@ export default {
   setup() {
     return {
       moment,
-      handleComments,
       ...useComments()
     };
   }

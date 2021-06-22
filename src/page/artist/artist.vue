@@ -30,7 +30,7 @@
           播放全部
         </cxj-button>
       </div>
-      <cxj-table
+      <music-table
         class="mt20"
         :columns="columns"
         :dataSource="hotSongsRef"
@@ -58,7 +58,19 @@
         <template #timeValue="{ item: { row, $index } }">
           {{ format(row.dt, false) }}
         </template>
-      </cxj-table>
+        <template #list_menu="{ item: { row, $index } }">
+          <div
+            class="list_menu_sprite icon_list_menu_play"
+            title="播放"
+            @click="play(row)"
+          ></div>
+          <div
+            class="list_menu_sprite icon_list_menu_add ml10"
+            title="添加到播放列表"
+            @click="add(row)"
+          ></div>
+        </template>
+      </music-table>
     </div>
   </div>
 </template>
@@ -66,12 +78,12 @@
 <script>
 import useArtist from './useArtist';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
-import cxjTable from '@/baseComponents/cxj-table/cxj-table.vue';
+import musicTable from '@/components/music-table/music-table.vue';
 import { format } from '@/utils/song';
 export default {
   components: {
     cxjButton,
-    cxjTable
+    musicTable
   },
   setup() {
     let columns = [
@@ -97,35 +109,8 @@ export default {
         slot: 'timeValue'
       }
     ];
-    let dataSource = [
-      {
-        id: 1,
-        name: 'pop/start',
-        album: 'ada',
-        time: '102548'
-      },
-      {
-        id: 2,
-        name: 'abc',
-        album: 'xxx',
-        time: '102548'
-      },
-      {
-        id: 3,
-        name: 'qwe',
-        album: 'ada',
-        time: '102548'
-      },
-      {
-        id: 4,
-        name: '呀哈哈',
-        album: 'ada',
-        time: '102548'
-      }
-    ];
     return {
       columns,
-      dataSource,
       format,
       ...useArtist()
     };
@@ -208,5 +193,15 @@ a:hover {
 }
 .alia {
   color: #aeaeae;
+}
+.list_menu_sprite {
+  width: 36px;
+  height: 36px;
+}
+.icon_list_menu_play {
+  background-position: 0 0;
+}
+.icon_list_menu_add {
+  background-position: 0 -80px;
 }
 </style>

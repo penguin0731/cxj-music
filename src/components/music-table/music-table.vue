@@ -1,9 +1,9 @@
 <template>
-  <div class="cxjTable_box">
-    <table class="cxjTable">
+  <div class="musicTable_box">
+    <table class="musicTable">
       <thead>
-        <tr class="cxjTable_row">
-          <th class="cxjTable_serial__hd"></th>
+        <tr class="musicTable_row">
+          <th class="musicTable_serial__hd"></th>
           <th
             v-for="(item, index) in columns"
             :key="item.columnKey || index"
@@ -22,11 +22,11 @@
       </thead>
       <tbody>
         <tr
-          class="cxjTable_row"
+          class="musicTable_row"
           v-for="(item, index) in index_dataSource"
           :key="(rowKey && item[rowKey]) || index"
         >
-          <td class="cxjTable_serial__bd">
+          <td class="musicTable_serial__bd">
             <span class="ml10">{{ item.c_index }}</span>
           </td>
           <td
@@ -47,6 +47,12 @@
               </div>
             </slot>
           </td>
+          <div class="musicTable_list_menu">
+            <slot
+              name="list_menu"
+              :item="{ row: item, $index: index, columns }"
+            ></slot>
+          </div>
         </tr>
       </tbody>
     </table>
@@ -54,7 +60,7 @@
 </template>
 
 <script>
-import useTable from './useTable';
+import useMusicTable from './useMusicTable';
 export default {
   props: {
     /**
@@ -85,7 +91,7 @@ export default {
   },
   setup(props, ctx) {
     return {
-      ...useTable(props, ctx)
+      ...useMusicTable(props, ctx)
     };
   }
 };
@@ -96,16 +102,27 @@ export default {
   box-sizing: border-box;
   font-size: 14px;
 }
-.cxjTable {
+.musicTable {
   width: 100%;
 }
-.cxjTable_row {
+.musicTable_row {
+  position: relative;
   height: 50px;
   line-height: 50px;
   padding-left: 46px;
+  &:hover .musicTable_list_menu {
+    display: flex;
+  }
+  .musicTable_list_menu {
+    display: none;
+    position: absolute;
+    left: 48%;
+    height: 50px;
+    align-items: center;
+  }
 }
-.cxjTable_serial__hd,
-.cxjTable_serial__bd {
+.musicTable_serial__hd,
+.musicTable_serial__bd {
   display: inline-block;
   width: 46px;
   color: #999;

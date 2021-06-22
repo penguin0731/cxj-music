@@ -1,4 +1,3 @@
-import emoji from '../../emoji.json';
 
 export class Song {
   constructor({ id, name, singer, album, image, duration, url }) {
@@ -57,7 +56,8 @@ export function addZero(s) {
 
 /**
  * 格式化歌曲时间
- * @param {*} duration 歌曲时间(s)
+ * @param {*} duration 歌曲时间(s/ms)
+ * @param {*} isSec 是否秒
  * @returns
  */
 export function format(duration, isSec = true) {

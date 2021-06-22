@@ -14,7 +14,7 @@ export default function (props, ctx) {
   /**
    * 深度读取键值
    * @param {*} item dataSource中的对象
-   * @param {*} prop 需要读取的键值
+   * @param {*} prop 需要读取的键值，可深度读取，如obj.a[0].b
    */
   const handleProp = (item, prop) => {
     console.log(prop)

@@ -1,9 +1,13 @@
-import { ref, onMounted, reactive, toRefs } from 'vue';
+import { ref, onMounted, reactive, toRefs, computed } from 'vue';
+import { useStore } from 'vuex';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import api from '@/api';
+import { createSong } from '@/utils/song';
+import { clone } from '@/utils/util';
 import nProgress from 'nprogress';
 
 export default function () {
+  const store = useStore();
   const route = useRoute();
   let detail = reactive({
     name: '',
@@ -14,6 +18,7 @@ export default function () {
     desc: ''
   });
   let hotSongsRef = ref([]);
+  let playList = computed(() => store.getters.playList);
 
   // 获取歌手详情，包含部分热门歌曲
   const getArtists = async id => {
@@ -26,6 +31,31 @@ export default function () {
     detail.desc = artist.briefDesc;
     hotSongsRef.value = hotSongs;
   };
+
+  const playAll = () => {
+
+  }
+
+  const play = (music) => {
+    add(music)
+    store.commit('setIsPlaying', true);
+  }
+
+  const add = async (music) => {
+    let list = clone(playList.value);
+    let newIdx = -1;
+    let isInList = list.some((item, index) => {
+      item.id == music.id ? newIdx = index : '';
+      return item.id == music.id;
+    });
+    if (isInList) {
+      store.commit('setCurrentIndex', newIdx);
+      return;
+    }
+    list.unshift(createSong(music));
+    store.commit('setPlayList', list);
+    store.commit('setCurrentIndex', 0);
+  }
 
   onMounted(async () => {
     let id = route.query.id;
@@ -45,6 +75,8 @@ export default function () {
 
   return {
     ...toRefs(detail),
-    hotSongsRef
+    hotSongsRef,
+    play,
+    add
   };
 }

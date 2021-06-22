@@ -10,7 +10,7 @@ import {
 import { useStore } from 'vuex';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import api from '@/api';
-import { parseLyric, syncLyric, createSong } from '@/utils/song';
+import { createSong } from '@/utils/song';
 import { clone } from '@/utils/util';
 import nProgress from 'nprogress';
 

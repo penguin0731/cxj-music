@@ -11,7 +11,7 @@
           <cxj-icon class="icon_singer mr10" />
           <template v-for="(art, i) in ar" :key="art.id">
             {{ i == 0 ? '' : ' /' }}
-            <span>{{ art.name }}</span>
+            <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
           </template>
         </div>
         <ul class="song_info mt10">
@@ -67,6 +67,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+a:hover {
+  color: inherit;
+}
 .mt40 {
   margin-top: 40px;
 }

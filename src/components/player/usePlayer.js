@@ -3,6 +3,7 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { defaultVolume, playMode } from '@/config.js';
 import { randomIndex } from '@/utils/util.js';
+import { microSecToSec } from '@/utils/song';
 import gsap from 'gsap';
 
 export default function () {
@@ -113,12 +114,12 @@ export default function () {
   };
   // 修改音乐显示时间
   const changeProgress = per => {
-    store.commit('setCurrentTime', per * curMusic.value.duration);
+    store.commit('setCurrentTime', microSecToSec(per * curMusic.value.duration));
   };
   // 修改音乐播放时间
   const changeProgressEnd = per => {
     // if(!curMusic.value.duration) return;
-    cxjPlayer.value.currentTime = per * curMusic.value.duration;
+    cxjPlayer.value.currentTime = microSecToSec(per * curMusic.value.duration);
   };
 
   // 修改鼠标是否按下
@@ -217,7 +218,7 @@ export default function () {
   });
 
   watchEffect(() => {
-    percent.value = currentTime.value / curMusic.value.duration;
+    percent.value = (currentTime.value * 1000) / curMusic.value.duration;
   });
   // 监听播放器播放状态
   watch(isPlaying, (isPlaying, oldVal) => {

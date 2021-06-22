@@ -24,7 +24,7 @@
         <div class="song_name ellipsis ml10" :title="item.name">
           {{ item.name }}
         </div>
-        <div class="song_opt">
+        <div class="song_opt ml20">
           <div
             v-show="!(isPlaying && index == currentIndex)"
             class="list_menu_sprite list_menu_play"
@@ -47,7 +47,7 @@
             <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
           </template>
         </div>
-        <div class="time ml20">{{ format(item.duration) }}</div>
+        <div class="time ml20">{{ item.formatDur }}</div>
         <div
           class="list_menu_sprite list_menu_delete ml20"
           title="删除"
@@ -64,15 +64,12 @@ import { format } from '@/utils/song.js';
 import usePlayList from './usePlayList';
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 
-import mockList from '@/mock.js';
-
 export default {
   components: { cxjIcon },
   setup(props, context) {
     return {
       format,
-      ...usePlayList(context),
-      mockList
+      ...usePlayList(context)
     };
   }
 };

@@ -40,7 +40,7 @@
         </div>
 
         <div v-if="currentIndex != -1" class="player_time">
-          {{ format(currentTime) }} / {{ format(curMusic.duration) }}
+          {{ format(currentTime) }} / {{ curMusic.formatDur }}
         </div>
         <div class="cxjProgress_wrapper">
           <cxj-progress

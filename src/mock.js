@@ -11,7 +11,8 @@ export default [
     album: '',
     image:
       'https://p1.music.126.net/CaFZORZOOdE3acaCqMxn2Q==/109951163861068723.jpg',
-    duration: 191.208,
+    duration: 191208,
+    formatDur: '03:11',
     url: 'https://music.163.com/song/media/outer/url?id=1321385655.mp3'
   },
   {
@@ -21,7 +22,8 @@ export default [
     album: '',
     image:
       'https://p1.music.126.net/8lHJleTkwDg-DlhRq35EhA==/3366704604374334.jpg',
-    duration: 276.781,
+    duration: 276781,
+    formatDur: '04:36',
     url: 'https://music.163.com/song/media/outer/url?id=33599439.mp3'
   },
   {
@@ -31,7 +33,8 @@ export default [
     album: '',
     image:
       'https://p2.music.126.net/vmCcDvD1H04e9gm97xsCqg==/109951163350929740.jpg',
-    duration: 207.466,
+    duration: 207466,
+    formatDur: '03:27',
     url: 'https://music.163.com/song/media/outer/url?id=569213220.mp3'
   }
 ];

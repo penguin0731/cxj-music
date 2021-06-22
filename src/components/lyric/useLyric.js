@@ -1,14 +1,11 @@
 import {
   ref,
   computed,
-  reactive,
   onMounted,
   onBeforeUpdate,
   watchEffect,
-  toRefs
 } from 'vue';
 import { useStore } from 'vuex';
-import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import { parseLyric, syncLyric } from '@/utils/song';
 
 export default function (props) {
@@ -68,7 +65,7 @@ export default function (props) {
 
   // 通过当前歌词索引计算需要上移的偏移量
   const setMarginTop = () => {
-    if (!lyric_box.value.clientHeight) return;
+    if (!lyric_box.value || !lyric_box.value.clientHeight) return;
     let midHeight =
       lyric_box.value.clientHeight / 2 -
       pRefs.value[lyricIdx.value].clientHeight / 2;
@@ -102,10 +99,6 @@ export default function (props) {
 
   watchEffect(() => {
     getLyricList();
-  });
-
-  watchEffect(() => {
-    console.log('lyric watchEffect', lyricIdx.value);
   });
 
   // 确保在每次更新之前重置ref

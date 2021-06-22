@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import emoji from '../../../emoji.json'
 
 export default function () {
   /**

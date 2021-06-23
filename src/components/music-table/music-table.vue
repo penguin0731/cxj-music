@@ -104,19 +104,20 @@ export default {
 }
 .musicTable {
   width: 100%;
+  table-layout: fixed;
 }
 .musicTable_row {
   position: relative;
   height: 50px;
   line-height: 50px;
-  padding-left: 46px;
+  display: flex;
   &:hover .musicTable_list_menu {
     display: flex;
   }
   .musicTable_list_menu {
     display: none;
     position: absolute;
-    left: 48%;
+    left: 40%;
     height: 50px;
     align-items: center;
   }

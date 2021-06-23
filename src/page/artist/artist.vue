@@ -90,7 +90,7 @@ export default {
       {
         lable: '歌曲',
         prop: 'name',
-        width: '54%',
+        width: 'calc(54% - 46px)',
         slotHeader: 'songLabel',
         slot: 'songValue'
       },

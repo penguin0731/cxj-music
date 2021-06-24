@@ -8,16 +8,25 @@
           <div class="artist_desc_txt ellipsis" :title="desc">{{ desc }}</div>
         </div>
         <div class="artist_statistic">
-          <div class="artist_statistic_item">
-            <div class="artist_statistic__tit">单曲</div>
+          <div
+            class="artist_statistic_item"
+            @click="changeCurType(typeMap.songs.key)"
+          >
+            <div class="artist_statistic__tit">{{ typeMap.songs.cn }}</div>
             <div class="artist_statistic__num">{{ musicSize }}</div>
           </div>
-          <div class="artist_statistic_item">
-            <div class="artist_statistic__tit">专辑</div>
+          <div
+            class="artist_statistic_item"
+            @click="changeCurType(typeMap.album.key)"
+          >
+            <div class="artist_statistic__tit">{{ typeMap.album.cn }}</div>
             <div class="artist_statistic__num">{{ albumSize }}</div>
           </div>
-          <div class="artist_statistic_item">
-            <div class="artist_statistic__tit">MV</div>
+          <div
+            class="artist_statistic_item"
+            @click="changeCurType(typeMap.MV.key)"
+          >
+            <div class="artist_statistic__tit">{{ typeMap.MV.cn }}</div>
             <div class="artist_statistic__num">{{ mvSize }}</div>
           </div>
         </div>
@@ -25,15 +34,21 @@
     </div>
     <div class="artist_body mt20">
       <div class="artist_body_hd">
-        <h2 class="mr10">热门歌曲</h2>
-        <cxj-button type="primary" icon="player" @click="playAll">
+        <h2 class="mr10">{{ typeMap[curType].cn }}</h2>
+        <cxj-button
+          v-if="curType == typeMap.songs.key"
+          type="primary"
+          icon="player"
+          @click="playAll"
+        >
           播放全部
         </cxj-button>
       </div>
       <music-table
+        v-if="curType == typeMap.songs.key"
         class="mt20"
         :columns="columns"
-        :dataSource="hotSongsRef"
+        :dataSource="songsRef"
         rowKey="id"
       >
         <template #songValue="{ item: { row } }">
@@ -90,7 +105,8 @@ export default {
       {
         lable: '歌曲',
         prop: 'name',
-        width: 'calc(54% - 46px)',
+        // width: 'calc(54% - 46px)',
+        width: '54%',
         slotHeader: 'songLabel',
         slot: 'songValue'
       },

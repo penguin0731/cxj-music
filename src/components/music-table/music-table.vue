@@ -98,6 +98,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@serialWidth: 46px; // 序号的宽度
 .cxjTable_box {
   box-sizing: border-box;
   font-size: 14px;
@@ -111,6 +112,7 @@ export default {
   height: 50px;
   line-height: 50px;
   display: flex;
+  padding-left: @serialWidth;
   &:hover .musicTable_list_menu {
     display: flex;
   }
@@ -124,8 +126,10 @@ export default {
 }
 .musicTable_serial__hd,
 .musicTable_serial__bd {
+  position: absolute;
+  left: 0;
   display: inline-block;
-  width: 46px;
+  width: @serialWidth;
   color: #999;
 }
 </style>

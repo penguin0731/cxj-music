@@ -1,7 +1,7 @@
 <template>
   <div class="playlist_box" @click.stop="stopTrigger">
     <div class="playlist_top">
-      <h4>播放列表</h4>
+      <h4>播放列表（{{ playList.length }}）</h4>
       <div class="h-r">
         <div class="playlist_btn" @click="clearList">
           <cxj-icon class="icon_clear" />

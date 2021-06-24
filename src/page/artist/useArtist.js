@@ -1,4 +1,4 @@
-import { ref, onMounted, reactive, toRefs, computed } from 'vue';
+import { ref, onMounted, reactive, toRefs, computed, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import api from '@/api';
@@ -9,6 +9,20 @@ import nProgress from 'nprogress';
 export default function () {
   const store = useStore();
   const route = useRoute();
+  const typeMap = {
+    songs: {
+      key: 'songs',
+      cn: '单曲'
+    },
+    album: {
+      key: 'album',
+      cn: '专辑'
+    },
+    MV: {
+      key: 'MV',
+      cn: 'MV'
+    }
+  }
   let detail = reactive({
     name: '',
     cover: '',
@@ -17,7 +31,8 @@ export default function () {
     albumSize: '',
     desc: ''
   });
-  let hotSongsRef = ref([]);
+  let songsRef = ref([]); // 单曲列表
+  let curType = ref('songs'); // 当前展示的列表
   let playList = computed(() => store.getters.playList);
 
   // 获取歌手详情，包含部分热门歌曲
@@ -29,19 +44,31 @@ export default function () {
     detail.mvSize = artist.mvSize;
     detail.albumSize = artist.albumSize;
     detail.desc = artist.briefDesc;
-    hotSongsRef.value = hotSongs;
+    songsRef.value = hotSongs;
   };
 
-  const playAll = () => {
-
+  // 修改当前展示的列表类型
+  const changeCurType = type => {
+    curType.value = type;
   }
 
-  const play = (music) => {
-    add(music)
+  // 播放全部
+  const playAll = () => {
+    if (songsRef.value.length == 0) return;
+    let list = clone(playList.value);
+    let newList = songsRef.value.map(item => createSong(item));
+    let newListIds = newList.map(item => item.id);
+    // 若全部歌曲中有歌曲已存在播放列表，则过滤
+    list = list.filter(l => !newListIds.includes(Number(l.id)));
+    // 将全部歌曲拼接到播放列表前面
+    list = newList.concat(list);
+    store.commit('setPlayList', list);
+    store.commit('setCurrentIndex', 0);
     store.commit('setIsPlaying', true);
   }
 
-  const add = async (music) => {
+  // 播放指定歌曲并添加到播放队列
+  const play = (music) => {
     let list = clone(playList.value);
     let newIdx = -1;
     let isInList = list.some((item, index) => {
@@ -50,8 +77,15 @@ export default function () {
     });
     if (isInList) {
       store.commit('setCurrentIndex', newIdx);
-      return;
+    } else {
+      add(music);
     }
+    store.commit('setIsPlaying', true);
+  }
+
+  // 添加到播放队列
+  const add = async (music,) => {
+    let list = clone(playList.value);
     list.unshift(createSong(music));
     store.commit('setPlayList', list);
     store.commit('setCurrentIndex', 0);
@@ -75,8 +109,12 @@ export default function () {
 
   return {
     ...toRefs(detail),
-    hotSongsRef,
+    songsRef,
+    typeMap,
+    curType,
     play,
-    add
+    add,
+    playAll,
+    changeCurType,
   };
 }

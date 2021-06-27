@@ -44,48 +44,51 @@
           播放全部
         </cxj-button>
       </div>
-      <music-table
-        v-if="curType == typeMap.songs.key"
-        class="mt20"
-        :columns="columns"
-        :dataSource="songsRef"
-        rowKey="id"
-      >
-        <template #songValue="{ item: { row } }">
-          <div class="songValue ellipsis">
-            <a :href="`/#/song?id=${row.id}`" :title="row.name">
-              {{ row.name }}
+      <div class="mt20">
+        <cxj-music-table
+          v-if="curType == typeMap.songs.key"
+          :columns="columns"
+          :dataSource="songsRef"
+          rowKey="id"
+        >
+          <template #songValue="{ item: { row } }">
+            <div class="songValue ellipsis">
+              <a :href="`/#/song?id=${row.id}`" :title="row.name">
+                {{ row.name }}
+              </a>
+              <span
+                v-if="row.alia.length > 0"
+                class="alia ml10"
+                :title="row.alia[0]"
+              >
+                {{ row.alia[0] }}
+              </span>
+            </div>
+          </template>
+          <template #albumValue="{ item: { row } }">
+            <a class="ellipsis" :href="`/#/album?id=${row.al.id}`">
+              {{ row.al.name }}
             </a>
-            <span
-              v-if="row.alia.length > 0"
-              class="alia ml10"
-              :title="row.alia[0]"
-            >
-              {{ row.alia[0] }}
-            </span>
-          </div>
-        </template>
-        <template #albumValue="{ item: { row } }">
-          <a class="ellipsis" :href="`/#/album?id=${row.al.id}`">
-            {{ row.al.name }}
-          </a>
-        </template>
-        <template #timeValue="{ item: { row, $index } }">
-          {{ format(row.dt, false) }}
-        </template>
-        <template #list_menu="{ item: { row, $index } }">
-          <div
-            class="list_menu_sprite icon_list_menu_play"
-            title="播放"
-            @click="play(row)"
-          ></div>
-          <div
-            class="list_menu_sprite icon_list_menu_add ml10"
-            title="添加到播放列表"
-            @click="add(row)"
-          ></div>
-        </template>
-      </music-table>
+          </template>
+          <template #timeValue="{ item: { row, $index } }">
+            {{ format(row.dt, false) }}
+          </template>
+          <template #list_menu="{ item: { row, $index } }">
+            <div
+              class="list_menu_sprite icon_list_menu_play"
+              title="播放"
+              @click="play(row)"
+            ></div>
+            <div
+              class="list_menu_sprite icon_list_menu_add ml10"
+              title="添加到播放列表"
+              @click="add(row)"
+            ></div>
+          </template>
+        </cxj-music-table>
+        <albumlist v-if="curType == typeMap.album.key" :list="albumRef" />
+        <mvlist v-if="curType == typeMap.MV.key" :list="MVRef" />
+      </div>
     </div>
   </div>
 </template>
@@ -93,12 +96,16 @@
 <script>
 import useArtist from './useArtist';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
-import musicTable from '@/components/music-table/music-table.vue';
+import cxjMusicTable from '@/baseComponents/cxj-music-table/cxj-music-table.vue';
+import albumlist from '@/components/albumlist/albumlist.vue';
+import mvlist from '@/components/mvlist/mvlist.vue';
 import { format } from '@/utils/song';
 export default {
   components: {
     cxjButton,
-    musicTable
+    cxjMusicTable,
+    albumlist,
+    mvlist
   },
   setup() {
     let columns = [

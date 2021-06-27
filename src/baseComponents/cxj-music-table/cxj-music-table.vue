@@ -1,9 +1,9 @@
 <template>
-  <div class="musicTable_box">
-    <table class="musicTable">
+  <div class="cxjMusicTable_box">
+    <table class="cxjMusicTable">
       <thead>
-        <tr class="musicTable_row">
-          <th class="musicTable_serial__hd"></th>
+        <tr class="cxjMusicTable_row">
+          <th class="cxjMusicTable_serial__hd"></th>
           <th
             v-for="(item, index) in columns"
             :key="item.columnKey || index"
@@ -22,11 +22,11 @@
       </thead>
       <tbody>
         <tr
-          class="musicTable_row"
+          class="cxjMusicTable_row"
           v-for="(item, index) in index_dataSource"
           :key="(rowKey && item[rowKey]) || index"
         >
-          <td class="musicTable_serial__bd">
+          <td class="cxjMusicTable_serial__bd">
             <span class="ml10">{{ item.c_index }}</span>
           </td>
           <td
@@ -47,7 +47,7 @@
               </div>
             </slot>
           </td>
-          <div class="musicTable_list_menu">
+          <div class="cxjMusicTable_list_menu">
             <slot
               name="list_menu"
               :item="{ row: item, $index: index, columns }"
@@ -103,20 +103,20 @@ export default {
   box-sizing: border-box;
   font-size: 14px;
 }
-.musicTable {
+.cxjMusicTable {
   width: 100%;
   table-layout: fixed;
 }
-.musicTable_row {
+.cxjMusicTable_row {
   position: relative;
   height: 50px;
   line-height: 50px;
   display: flex;
   padding-left: @serialWidth;
-  &:hover .musicTable_list_menu {
+  &:hover .cxjMusicTable_list_menu {
     display: flex;
   }
-  .musicTable_list_menu {
+  .cxjMusicTable_list_menu {
     display: none;
     position: absolute;
     left: 40%;
@@ -124,8 +124,8 @@ export default {
     align-items: center;
   }
 }
-.musicTable_serial__hd,
-.musicTable_serial__bd {
+.cxjMusicTable_serial__hd,
+.cxjMusicTable_serial__bd {
   position: absolute;
   left: 0;
   display: inline-block;

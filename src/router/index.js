@@ -49,6 +49,10 @@ export default createRouter({
     {
       path: '/artist',
       component: () => import('@/page/artist/artist.vue')
+    },
+    {
+      path: '/mv',
+      component: () => import('@/page/mv/mv.vue')
     }
   ]
 });

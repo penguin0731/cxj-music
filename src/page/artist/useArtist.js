@@ -134,6 +134,7 @@ export default function () {
     curType,
     songsRef,
     albumRef,
+    MVRef,
     play,
     add,
     playAll,

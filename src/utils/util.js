@@ -44,3 +44,13 @@ export function toHttps(url) {
   }
   return url.replace('http://', 'https://');
 }
+
+/**
+ * 将数字转化为以万为单位，若没超过万则不转化
+ * @param {*} num 数字
+ */
+export function toggleUnits(num) {
+  let numStr = num.toString();
+  if (numStr.length < 4) return numStr;
+  return `${(num / 10000).toFixed(1)}万`;
+}

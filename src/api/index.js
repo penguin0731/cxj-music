@@ -3,6 +3,7 @@ import login from './login';
 import user from './user';
 import song from './song';
 import artist from './artist';
+import toplist from './toplist';
 
 export default {
   /**
@@ -14,5 +15,6 @@ export default {
   login,
   user,
   song,
-  artist
+  artist,
+  toplist
 };

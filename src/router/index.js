@@ -21,20 +21,20 @@ export default createRouter({
           component: () => import('@/page/recommend/recommend.vue')
         },
         {
-          path: 'topList',
-          component: () => import('@/page/topList/topList.vue')
+          path: 'toplist',
+          component: () => import('@/page/toplist/toplist.vue')
         },
         {
-          path: 'songList',
-          component: () => import('@/page/songList/songList.vue')
+          path: 'songlist',
+          component: () => import('@/page/songlist/songlist.vue')
         },
         {
           path: 'djRadio',
           component: () => import('@/page/djRadio/djRadio.vue')
         },
         {
-          path: 'artistList',
-          component: () => import('@/page/artistList/artistList.vue')
+          path: 'artistlist',
+          component: () => import('@/page/artistlist/artistlist.vue')
         },
         {
           path: 'album',

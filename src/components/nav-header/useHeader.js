@@ -15,11 +15,11 @@ export default function useNavHeader() {
     },
     {
       label: '排行榜',
-      url: '/music/topList'
+      url: '/music/toplist'
     },
     {
       label: '歌单',
-      url: '/music/songList'
+      url: '/music/songlist'
     },
     {
       label: '主播电台',
@@ -27,7 +27,7 @@ export default function useNavHeader() {
     },
     {
       label: '歌手',
-      url: '/music/artistList'
+      url: '/music/artistlist'
     },
     {
       label: '新碟上架',

@@ -86,7 +86,12 @@
             ></div>
           </template>
         </cxj-music-table>
-        <albumlist v-if="curType == typeMap.album.key" :list="albumRef" />
+        <albumlist
+          v-if="curType == typeMap.album.key"
+          :list="albumRef"
+          :showName="false"
+          :showPublishTime="true"
+        />
         <mvlist v-if="curType == typeMap.MV.key" :list="MVRef" />
       </div>
     </div>

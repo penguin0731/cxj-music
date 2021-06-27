@@ -14,7 +14,13 @@
       <div class="albumlist_title mt10">
         <a :href="`/#/album?id=${item.id}`">{{ item.name }}</a>
       </div>
-      <div class="albumlist_publish">
+      <div v-if="showName" class="albumlist_artist">
+        <template v-for="(art, i) in item.artists" :key="art.id">
+          {{ i == 0 ? '' : ' /' }}
+          <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
+        </template>
+      </div>
+      <div v-if="showPublishTime" class="albumlist_publish">
         {{ moment(item.publishTime).format('YYYY-MM-DD') }}
       </div>
     </div>
@@ -29,6 +35,14 @@ export default {
     list: {
       type: Array,
       default: () => []
+    },
+    showName: {
+      type: Boolean,
+      default: true
+    },
+    showPublishTime: {
+      type: Boolean,
+      default: false
     }
   },
   setup() {
@@ -80,7 +94,11 @@ export default {
   }
 }
 .albumlist_title a {
-  cursor: pointer;
+  &:hover {
+    color: var(--themeColor);
+  }
+}
+.albumlist_artist a {
   &:hover {
     color: var(--themeColor);
   }

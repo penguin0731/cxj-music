@@ -117,6 +117,12 @@ tbody tr:nth-of-type(even) {
 .mr20 {
   margin-right: 20px;
 }
+.mb10 {
+  margin-bottom: 10px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
 
 /* 内容区样式 */
 .contentArea {

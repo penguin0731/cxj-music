@@ -4,6 +4,7 @@ import user from './user';
 import song from './song';
 import artist from './artist';
 import toplist from './toplist';
+import songlist from './songlist';
 
 export default {
   /**
@@ -16,5 +17,6 @@ export default {
   user,
   song,
   artist,
-  toplist
+  toplist,
+  songlist
 };

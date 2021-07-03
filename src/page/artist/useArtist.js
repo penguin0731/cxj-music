@@ -35,7 +35,7 @@ export default function () {
   let songsRef = ref([]); // 单曲列表
   let albumRef = ref([]); // 专辑列表
   let MVRef = ref([]); // MV列表
-  let curType = ref('MV'); // 当前展示的列表
+  let curType = ref('songs'); // 当前展示的列表key
   let playList = computed(() => store.getters.playList);
 
   // 修改当前展示的列表类型
@@ -70,16 +70,16 @@ export default function () {
       store.commit('setCurrentIndex', newIdx);
     } else {
       add(music);
+      store.commit('setCurrentIndex', list.length);
     }
     store.commit('setIsPlaying', true);
   }
 
   // 添加到播放队列
-  const add = async (music,) => {
+  const add = async (music) => {
     let list = clone(playList.value);
     list.unshift(createSong(music));
     store.commit('setPlayList', list);
-    store.commit('setCurrentIndex', 0);
   }
 
   // 获取歌手详情，包含部分热门歌曲

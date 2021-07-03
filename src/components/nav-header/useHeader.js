@@ -8,38 +8,21 @@ export default function useNavHeader() {
   const router = useRouter();
   const route = useRoute();
   const store = useStore();
-  const navList = ref([
-    {
-      label: '推荐',
-      url: '/music/recommend'
-    },
-    {
-      label: '排行榜',
-      url: '/music/toplist'
-    },
-    {
-      label: '歌单',
-      url: '/music/songlist'
-    },
-    {
-      label: '主播电台',
-      url: '/music/djRadio'
-    },
-    {
-      label: '歌手',
-      url: '/music/artistlist'
-    },
-    {
-      label: '新碟上架',
-      url: '/music/album'
-    }
-  ]);
+  const navList = computed(() => {
+    // 从路由配置中获取导航栏信息
+    let _navList = router.options.routes.filter(item => item.path === '/music')[0];
+    return _navList.children.map(item => ({
+      url: `${_navList.path}/${item.path}`,
+      label: item.meta.name
+    }))
+  })
   let curNav = ref(0);
   let loginVisible = ref(false);
   let Uid = computed(() => store.getters.Uid);
   let userInfo = ref({});
 
   const onClickNav = (url, index) => {
+    console.log(url, router)
     curNav.value = index;
     router.push(url);
   };

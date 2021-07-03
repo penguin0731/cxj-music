@@ -18,27 +18,45 @@ export default createRouter({
       children: [
         {
           path: 'recommend',
-          component: () => import('@/page/recommend/recommend.vue')
+          component: () => import('@/page/recommend/recommend.vue'),
+          meta: {
+            name: '推荐'
+          }
         },
         {
           path: 'toplist',
-          component: () => import('@/page/toplist/toplist.vue')
+          component: () => import('@/page/toplist/toplist.vue'),
+          meta: {
+            name: '排行榜'
+          }
         },
         {
           path: 'songlist',
-          component: () => import('@/page/songlist/songlist.vue')
+          component: () => import('@/page/songlist/songlist.vue'),
+          meta: {
+            name: '歌单'
+          }
         },
         {
           path: 'djRadio',
-          component: () => import('@/page/djRadio/djRadio.vue')
+          component: () => import('@/page/djRadio/djRadio.vue'),
+          meta: {
+            name: '主播电台'
+          }
         },
         {
           path: 'artistlist',
-          component: () => import('@/page/artistlist/artistlist.vue')
+          component: () => import('@/page/artistlist/artistlist.vue'),
+          meta: {
+            name: '歌手'
+          }
         },
         {
           path: 'album',
-          component: () => import('@/page/album/album.vue')
+          component: () => import('@/page/album/album.vue'),
+          meta: {
+            name: '新碟上架'
+          }
         }
       ]
     },

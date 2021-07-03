@@ -1,9 +1,14 @@
 <template>
   <div class="mvlist">
-    <div v-for="(item, index) in list" class="mvlist_item mb20" :key="item.id">
+    <div
+      v-for="(item, index) in list"
+      class="mvlist_item mb20"
+      :key="item.id"
+      :style="{ width: itemWidth }"
+    >
       <div class="mvlist_cover">
         <a :href="`/#/mv?id=${item.id}`">
-          <img :src="`${item.imgurl}?param=285y164`" alt="" />
+          <img :src="`${item.imgurl}?param=286y164`" alt="" />
         </a>
         <div class="cover_play"></div>
       </div>
@@ -44,11 +49,16 @@ export default {
 <style lang="less" scoped>
 .mvlist {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
 }
+.mvlist_item {
+  margin-right: 20px;
+  &:nth-of-type(3n) {
+    margin-right: 0;
+  }
+}
 .mvlist_cover {
-  width: 285px;
+  width: 286px;
   height: 164px;
   overflow: hidden;
   position: relative;

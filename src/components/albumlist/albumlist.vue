@@ -57,8 +57,13 @@ export default {
 <style lang="less" scoped>
 .albumlist {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+}
+.albumlist_item {
+  margin-right: 20px;
+  &:nth-of-type(5n) {
+    margin-right: 0;
+  }
 }
 .albumlist_cover {
   width: 164px;

@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import useAlbumList from './useAlbumList';
 import moment from 'moment';
 export default {
   props: {
@@ -47,8 +46,7 @@ export default {
   },
   setup() {
     return {
-      moment,
-      ...useAlbumList()
+      moment
     };
   }
 };

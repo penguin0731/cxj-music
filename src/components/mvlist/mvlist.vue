@@ -1,11 +1,6 @@
 <template>
   <div class="mvlist">
-    <div
-      v-for="(item, index) in list"
-      class="mvlist_item mb20"
-      :key="item.id"
-      :style="{ width: itemWidth }"
-    >
+    <div v-for="(item, index) in list" class="mvlist_item mb20" :key="item.id">
       <div class="mvlist_cover">
         <a :href="`/#/mv?id=${item.id}`">
           <img :src="`${item.imgurl}?param=286y164`" alt="" />

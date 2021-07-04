@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist_box" @click.stop="stopTrigger">
+  <div class="playlist_box" @click.stop>
     <div class="playlist_top">
       <h4>播放列表（{{ playList.length }}）</h4>
       <div class="h-r">

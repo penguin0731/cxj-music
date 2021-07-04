@@ -1,4 +1,4 @@
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { clone } from '@/utils/util.js';
 
@@ -8,28 +8,31 @@ export default function ({ emit }) {
   let currentIndex = computed(() => store.getters.currentIndex);
   let isPlaying = computed(() => store.getters.isPlaying);
 
+  // 隐藏播放列表
   const hideList = () => {
     emit('hide');
   };
 
-  const stopTrigger = () => {};
-
+  // 播放
   const play = index => {
     store.commit('setCurrentIndex', index);
     store.commit('setIsPlaying', true);
   };
 
-  const pause = index => {
+  // 暂停
+  const pause = () => {
     if (!isPlaying.value) return;
     store.commit('setIsPlaying', false);
   };
 
+  // 移除播放列表中指定歌曲
   const remove = index => {
     let list = clone(playList.value);
     list.splice(index, 1);
     store.commit('setPlayList', list);
   };
 
+  // 清空播放列表
   const clearList = () => {
     store.commit('setPlayList', []);
     store.commit('setCurrentIndex', -1);
@@ -37,13 +40,11 @@ export default function ({ emit }) {
   };
 
   onMounted(() => {
-    document.addEventListener('click', e => {
-      hideList();
-    });
+    document.addEventListener('click', hideList); // 全局点击时，关闭播放列表弹窗
   });
 
   onUnmounted(() => {
-    document.removeEventListener('click');
+    document.removeEventListener('click', hideList);
   });
 
   return {
@@ -51,7 +52,6 @@ export default function ({ emit }) {
     currentIndex,
     isPlaying,
     hideList,
-    stopTrigger,
     play,
     pause,
     remove,

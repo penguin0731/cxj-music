@@ -1,12 +1,13 @@
 <template>
   <div class="toplist_wrapper contentArea">
     <div class="toplist_hd">
-      <h2>云音乐特色榜</h2>
+      <h1>云音乐特色榜</h1>
       <div class="toplist_menulist mt20">
         <div
           class="toplist_menuitem"
-          v-for="item in toplistMenu"
+          v-for="(item, index) in toplistMenu"
           :key="item.id"
+          @click="changeMenu(index)"
         >
           <img
             class="toplist_menuitem__cover"
@@ -21,9 +22,19 @@
       </div>
     </div>
     <div class="toplist_bd">
-      <h2>{{ toplistMenu[curMenuIdx]?.name }}</h2>
+      <div class="toplist_bd__title">
+        <div class="toplist_bd__titleLeft">
+          <h1 class="mr20">{{ toplistMenu[curMenuIdx]?.name }}</h1>
+          <cxj-button type="primary" icon="player" @click="playAll">
+            播放全部
+          </cxj-button>
+        </div>
+        <div class="toplist_bd__titleRight">
+          播放次数：{{ toggleUnits(toplistMenu[curMenuIdx]?.playCount) }}
+        </div>
+      </div>
       <cxj-music-table
-        class="mt20"
+        class="mt10"
         :columns="columns"
         :dataSource="toplist"
         rowKey="id"
@@ -76,10 +87,14 @@
 <script>
 import useTopList from './useTopList';
 import { format } from '@/utils/song.js';
+import moment from 'moment';
+import { toggleUnits } from '@/utils/util';
+import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
 import cxjMusicTable from '@/baseComponents/cxj-music-table/cxj-music-table.vue';
 export default {
   components: {
-    cxjMusicTable
+    cxjMusicTable,
+    cxjButton
   },
   setup() {
     let columns = [
@@ -107,6 +122,8 @@ export default {
     ];
     return {
       format,
+      moment,
+      toggleUnits,
       columns,
       ...useTopList()
     };
@@ -144,6 +161,23 @@ a:hover {
       color: #999;
     }
   }
+}
+.toplist_bd__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  .toplist_bd__titleLeft {
+    display: flex;
+    align-items: center;
+  }
+  .updateTime {
+    color: #999;
+  }
+}
+.toplist_bd__btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .songValue,
 .artistValue {

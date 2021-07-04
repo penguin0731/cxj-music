@@ -46,11 +46,18 @@ export function toHttps(url) {
 }
 
 /**
- * 将数字转化为以万为单位，若没超过万则不转化
+ * 将数字转化为中文单位，若没超过万则不转化
  * @param {*} num 数字
  */
 export function toggleUnits(num) {
+  if (typeof num != 'number') return;
   let numStr = num.toString();
-  if (numStr.length < 4) return numStr;
-  return `${(num / 10000).toFixed(1)}万`;
+  if (numStr.length <= 4) return numStr;
+  if (numStr.length > 4 && numStr.length <= 8) {
+    return `${parseInt(num / 1000) / 10}万`;
+  }
+  if (numStr.length > 8) {
+    return `${parseInt(num / 10000000) / 10}亿`;
+  }
+
 }

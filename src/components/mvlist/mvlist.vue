@@ -8,7 +8,9 @@
         <div class="cover_play"></div>
       </div>
       <div class="mvlist_title mt10">
-        <a :href="`/#/mv?id=${item.id}`">{{ item.name }}</a>
+        <a class="ellipsis" :href="`/#/mv?id=${item.id}`" :title="item.name">
+          {{ item.name }}
+        </a>
       </div>
       <div class="mvlist_playCount">
         <cxj-icon class="icon_listen" />
@@ -85,9 +87,13 @@ export default {
     transition: all 0.5s;
   }
 }
-.mvlist_title a {
-  &:hover {
-    color: var(--themeColor);
+.mvlist_title {
+  width: 286px;
+  a {
+    display: block;
+    &:hover {
+      color: var(--themeColor);
+    }
   }
 }
 .mvlist_playCount {

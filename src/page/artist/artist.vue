@@ -66,7 +66,11 @@
             </div>
           </template>
           <template #albumValue="{ item: { row } }">
-            <a class="ellipsis" :href="`/#/album?id=${row.al.id}`">
+            <a
+              class="albumValue ellipsis"
+              :href="`/#/album?id=${row.al.id}`"
+              :title="row.al.name"
+            >
               {{ row.al.name }}
             </a>
           </template>
@@ -216,6 +220,10 @@ a:hover {
   align-items: center;
 }
 .songValue {
+  max-width: 60%;
+}
+.albumValue {
+  display: inline-block;
   max-width: 60%;
 }
 .alia {

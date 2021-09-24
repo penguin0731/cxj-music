@@ -12,12 +12,20 @@
         <div class="cover_play"></div>
       </div>
       <div class="albumlist_title mt10">
-        <a :href="`/#/album?id=${item.id}`">{{ item.name }}</a>
+        <a class="ellipsis" :href="`/#/album?id=${item.id}`" :title="item.name">
+          {{ item.name }}
+        </a>
       </div>
       <div v-if="showName" class="albumlist_artist">
         <template v-for="(art, i) in item.artists" :key="art.id">
           {{ i == 0 ? '' : ' /' }}
-          <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
+          <a
+            class="ellipsis"
+            :href="`/#/artist?id=${art.id}`"
+            :title="art.name"
+          >
+            {{ art.name }}
+          </a>
         </template>
       </div>
       <div v-if="showPublishTime" class="albumlist_publish">
@@ -96,14 +104,22 @@ export default {
     transition: all 0.5s;
   }
 }
-.albumlist_title a {
-  &:hover {
-    color: var(--themeColor);
+.albumlist_title {
+  width: 164px;
+  a {
+    display: block;
+    &:hover {
+      color: var(--themeColor);
+    }
   }
 }
-.albumlist_artist a {
-  &:hover {
-    color: var(--themeColor);
+.albumlist_artist {
+  width: 164px;
+  a {
+    display: block;
+    &:hover {
+      color: var(--themeColor);
+    }
   }
 }
 .albumlist_publish {

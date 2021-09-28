@@ -21,7 +21,8 @@ export default function () {
     songInfo: {}, // 歌曲详情
     lyric: '', // 歌词
     tlyric: '', // 歌词翻译
-    comment: {} // 评论
+    comment: {}, // 评论
+    currentPage: 1 // 当前评论页码
   });
   let cxjPlayer = computed(() => store.getters.audioDom);
   let playList = computed(() => store.getters.playList);
@@ -75,13 +76,23 @@ export default function () {
     let promiseArr = [
       api.song.getDetail(id),
       api.song.getLyric(id),
-      api.song.getComment(id)
+      api.song.getComment({ id })
     ];
     let cbArr = [getDetailCallBack, getLyricCallBack, getCommentCallBack];
     const resArr = await Promise.all(promiseArr);
     resArr.forEach((res, index) => {
       cbArr[index](res);
     });
+  };
+
+  const currentChange = newPage => {
+    data.currentPage = newPage;
+    let id = route.query.id;
+    let getComment =
+      data.currentPage === 1
+        ? api.song.getComment({ id })
+        : api.song.getComment({ id, page: newPage });
+    getComment.then(getCommentCallBack);
   };
 
   onMounted(async () => {
@@ -103,6 +114,7 @@ export default function () {
   return {
     ...toRefs(data),
     openLyric,
-    play
+    play,
+    currentChange
   };
 }

@@ -19,7 +19,11 @@ export default {
    * 歌曲评论
    * @param {*} id 音乐id
    */
-  getComment(id) {
-    return axios.get(`/comment/music?id=${id}`);
+  getComment({ id, pageSize = 20, page }) {
+    return axios.get(
+      `/comment/music?id=${id}${pageSize > 0 ? `&limit=${pageSize}` : ''}${
+        page > 0 ? `&offset=${page * pageSize}` : ''
+      }`
+    );
   }
 };

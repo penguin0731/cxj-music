@@ -1,6 +1,6 @@
 <template>
   <div class="song_comments">
-    <h2>热门评论</h2>
+    <h2 v-if="hotComments.length > 0">热门评论</h2>
     <div class="song_commentsList mt10">
       <div
         class="song_commentsItem"
@@ -27,6 +27,7 @@
         ></div>
       </div>
     </div>
+
     <h2 class="mt40">最新评论({{ total }})</h2>
     <div class="song_commentsList mt10">
       <div
@@ -70,6 +71,9 @@ export default {
       default: () => []
     },
     total: {
+      type: Number
+    },
+    currentPage: {
       type: Number
     }
   },
@@ -136,5 +140,9 @@ export default {
   word-wrap: break-word;
   line-height: 24px;
   text-align: justify;
+}
+.song_comments_page {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

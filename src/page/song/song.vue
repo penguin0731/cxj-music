@@ -45,7 +45,16 @@
       :hotComments="comment.hotComments"
       :comments="comment.comments"
       :total="comment.total"
+      :currentPage="currentPage"
     />
+    <div class="song_page">
+      <cxj-page
+        v-show="comment.total > 0"
+        :total="comment.total"
+        :currentPage="currentPage"
+        @currentChange="currentChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -53,6 +62,7 @@
 import useSong from './useSong';
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
+import cxjPage from '@/baseComponents/cxj-page/cxj-page.vue';
 import lyric from '@/components/lyric/lyric.vue';
 import comments from '@/components/comments/comments.vue';
 import moment from 'moment';
@@ -61,6 +71,7 @@ export default {
   components: {
     cxjIcon,
     cxjButton,
+    cxjPage,
     lyric,
     comments
   },
@@ -128,7 +139,6 @@ a:hover {
     display: flex;
   }
 }
-
 .song_singer span,
 .song_info__item span {
   cursor: pointer;
@@ -137,5 +147,9 @@ a:hover {
   width: 16px;
   height: 16px;
   background-position: -20px -240px;
+}
+.song_page {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

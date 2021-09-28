@@ -21,6 +21,7 @@ export default function () {
     }
     return cont;
   };
+
   return {
     handleComments
   };

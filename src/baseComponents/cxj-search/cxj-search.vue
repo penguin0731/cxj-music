@@ -2,13 +2,16 @@
   <div class="cxjSearch_box">
     <input type="text" placeholder="音乐/歌手/专辑/用户" />
     <button class="cxjSearch_btn">
-      <i class="icon_sprite icon_search"></i>
+      <cxj-icon class="icon_search" />
     </button>
   </div>
 </template>
 
 <script>
-export default {};
+import cxjIcon from '../cxj-icon/cxj-icon.vue';
+export default {
+  components: { cxjIcon }
+};
 </script>
 
 <style lang="less" scoped>

@@ -1,13 +1,12 @@
-import { ref } from 'vue';
-import emoji from '../../../emoji.json'
+import emoji from '../../../emoji.json';
 
 export default function () {
   /**
- * 处理带有emoji字符的评论
- * @param {*} content 评论
- * @returns 带有emoji的评论
- */
-  const handleComments = (content) => {
+   * 处理带有emoji字符的评论
+   * @param {*} content 评论
+   * @returns 带有emoji的评论
+   */
+  const handleComments = content => {
     let cont = content.replace(/\n/g, '<br>');
     let matchArr = cont.match(/\[.*?\]/g);
     if (!matchArr) return cont;
@@ -21,7 +20,7 @@ export default function () {
       cont = cont.replace(item, replaceStr);
     }
     return cont;
-  }
+  };
   return {
     handleComments
   };

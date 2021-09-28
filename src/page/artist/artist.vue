@@ -1,42 +1,52 @@
 <template>
   <div class="artist_wrapper contentArea">
     <div class="artist_header">
-      <img class="artist_cover" :src="`${cover}?param=200y200`" alt="" />
+      <img
+        class="artist_cover"
+        :src="`${artistDetail.img1v1Url}?param=200y200`"
+        alt=""
+      />
       <div class="artist_cont">
-        <h1 class="artist_name">{{ name }}</h1>
+        <h1 class="artist_name">{{ artistDetail.name }}</h1>
         <div class="artist_desc">
-          <div class="artist_desc_txt ellipsis" :title="desc">{{ desc }}</div>
+          <div class="artist_desc_txt ellipsis" :title="artistDetail.desc">
+            {{ artistDetail.desc }}
+          </div>
         </div>
         <div class="artist_statistic">
           <div
             class="artist_statistic_item"
-            @click="changeCurType(typeMap.songs.key)"
+            @click="changeCurType(TYPE_MAP.songs.key)"
           >
-            <div class="artist_statistic__tit">{{ typeMap.songs.cn }}</div>
-            <div class="artist_statistic__num">{{ musicSize }}</div>
+            <div class="artist_statistic__tit">{{ TYPE_MAP.songs.cn }}</div>
+            <div class="artist_statistic__num">
+              {{ artistDetail.musicSize }}
+            </div>
           </div>
           <div
             class="artist_statistic_item"
-            @click="changeCurType(typeMap.album.key)"
+            @click="changeCurType(TYPE_MAP.album.key)"
           >
-            <div class="artist_statistic__tit">{{ typeMap.album.cn }}</div>
-            <div class="artist_statistic__num">{{ albumSize }}</div>
+            <div class="artist_statistic__tit">{{ TYPE_MAP.album.cn }}</div>
+            <div class="artist_statistic__num">
+              {{ artistDetail.albumSize }}
+            </div>
           </div>
           <div
             class="artist_statistic_item"
-            @click="changeCurType(typeMap.MV.key)"
+            @click="changeCurType(TYPE_MAP.MV.key)"
           >
-            <div class="artist_statistic__tit">{{ typeMap.MV.cn }}</div>
-            <div class="artist_statistic__num">{{ mvSize }}</div>
+            <div class="artist_statistic__tit">{{ TYPE_MAP.MV.cn }}</div>
+            <div class="artist_statistic__num">{{ artistDetail.mvSize }}</div>
           </div>
         </div>
       </div>
     </div>
     <div class="artist_body mt20">
       <div class="artist_body_hd">
-        <h2 class="mr10">{{ typeMap[curType].cn }}</h2>
+        <h2 class="mr10">{{ TYPE_MAP[curType].cn }}</h2>
         <cxj-button
-          v-if="curType == typeMap.songs.key"
+          v-if="curType == TYPE_MAP.songs.key"
           type="primary"
           icon="player"
           @click="playAll"
@@ -46,9 +56,9 @@
       </div>
       <div class="mt20">
         <cxj-music-table
-          v-if="curType == typeMap.songs.key"
+          v-if="curType == TYPE_MAP.songs.key"
           :columns="columns"
-          :dataSource="songsRef"
+          :dataSource="artistSongs"
           rowKey="id"
         >
           <template #songValue="{ item: { row } }">
@@ -91,12 +101,12 @@
           </template>
         </cxj-music-table>
         <albumlist
-          v-if="curType == typeMap.album.key"
-          :list="albumRef"
+          v-if="curType == TYPE_MAP.album.key"
+          :list="artistAlbum"
           :showName="false"
           :showPublishTime="true"
         />
-        <mvlist v-if="curType == typeMap.MV.key" :list="MVRef" />
+        <mvlist v-if="curType == TYPE_MAP.MV.key" :list="artistMV" />
       </div>
     </div>
   </div>

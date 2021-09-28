@@ -1,15 +1,17 @@
 <template>
   <div class="song_wrapper contentArea">
     <div class="song_data">
-      <div v-show="al.picUrl" class="song_cover">
-        <img :src="al.picUrl" :alt="al.name" />
+      <div v-show="songInfo.id" class="song_cover">
+        <img :src="songInfo.al?.picUrl" :alt="songInfo.al?.name" />
       </div>
-      <div v-show="name && commentTotal" class="song_cont">
-        <h1 class="mt10">{{ name }}</h1>
-        <div v-if="alia.length > 0" class="alia">{{ alia[0] }}</div>
+      <div v-show="songInfo.id && comment.total" class="song_cont">
+        <h1 class="mt10">{{ songInfo.name }}</h1>
+        <div v-if="songInfo.alia?.length > 0" class="alia">
+          {{ songInfo.alia[0] }}
+        </div>
         <div class="song_singer mt10">
           <cxj-icon class="icon_singer mr10" />
-          <template v-for="(art, i) in ar" :key="art.id">
+          <template v-for="(art, i) in songInfo.ar" :key="art.id">
             {{ i == 0 ? '' : ' /' }}
             <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
           </template>
@@ -17,27 +19,32 @@
         <ul class="song_info mt10">
           <li class="song_info__item mr10">
             专辑：
-            <span>{{ al.name }}</span>
+            <span>{{ songInfo.al?.name }}</span>
           </li>
           <li class="song_info__item mr10">
-            发行时间：{{ moment(publishTime).format('YYYY-MM-DD') }}
+            发行时间：{{ moment(songInfo.publishTime).format('YYYY-MM-DD') }}
           </li>
         </ul>
         <div class="song_actions">
           <cxj-button type="primary" icon="player" @click="play">
             播放
           </cxj-button>
-          <cxj-button icon="comment">评论({{ commentTotal }})</cxj-button>
+          <cxj-button icon="comment">评论({{ comment.total }})</cxj-button>
         </div>
       </div>
     </div>
-    <lyric v-show="lyric" :curId="id" :lyric="lyric" :tlyric="tlyric" />
+    <lyric
+      v-show="lyric"
+      :curId="songInfo.id"
+      :lyric="lyric"
+      :tlyric="tlyric"
+    />
     <comments
-      v-show="commentTotal > 0"
+      v-show="comment.total > 0"
       class="mt40"
-      :hotComments="hotComments"
-      :comments="comments"
-      :total="commentTotal"
+      :hotComments="comment.hotComments"
+      :comments="comment.comments"
+      :total="comment.total"
     />
   </div>
 </template>

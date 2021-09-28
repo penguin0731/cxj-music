@@ -3,9 +3,9 @@ import {
   computed,
   reactive,
   onMounted,
-  onBeforeUpdate,
-  watchEffect,
-  toRefs
+  toRef,
+  toRefs,
+  isReactive
 } from 'vue';
 import { useStore } from 'vuex';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
@@ -17,21 +17,11 @@ import nProgress from 'nprogress';
 export default function () {
   const store = useStore();
   const route = useRoute();
-  let songInfo = reactive({
-    id: '', // id
-    name: '', // 歌名
-    alia: [], // 别称
-    ar: [], // 歌手
-    al: {}, // 专辑
-    publishTime: 0 // 发行时间
-  });
-  let detail = ref(null);
-  let lyric = ref('');
-  let tlyric = ref('');
-  let comment = reactive({
-    comments: [],
-    hotComments: [],
-    commentTotal: 0
+  let data = reactive({
+    songInfo: {}, // 歌曲详情
+    lyric: '', // 歌词
+    tlyric: '', // 歌词翻译
+    comment: {} // 评论
   });
   let cxjPlayer = computed(() => store.getters.audioDom);
   let playList = computed(() => store.getters.playList);
@@ -43,10 +33,10 @@ export default function () {
   const play = () => {
     let index = -1;
     let isInList = playList.value.some((item, idx) => {
-      if (item.id == songInfo.id) {
+      if (item.id == data.songInfo.id) {
         index = idx;
       }
-      return item.id == songInfo.id;
+      return item.id == data.songInfo.id;
     });
     if (isInList) {
       // 如果该歌曲已存在播放列表，则将该歌曲的索引设置为当前音乐索引
@@ -54,7 +44,7 @@ export default function () {
     } else {
       // 不存在则将该歌曲插入到播放列表最前面
       let list = clone(playList.value);
-      list.unshift(createSong(detail.value));
+      list.unshift(createSong(data.songInfo));
       store.commit('setPlayList', list);
       store.commit('setCurrentIndex', 0);
     }
@@ -65,27 +55,19 @@ export default function () {
   // 获取歌曲基本信息
   const getDetailCallBack = res => {
     if (res.songs.length > 0) {
-      detail.value = res.songs[0];
-      songInfo.id = res.songs[0].id;
-      songInfo.name = res.songs[0].name;
-      songInfo.alia = res.songs[0].alia;
-      songInfo.ar = res.songs[0].ar;
-      songInfo.al = res.songs[0].al;
-      songInfo.publishTime = res.songs[0].publishTime;
+      data.songInfo = res.songs[0];
     }
   };
 
   // 获取歌曲歌词
   const getLyricCallBack = res => {
-    lyric.value = res.lrc.lyric;
-    tlyric.value = res.tlyric.lyric;
+    data.lyric = res.lrc.lyric;
+    data.tlyric = res.tlyric.lyric;
   };
 
   // 获取歌曲评论
   const getCommentCallBack = res => {
-    comment.comments = res.comments;
-    comment.hotComments = res.hotComments;
-    comment.commentTotal = res.total;
+    data.comment = res;
   };
 
   // 获取歌曲详情
@@ -119,10 +101,7 @@ export default function () {
   });
 
   return {
-    ...toRefs(songInfo),
-    ...toRefs(comment),
-    lyric,
-    tlyric,
+    ...toRefs(data),
     openLyric,
     play
   };

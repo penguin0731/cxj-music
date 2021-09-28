@@ -1,28 +1,30 @@
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, toRefs, reactive, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import api from '@/api';
 import { setUid } from '@/utils/storage';
 
 export default function (loginVisibleRef, { emit }) {
   const store = useStore();
-  let timer, toastTimer;
+  let timer = null;
+  let data = reactive({
+    isQRCodeLogin: true, // 是否二维码登录
+    qrImg: '', // 二维码
+    Uid: '',
+    isScan: false, // 是否已扫码
+    isQRCodeInvalid: false // 二维码是否已过期
+  });
   let loginVisible = computed(() => loginVisibleRef.value);
-  let isQRCodeLogin = ref(true);
-  let qrImg = ref('');
-  let Uid = ref('');
-  let isScan = ref(false); // 是否已扫码
-  let isQRCodeInvalid = ref(false); // 二维码是否已过期
   let toastRef = ref(null);
 
   // 关闭登录modal
   const close = e => {
-    Uid.value = '';
+    data.Uid = '';
     emit('close', e);
   };
 
   // 切换二维码登录
   const toQRCode = () => {
-    isQRCodeLogin.value = true;
+    data.isQRCodeLogin = true;
     qrcodeLogin();
   };
 
@@ -31,8 +33,8 @@ export default function (loginVisibleRef, { emit }) {
     const res = await api.login.getQRKey();
     const key = res.data.unikey;
     const res2 = await api.login.qrCreate(key);
-    qrImg.value = res2.data.qrimg;
-    isQRCodeInvalid.value = false;
+    data.qrImg = res2.data.qrimg;
+    data.isQRCodeInvalid = false;
     return key;
   };
 
@@ -44,17 +46,17 @@ export default function (loginVisibleRef, { emit }) {
       switch (statusRes.code) {
         case 800:
           // 二维码过期
-          isQRCodeInvalid.value = true;
+          data.isQRCodeInvalid = true;
           console.log('二维码已过期,请重新获取');
           clearInterval(timer);
           break;
         case 801:
           // 待扫码
-          isScan.value = false;
+          data.isScan = false;
           break;
         case 802:
           // 待确认
-          isScan.value = true;
+          data.isScan = true;
           break;
         case 803:
           // 授权登录成功,这一步会返回cookie
@@ -77,21 +79,21 @@ export default function (loginVisibleRef, { emit }) {
 
   // 切换Uid登录
   const toUidLogin = () => {
-    isQRCodeLogin.value = false;
+    data.isQRCodeLogin = false;
     clearInterval(timer);
   };
 
   const UidLogin = () => {
-    if (!Uid.value) {
+    if (!data.Uid) {
       toastRef.value.show('Uid不能为空');
       return;
     }
-    api.user.getPlayList(Uid.value).then(({ playlist }) => {
+    api.user.getPlayList(data.Uid).then(({ playlist }) => {
       if (playlist.length == 0 || !playlist[0].creator) {
-        toastRef.value.show(`Uid为${Uid.value}的用户不存在`);
+        toastRef.value.show(`Uid为${data.Uid}的用户不存在`);
         return;
       }
-      store.commit('setUid', setUid(Uid.value));
+      store.commit('setUid', setUid(data.Uid));
       close();
     });
   };
@@ -105,12 +107,8 @@ export default function (loginVisibleRef, { emit }) {
   });
 
   return {
+    ...toRefs(data),
     loginVisible,
-    isQRCodeLogin,
-    qrImg,
-    Uid,
-    isScan,
-    isQRCodeInvalid,
     toastRef,
     close,
     toQRCode,

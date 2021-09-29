@@ -1,9 +1,16 @@
 <template>
-  <div>songList</div>
+  <div class="contentArea"></div>
 </template>
 
 <script>
-export default {};
+import useSongList from './useSongList';
+export default {
+  setup() {
+    return {
+      ...useSongList()
+    };
+  }
+};
 </script>
 
-<style></style>
+<style lang="less" scoped></style>

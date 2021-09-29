@@ -9,6 +9,19 @@ export default {
   getHot() {
     return axios.get(`/playlist/hot`);
   },
+  // 获取歌单
+  getSongList({ order = 'hot', cat = '全部', pageSize = 50, page }) {
+    let params = {
+      order,
+      cat,
+      limit: pageSize
+    };
+    page ? (params.offset = pageSize * page) : '';
+    return axios({
+      url: `/top/playlist`,
+      params
+    });
+  },
   getDetail(id) {
     return axios.get(`/playlist/detail?id=${id}`);
   }

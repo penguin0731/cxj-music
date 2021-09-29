@@ -20,10 +20,14 @@ export default {
    * @param {*} id 音乐id
    */
   getComment({ id, pageSize = 20, page }) {
-    return axios.get(
-      `/comment/music?id=${id}${pageSize > 0 ? `&limit=${pageSize}` : ''}${
-        page > 0 ? `&offset=${page * pageSize}` : ''
-      }`
-    );
+    let params = {
+      id,
+      limit: pageSize
+    };
+    page ? (params.offset = pageSize * page) : '';
+    return axios({
+      url: '/comment/music',
+      params
+    });
   }
 };

@@ -8,7 +8,8 @@ export default function useSongList(props) {
     sub: [], // 所有歌单标签
     showTagBox: false, // 歌单标签显示
     curOrder: 'hot', // 当前歌单列表状态（new/hot）
-    curTitle: '全部歌单' // 当前选中标签
+    curTitle: '全部歌单', // 当前选中标签
+    songlist: [] // 歌单列表
   });
 
   // 获取歌单标签
@@ -24,7 +25,7 @@ export default function useSongList(props) {
 
   // 获取相应歌单
   const getSongList = async ({
-    order = 'hot',
+    order,
     cat = '全部',
     pageSize = 50,
     page
@@ -37,6 +38,7 @@ export default function useSongList(props) {
     page ? (params.offset = pageSize * page) : '';
     const res = await api.songlist.getSongList(params);
     console.log(res);
+    data.songlist = res.playlists;
   };
 
   // 切换歌单标签状态

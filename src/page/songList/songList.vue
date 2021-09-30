@@ -6,14 +6,14 @@
         <span
           class="new"
           :class="{ active: curOrder === 'new' }"
-          @click="changeOrder('new')"
+          @click="toggleOrder('new')"
         >
           最新
         </span>
         <span
           class="hot"
           :class="{ active: curOrder === 'hot' }"
-          @click="changeOrder('hot')"
+          @click="toggleOrder('hot')"
         >
           最热
         </span>
@@ -27,6 +27,11 @@
       @click-ouside="handleClickOutSide"
       @change="handleChangeTag"
     />
+    <div class="songlist_bd mt20">
+      <div v-for="item in songlist" class="songlist_item" :key="item.id">
+        <img :src="`${item.coverImgUrl}?param=140y140`" alt="" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -109,5 +114,9 @@ export default {
 }
 .songlist_title {
   cursor: pointer;
+}
+.songlist_bd {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

@@ -4,10 +4,14 @@ import nProgress from 'nprogress';
 
 export default function useSongList(props) {
   const data = reactive({
-    categories: [],
-    sub: []
+    categories: [], // 歌单标签分类
+    sub: [], // 所有歌单标签
+    showTagBox: false, // 歌单标签显示
+    curOrder: 'hot', // 当前歌单列表状态（new/hot）
+    curTitle: '全部歌单' // 当前选中标签
   });
 
+  // 获取歌单标签
   const getCatList = async () => {
     const res = await api.songlist.getCatList();
     data.sub = res.sub;
@@ -18,6 +22,7 @@ export default function useSongList(props) {
     }
   };
 
+  // 获取相应歌单
   const getSongList = async ({
     order = 'hot',
     cat = '全部',
@@ -34,6 +39,26 @@ export default function useSongList(props) {
     console.log(res);
   };
 
+  // 切换歌单标签状态
+  const toggleOrder = newOrder => {
+    data.curOrder = newOrder;
+  };
+
+  // 展示歌单标签盒子
+  const handleShowTagBox = () => {
+    data.showTagBox = !data.showTagBox;
+  };
+
+  // 歌单标签盒子外部点击
+  const handleClickOutSide = () => {
+    data.showTagBox = data.showTagBox && false;
+  };
+
+  const handleChangeTag = tag => {
+    data.curTitle = tag;
+    data.showTagBox = false;
+  };
+
   onMounted(async () => {
     await getCatList();
     await getSongList();
@@ -41,6 +66,10 @@ export default function useSongList(props) {
   });
 
   return {
-    ...toRefs(data)
+    ...toRefs(data),
+    toggleOrder,
+    handleShowTagBox,
+    handleClickOutSide,
+    handleChangeTag
   };
 }

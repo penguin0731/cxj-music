@@ -57,17 +57,20 @@ export default {
   display: flex;
   box-sizing: border-box;
   background: var(--themeColor2);
+  white-space: nowrap;
 }
 .header_box {
   margin: 0 auto;
   display: flex;
+  justify-content: space-around;
   align-items: center;
   width: 1250px;
+  background: var(--themeColor2);
 }
 .logo_header {
   font-size: 20px;
   font-weight: bold;
-  margin-right: 25px;
+  padding-left: 20px;
   color: #fff;
 }
 .nav_header > ul {
@@ -106,6 +109,7 @@ export default {
 }
 .user_header {
   color: #fff;
+  padding: 0 20px;
   .login {
     cursor: pointer;
   }

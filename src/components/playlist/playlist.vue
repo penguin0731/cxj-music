@@ -10,7 +10,7 @@
         <cxj-icon class="icon_close" @click.stop="hideList" />
       </div>
     </div>
-    <div class="playlist_con mt20">
+    <div class="playlist_con mt20 scrollbar">
       <div
         class="playlist_item"
         v-if="playList.length > 0"
@@ -108,16 +108,6 @@ export default {
 .playlist_con {
   height: 230px;
   overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    border-radius: 10px;
-  }
-  &:hover::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.7);
-  }
   .playlist_con_text {
     text-align: center;
     line-height: 230px;
@@ -161,15 +151,17 @@ export default {
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
     .playlist_idx {
-      width: 10px;
+      width: 25px;
       height: 10px;
-      background: url('@/assets/img/wave.gif') 0 0 no-repeat;
+      background: url('@/assets/img/wave.gif') center 0 no-repeat;
       text-indent: -9999px;
     }
   }
 
   .playlist_idx {
     position: relative;
+    width: 25px;
+    text-align: center;
   }
   .song_opt {
     flex: 1;

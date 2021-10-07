@@ -249,6 +249,7 @@ export default {
   position: absolute;
   bottom: 53px;
   right: 0;
+  z-index: 9;
 }
 .player_pic,
 .player_music_box,

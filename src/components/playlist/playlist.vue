@@ -11,9 +11,9 @@
       </div>
     </div>
     <div class="playlist_con mt20 scrollbar">
-      <div
+      <template v-if="playList.length > 0">
+        <div
         class="playlist_item"
-        v-if="playList.length > 0"
         v-for="(item, index) in playList"
         :key="item.id"
         :class="{ active: isPlaying && index == currentIndex }"
@@ -54,6 +54,7 @@
           @click="remove(index)"
         ></div>
       </div>
+      </template>
       <div v-else class="playlist_con_text">啥也妹有啊！快去添加歌曲吧！</div>
     </div>
   </div>

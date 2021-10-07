@@ -1,7 +1,10 @@
 <template>
   <div class="songlist_wrapper contentArea">
     <div class="songlist_hd">
-      <h1 class="songlist_title" @click="handleShowTagBox">{{ curTitle }}</h1>
+      <h1 class="songlist_title" @click.stop="handleShowTagBox">
+        {{ curTitle }}
+        <i class="arrow" :class="{arrow_bottom: !showTagBox, arrow_top: showTagBox}"></i>
+      </h1>
       <div>
         <span
           class="new"
@@ -29,7 +32,20 @@
     />
     <div class="songlist_bd mt20">
       <div v-for="item in songlist" class="songlist_item" :key="item.id">
-        <img :src="`${item.coverImgUrl}?param=140y140`" alt="" />
+        
+        
+        <div class="songlist_cover">
+        <a :href="`/#/playlist?id=${item.id}`">
+          <img :src="`${item.coverImgUrl}?param=140y140`" alt="" />
+        </a>
+        <div class="cover_play"></div>
+      </div>
+      <div class="songlist_title">
+        <a class="ellipsis" :href="`/#/playlist?id=${item.id}`" :title="item.name">
+          {{ item.name }}
+        </a>
+      </div>
+
       </div>
     </div>
   </div>
@@ -38,8 +54,9 @@
 <script>
 import useSongList from '@/page/songlist/useSongList';
 import songTag from '../songlist/songTag.vue';
+import CxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 export default {
-  components: { songTag },
+  components: { songTag, CxjIcon },
   setup() {
     return {
       ...useSongList()
@@ -114,9 +131,28 @@ export default {
 }
 .songlist_title {
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 .songlist_bd {
   display: flex;
   flex-wrap: wrap;
+  .songlist_item {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.arrow {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-size: 100% 100%;
+  &.arrow_bottom {
+    background-image: url('@/assets/img/arrow-bottom.png');
+  }
+  &.arrow_top {
+    background-image: url('@/assets/img/arrow-top.png');
+  }
 }
 </style>

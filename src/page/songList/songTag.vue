@@ -60,11 +60,11 @@ export default {
     };
 
     onMounted(() => {
-      document.addEventListener('click', handleClickOutSide, true);
+      document.addEventListener('click', handleClickOutSide, false);
     });
 
     onUnmounted(() => {
-      document.removeEventListener('click', handleClickOutSide, true);
+      document.removeEventListener('click', handleClickOutSide, false);
     });
 
     return {
@@ -83,6 +83,7 @@ export default {
   width: 60%;
   max-height: 646px;
   padding: 30px 10px 0 36px;
+  background-color: #fff;
   box-shadow: 0 4px 20px 0 rgb(65 67 70 / 8%);
   overflow-y: scroll;
   &:hover::-webkit-scrollbar-thumb {

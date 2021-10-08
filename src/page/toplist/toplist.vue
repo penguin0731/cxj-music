@@ -25,7 +25,7 @@
       <div class="toplist_bd__title">
         <div class="toplist_bd__titleLeft">
           <h1 class="mr20">{{ toplistMenu[curMenuIdx]?.name }}</h1>
-          <cxj-button type="primary" icon="player" @click="playAll">
+          <cxj-button type="primary" icon="player" @click="playAll(toplist)">
             播放全部
           </cxj-button>
         </div>
@@ -91,6 +91,7 @@ import moment from 'moment';
 import { toggleUnits } from '@/utils/util';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
 import cxjMusicTable from '@/baseComponents/cxj-music-table/cxj-music-table.vue';
+import usePlayer from '../usePlayer';
 export default {
   components: {
     cxjMusicTable,
@@ -125,6 +126,7 @@ export default {
       moment,
       toggleUnits,
       columns,
+      ...usePlayer(),
       ...useTopList()
     };
   }

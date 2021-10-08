@@ -10,7 +10,7 @@
       </h1>
       <div>
         <span
-          class="new"
+          class="new disabled"
           :class="{ active: curOrder === 'new' }"
           @click="toggleOrder('new')"
         >
@@ -34,14 +34,14 @@
       @change="handleChangeTag"
     />
     <div class="songlist_bd mt20">
-      <div v-for="item in songlist" class="songlist_item" :key="item.id">
+      <div v-for="item in songlist" class="songlist_item mb20" :key="item.id">
         <div class="songlist_cover">
           <a :href="`/#/playlist?id=${item.id}`">
-            <img :src="`${item.coverImgUrl}?param=140y140`" alt="" />
+            <img :src="`${item.coverImgUrl}?param=164y164`" alt="" />
           </a>
           <div class="cover_play"></div>
         </div>
-        <div class="songlist_title">
+        <div class="songlist_name mt10">
           <a
             class="ellipsis"
             :href="`/#/playlist?id=${item.id}`"
@@ -50,7 +50,23 @@
             {{ item.name }}
           </a>
         </div>
+        <div class="songlist_creator">
+          <a class="ellipsis" :href="`/`" :title="item.creator.nickname">
+            {{ item.creator.nickname }}
+          </a>
+        </div>
+        <div class="songlist_playCount">
+          播放量：{{ toggleUnits(item.playCount) }}
+        </div>
       </div>
+    </div>
+    <div class="songlist_page">
+      <cxj-page
+        v-show="total > 0"
+        :total="total"
+        :currentPage="currentPage"
+        @currentChange="currentChange"
+      />
     </div>
   </div>
 </template>
@@ -59,10 +75,13 @@
 import useSongList from '@/page/songlist/useSongList';
 import songTag from '../songlist/songTag.vue';
 import CxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
+import cxjPage from '@/baseComponents/cxj-page/cxj-page.vue';
+import { toggleUnits } from '@/utils/util';
 export default {
-  components: { songTag, CxjIcon },
+  components: { songTag, CxjIcon, cxjPage },
   setup() {
     return {
+      toggleUnits,
       ...useSongList()
     };
   }
@@ -110,6 +129,10 @@ export default {
       &.active {
         padding-right: 5px;
       }
+      &.disabled {
+        color: #999;
+        cursor: no-drop;
+      }
     }
     &.hot {
       border-left: none;
@@ -140,10 +163,44 @@ export default {
 .songlist_bd {
   display: flex;
   flex-wrap: wrap;
-  .songlist_item {
-    display: flex;
-    flex-direction: column;
+}
+.songlist_item {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  &:nth-of-type(5n) {
+    margin-right: 0;
   }
+}
+.songlist_cover {
+  width: 164px;
+  height: 164px;
+}
+.songlist_name {
+  width: 164px;
+  a {
+    display: block;
+    &:hover {
+      color: var(--themeColor);
+    }
+  }
+}
+.songlist_creator {
+  width: 164px;
+  color: #999;
+  a {
+    display: block;
+    &:hover {
+      color: var(--themeColor);
+    }
+  }
+}
+.songlist_playCount {
+  color: #999;
+}
+.songlist_page {
+  display: flex;
+  justify-content: flex-end;
 }
 .arrow {
   display: inline-block;

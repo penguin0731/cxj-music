@@ -71,6 +71,10 @@ export default createRouter({
     {
       path: '/mv',
       component: () => import('@/page/mv/mv.vue')
+    },
+    {
+      path: '/songlist',
+      component: () => import('@/page/songlist/songlistDetail.vue')
     }
   ]
 });

@@ -1,4 +1,4 @@
-import { onMounted, reactive, toRefs } from 'vue';
+import { onMounted, reactive, toRefs, watch } from 'vue';
 import api from '@/api';
 import nProgress from 'nprogress';
 
@@ -9,8 +9,24 @@ export default function useSongList(props) {
     showTagBox: false, // 歌单标签显示
     curOrder: 'hot', // 当前歌单列表状态（new/hot）
     curTitle: '全部歌单', // 当前选中标签
-    songlist: [] // 歌单列表
+    songlist: [], // 歌单列表
+    currentPage: 1, // 当前歌单页数
+    total: 0 // 歌单总数
   });
+
+  watch(
+    [() => data.curOrder, () => data.curTitle, () => data.currentPage],
+    ([newOrder, newCat, newPage]) => {
+      const cat = newCat === '全部歌单' ? '全部' : newCat;
+      const params = {
+        order: newOrder,
+        cat
+      };
+      newPage ? (params.page = newPage) : '';
+      console.log(params);
+      getSongList(params);
+    }
+  );
 
   // 获取歌单标签
   const getCatList = async () => {
@@ -35,14 +51,16 @@ export default function useSongList(props) {
       cat,
       limit: pageSize
     };
-    page ? (params.offset = pageSize * page) : '';
+    page ? (params.page = page) : '';
     const res = await api.songlist.getSongList(params);
     console.log(res);
     data.songlist = res.playlists;
+    data.total = res.total;
   };
 
   // 切换歌单标签状态
   const toggleOrder = newOrder => {
+    if (newOrder === 'new' || newOrder === data.curOrder) return;
     data.curOrder = newOrder;
   };
 
@@ -56,9 +74,14 @@ export default function useSongList(props) {
     data.showTagBox = data.showTagBox && false;
   };
 
+  // 修改歌单标签
   const handleChangeTag = tag => {
     data.curTitle = tag;
     data.showTagBox = false;
+  };
+
+  const currentChange = newPage => {
+    data.currentPage = newPage;
   };
 
   onMounted(async () => {
@@ -72,6 +95,7 @@ export default function useSongList(props) {
     toggleOrder,
     handleShowTagBox,
     handleClickOutSide,
-    handleChangeTag
+    handleChangeTag,
+    currentChange
   };
 }

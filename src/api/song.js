@@ -24,7 +24,7 @@ export default {
       id,
       limit: pageSize
     };
-    page ? (params.offset = pageSize * page) : '';
+    page ? (params.offset = pageSize * (page - 1)) : '';
     return axios({
       url: '/comment/music',
       params

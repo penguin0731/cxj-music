@@ -16,7 +16,7 @@ export default {
       cat,
       limit: pageSize
     };
-    page ? (params.offset = pageSize * page) : '';
+    page - 1 ? (params.offset = pageSize * (page - 1)) : '';
     return axios({
       url: `/top/playlist`,
       params

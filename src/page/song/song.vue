@@ -143,11 +143,6 @@ a:hover {
 .song_info__item span {
   cursor: pointer;
 }
-.icon_singer {
-  width: 16px;
-  height: 16px;
-  background-position: -20px -240px;
-}
 .song_page {
   display: flex;
   justify-content: flex-end;

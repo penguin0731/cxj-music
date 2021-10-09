@@ -149,3 +149,9 @@ tbody tr:nth-of-type(even) {
 .emoji {
   vertical-align: middle;
 }
+
+.icon_singer {
+  width: 16px;
+  height: 16px;
+  background-position: -20px -240px;
+}

@@ -47,7 +47,7 @@
               </div>
             </slot>
           </td>
-          <div class="cxjMusicTable_list_menu">
+          <div class="cxjMusicTable_list_menu" :style="{ ...menuStyle }">
             <slot
               name="list_menu"
               :item="{ row: item, $index: index, columns }"
@@ -87,6 +87,9 @@ export default {
     },
     rowKey: {
       type: String
+    },
+    menuStyle: {
+      type: Object
     }
   },
   setup(props, ctx) {

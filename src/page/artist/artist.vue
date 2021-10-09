@@ -9,8 +9,11 @@
       <div class="artist_cont">
         <h1 class="artist_name">{{ artistDetail.name }}</h1>
         <div class="artist_desc">
-          <div class="artist_desc_txt ellipsis" :title="artistDetail.desc">
-            {{ artistDetail.desc }}
+          <div
+            class="artist_desc_txt ellipsis"
+            :title="artistDetail.desc || artistDetail.briefDesc"
+          >
+            {{ artistDetail.desc || artistDetail.briefDesc }}
           </div>
         </div>
         <div class="artist_statistic">
@@ -165,22 +168,21 @@ a:hover {
   text-decoration: underline;
 }
 .artist_header {
-  position: relative;
-  height: 205px;
-  padding-top: 20px;
-  padding-bottom: 15px;
-  padding-left: 280px;
-  padding-right: 40px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px 0;
 }
 .artist_cover {
-  position: absolute;
-  top: 50%;
-  left: 40px;
-  transform: translateY(-50%);
+  width: 22.5%;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 .artist_cont {
+  width: 70%;
   position: relative;
-  padding-top: 30px;
+  padding-top: 20px;
   .artist_name {
     font-size: 38px;
     font-weight: 400;

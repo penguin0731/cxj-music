@@ -36,7 +36,7 @@
     <div class="songlist_bd mt20">
       <div v-for="item in songlist" class="songlist_item mb20" :key="item.id">
         <div class="songlist_cover">
-          <a :href="`/#/playlist?id=${item.id}`">
+          <a :href="`/#/songlist?id=${item.id}`">
             <img :src="`${item.coverImgUrl}?param=164y164`" alt="" />
           </a>
           <div class="cover_play"></div>
@@ -44,7 +44,7 @@
         <div class="songlist_name mt10">
           <a
             class="ellipsis"
-            :href="`/#/playlist?id=${item.id}`"
+            :href="`/#/songlist?id=${item.id}`"
             :title="item.name"
           >
             {{ item.name }}

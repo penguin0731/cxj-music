@@ -60,7 +60,7 @@ export default function useSongList(props) {
 
   // 切换歌单标签状态
   const toggleOrder = newOrder => {
-    if (newOrder === 'new' || newOrder === data.curOrder) return;
+    if (newOrder === data.curOrder) return;
     data.curOrder = newOrder;
   };
 

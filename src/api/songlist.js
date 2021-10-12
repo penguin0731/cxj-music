@@ -22,7 +22,20 @@ export default {
       params
     });
   },
+  // 获取歌单详情
   getDetail(id) {
     return axios.get(`/playlist/detail?id=${id}`);
+  },
+  // 获取歌单评论
+  getComment({ id, pageSize = 20, page }) {
+    let params = {
+      id,
+      limit: pageSize
+    };
+    page - 1 ? (params.offset = pageSize * (page - 1)) : '';
+    return axios({
+      url: '/comment/playlist',
+      params
+    });
   }
 };

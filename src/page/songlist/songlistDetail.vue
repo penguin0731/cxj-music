@@ -48,7 +48,7 @@
     <cxj-music-table
       class="mt10"
       :columns="columns"
-      :dataSource="playlist.tracks"
+      :dataSource="songlist"
       :menuStyle="{
         left: '30%'
       }"
@@ -100,6 +100,22 @@
         ></div>
       </template>
     </cxj-music-table>
+    <comments
+      v-show="comment.total > 0"
+      class="mt40"
+      :hotComments="comment.hotComments"
+      :comments="comment.comments"
+      :total="comment.total"
+      :currentPage="commentPage"
+    />
+    <div class="song_page">
+      <cxj-page
+        v-show="comment.total > 0"
+        :total="comment.total"
+        :currentPage="commentPage"
+        @currentChange="changeCommentPage"
+      />
+    </div>
   </div>
 </template>
 
@@ -108,6 +124,8 @@ import useSongListDetail from './useSongListDetail';
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
 import cxjMusicTable from '@/baseComponents/cxj-music-table/cxj-music-table.vue';
+import comments from '@/components/comments/comments.vue';
+import cxjPage from '@/baseComponents/cxj-page/cxj-page.vue';
 import { format } from '@/utils/song.js';
 import moment from 'moment';
 import usePlayer from '../usePlayer';
@@ -115,28 +133,30 @@ export default {
   components: {
     cxjIcon,
     cxjButton,
-    cxjMusicTable
+    cxjMusicTable,
+    comments,
+    cxjPage
   },
   setup() {
     let columns = [
       {
         lable: '歌曲',
         prop: 'name',
-        width: '54%',
+        width: '40%',
         slotHeader: 'songLabel',
         slot: 'songValue'
       },
       {
         lable: '歌手',
         prop: 'ar',
-        width: '36%',
+        width: '25%',
         slotHeader: 'artistLabel',
         slot: 'artistValue'
       },
       {
         lable: '专辑',
         prop: 'ar',
-        width: '36%',
+        width: '25%',
         slotHeader: 'artistLabel',
         slot: 'artistValue'
       },
@@ -220,5 +240,9 @@ a:hover {
 }
 .icon_list_menu_add {
   background-position: 0 -80px;
+}
+.song_page {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

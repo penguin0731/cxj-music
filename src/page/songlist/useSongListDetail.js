@@ -8,12 +8,42 @@ export default function useSongListDetail(props) {
   const store = useStore();
   const route = useRoute();
   const data = reactive({
-    playlist: []
+    playlist: [],
+    songlist: [],
+    commentPage: 1,
+    commentPageSize: 20,
+    comment: {}
   });
 
+  // 获取歌单详情
   const getDetail = async id => {
     const res = await api.songlist.getDetail(id);
     data.playlist = res.playlist;
+    const ids = data.playlist.trackIds.map(item => item.id).join();
+    await getSongList(ids);
+    await getComment();
+  };
+
+  // 获取歌单中的歌曲
+  const getSongList = async ids => {
+    const res = await api.song.getDetail(ids);
+    data.songlist = res.songs;
+  };
+
+  const getComment = async () => {
+    let params = {
+      id: data.playlist.id,
+      pageSize: data.commentPageSize,
+      page: data.commentPage
+    };
+    const res = await api.songlist.getComment(params);
+    console.log(res);
+    data.comment = res;
+  };
+
+  const changeCommentPage = async newPage => {
+    data.commentPage = newPage;
+    await getComment();
   };
 
   onMounted(async () => {
@@ -33,6 +63,7 @@ export default function useSongListDetail(props) {
   });
 
   return {
-    ...toRefs(data)
+    ...toRefs(data),
+    changeCommentPage
   };
 }

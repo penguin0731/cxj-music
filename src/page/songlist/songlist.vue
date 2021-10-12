@@ -10,7 +10,7 @@
       </h1>
       <div>
         <span
-          class="new disabled"
+          class="new"
           :class="{ active: curOrder === 'new' }"
           @click="toggleOrder('new')"
         >

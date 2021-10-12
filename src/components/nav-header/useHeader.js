@@ -10,19 +10,21 @@ export default function useNavHeader() {
   const store = useStore();
   const navList = computed(() => {
     // 从路由配置中获取导航栏信息
-    let _navList = router.options.routes.filter(item => item.path === '/music')[0];
+    let _navList = router.options.routes.filter(
+      item => item.path === '/music'
+    )[0];
     return _navList.children.map(item => ({
       url: `${_navList.path}/${item.path}`,
       label: item.meta.name
-    }))
-  })
+    }));
+  });
   let curNav = ref(0);
   let loginVisible = ref(false);
   let Uid = computed(() => store.getters.Uid);
   let userInfo = ref({});
 
   const onClickNav = (url, index) => {
-    console.log(url, router)
+    console.log(url, router);
     curNav.value = index;
     router.push(url);
   };
@@ -51,6 +53,7 @@ export default function useNavHeader() {
     api.login.logout().then(() => {
       store.commit('setUid', setUid(null));
       userInfo.value = {};
+      localStorage.removeItem('cxjMusic_cookie');
     });
   };
 
@@ -70,10 +73,14 @@ export default function useNavHeader() {
   };
 
   watchEffect(() => {
+    watchPath();
+  });
+
+  watchEffect(() => {
     if (Uid.value) {
+      console.log('watchEffect');
       getUserDetail(Uid.value);
     }
-    watchPath();
   });
 
   return {

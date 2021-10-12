@@ -27,7 +27,11 @@ export default {
    * 获取登录状态
    */
   getStatus() {
-    return axios.get('/login/status');
+    return axios.get(
+      `/login/status?cookie=${localStorage.getItem(
+        'cxjMusic_cookie'
+      )}&timerstamp=${Date.now()}`
+    );
   },
   /**
    * 退出登录

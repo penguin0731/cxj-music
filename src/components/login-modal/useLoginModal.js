@@ -11,7 +11,8 @@ export default function (loginVisibleRef, { emit }) {
     qrImg: '', // 二维码
     Uid: '',
     isScan: false, // 是否已扫码
-    isQRCodeInvalid: false // 二维码是否已过期
+    isQRCodeInvalid: false, // 二维码是否已过期
+    isAuthorize: false // 是否授权成功
   });
   let loginVisible = computed(() => loginVisibleRef.value);
   let toastRef = ref(null);
@@ -42,13 +43,14 @@ export default function (loginVisibleRef, { emit }) {
   const qrcodeLogin = async () => {
     const key = await createQRCode();
     timer = setInterval(async () => {
+      if (data.isAuthorize) return;
       const statusRes = await api.login.qrCheck(key);
       switch (statusRes.code) {
         case 800:
           // 二维码过期
-          data.isQRCodeInvalid = true;
-          console.log('二维码已过期,请重新获取');
           clearInterval(timer);
+          console.log('二维码已过期,请重新获取');
+          data.isQRCodeInvalid = true;
           break;
         case 801:
           // 待扫码
@@ -62,17 +64,20 @@ export default function (loginVisibleRef, { emit }) {
           // 授权登录成功,这一步会返回cookie
           clearInterval(timer);
           console.log('授权登录成功');
+          data.isAuthorize = true;
+          localStorage.setItem('cxjMusic_cookie', statusRes.cookie);
           getLoginStatus();
           break;
         default:
           break;
       }
-    }, 500);
+    }, 2000);
   };
 
   // 获取登录状态
   const getLoginStatus = async () => {
     const res = await api.login.getStatus();
+    console.log('获取登录状态', res);
     store.commit('setUid', setUid(res.data.profile.userId));
     close();
   };

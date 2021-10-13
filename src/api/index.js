@@ -5,6 +5,7 @@ import song from './song';
 import artist from './artist';
 import toplist from './toplist';
 import songlist from './songlist';
+import artistlist from './artistlist';
 
 export default {
   /**
@@ -18,5 +19,6 @@ export default {
   song,
   artist,
   toplist,
-  songlist
+  songlist,
+  artistlist
 };

@@ -135,6 +135,7 @@ export default {
   display: flex;
   justify-content: center;
   color: var(--fontColor);
+  z-index: 2;
 }
 .player_box {
   position: relative;

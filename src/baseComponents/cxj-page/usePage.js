@@ -36,10 +36,11 @@ export default function usePage(props, { emit }) {
         array.push(i);
       }
     } else {
-      for (let i = 2; i < pageCount; i++) {
+      for (let i = 2; i < pageCount.value; i++) {
         array.push(i);
       }
     }
+    console.log(array);
     return array;
   });
 

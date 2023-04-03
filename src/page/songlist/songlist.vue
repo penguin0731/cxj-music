@@ -161,15 +161,13 @@ export default {
   align-items: center;
 }
 .songlist_bd {
-  display: flex;
-  flex-wrap: wrap;
-}
-.songlist_item {
-  display: flex;
-  flex-direction: column;
-  margin-right: 20px;
-  &:nth-of-type(5n) {
-    margin-right: 0;
+  display: grid;
+  row-gap: 20px;
+  column-gap: 20px;
+  grid-template-columns: repeat(5, 164px);
+  .songlist_item {
+    display: flex;
+    flex-direction: column;
   }
 }
 .songlist_cover {

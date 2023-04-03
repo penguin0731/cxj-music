@@ -37,7 +37,7 @@
       <div v-for="item in songlist" class="songlist_item" :key="item.id">
         <div class="songlist_cover">
           <a :href="`/#/playlist?id=${item.id}`">
-            <img :src="`${item.coverImgUrl}?param=140y140`" alt="" />
+            <img :src="`${item.coverImgUrl}?param=164y164`" alt="" />
           </a>
           <div class="cover_play"></div>
         </div>
@@ -138,8 +138,10 @@ export default {
   align-items: center;
 }
 .songlist_bd {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  row-gap: 20px;
+  column-gap: 20px;
+  grid-template-columns: repeat(5, 164px);
   .songlist_item {
     display: flex;
     flex-direction: column;

@@ -4,21 +4,24 @@
   <player></player>
 </template>
 
-<script>
+<script setup>
 import NavHeader from './components/nav-header/nav-header.vue';
 import Player from './components/player/player.vue';
-import { useStore } from 'vuex';
+import useMusicStore from '@/store/modules/music';
 import mockList from './mock';
-export default {
-  components: {
-    NavHeader,
-    Player
-  },
-  setup() {
-    const store = useStore();
-    store.commit('setPlayList', mockList);
-  }
-};
+
+const useMusic = useMusicStore();
+useMusic.playList = mockList;
+// export default {
+//   components: {
+//     NavHeader,
+//     Player
+//   },
+//   setup() {
+//     const store = useStore();
+//     store.commit('setPlayList', mockList);
+//   }
+// };
 </script>
 
 <style></style>

@@ -13,67 +13,119 @@
     <div class="playlist_con mt20 scrollbar">
       <template v-if="playList.length > 0">
         <div
-        class="playlist_item"
-        v-for="(item, index) in playList"
-        :key="item.id"
-        :class="{ active: isPlaying && index == currentIndex }"
-      >
-        <div class="playlist_idx">
-          {{ index + 1 }}
-        </div>
-        <div class="song_name ellipsis ml10" :title="item.name">
-          {{ item.name }}
-        </div>
-        <div class="song_opt ml20">
-          <div
-            v-show="!(isPlaying && index == currentIndex)"
-            class="list_menu_sprite list_menu_play"
-            title="播放"
-            @click="play(index)"
-          ></div>
-          <div
-            v-show="isPlaying && index == currentIndex"
-            class="list_menu_sprite list_menu_pause"
-            title="暂停"
-            @click="pause(index)"
-          ></div>
-        </div>
-        <div
-          class="artist ellipsis"
-          :title="item.singer.map(item => item.name).join('/')"
+          class="playlist_item"
+          v-for="(item, index) in playList"
+          :key="item.id"
+          :class="{ active: isPlaying && index == currentIndex }"
         >
-          <template v-for="(art, i) in item.singer" :key="art.id">
-            {{ i == 0 ? '' : ' /' }}
-            <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
-          </template>
+          <div class="playlist_idx">
+            {{ index + 1 }}
+          </div>
+          <div class="song_name ellipsis ml10" :title="item.name">
+            {{ item.name }}
+          </div>
+          <div class="song_opt ml20">
+            <div
+              v-show="!(isPlaying && index == currentIndex)"
+              class="list_menu_sprite list_menu_play"
+              title="播放"
+              @click="play(index)"
+            ></div>
+            <div
+              v-show="isPlaying && index == currentIndex"
+              class="list_menu_sprite list_menu_pause"
+              title="暂停"
+              @click="pause(index)"
+            ></div>
+          </div>
+          <div
+            class="artist ellipsis"
+            :title="item.singer.map(item => item.name).join('/')"
+          >
+            <template v-for="(art, i) in item.singer" :key="art.id">
+              {{ i == 0 ? '' : ' /' }}
+              <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
+            </template>
+          </div>
+          <div class="time ml20">{{ item.formatDur }}</div>
+          <div
+            class="list_menu_sprite list_menu_delete ml20"
+            title="删除"
+            @click="remove(index)"
+          ></div>
         </div>
-        <div class="time ml20">{{ item.formatDur }}</div>
-        <div
-          class="list_menu_sprite list_menu_delete ml20"
-          title="删除"
-          @click="remove(index)"
-        ></div>
-      </div>
       </template>
       <div v-else class="playlist_con_text">啥也妹有啊！快去添加歌曲吧！</div>
     </div>
   </div>
 </template>
 
-<script>
-import { format } from '@/utils/song.js';
-import usePlayList from './usePlayList';
+<script setup>
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
+import useMusicStore from '@/store/modules/music';
+import { computed, onMounted, onUnmounted } from 'vue';
 
-export default {
-  components: { cxjIcon },
-  setup(props, context) {
-    return {
-      format,
-      ...usePlayList(context)
-    };
-  }
+const emit = defineEmits(['hide']);
+
+const useMusic = useMusicStore();
+const playList = computed(() => useMusic.playList);
+const currentIndex = computed(() => useMusic.currentIndex);
+const isPlaying = computed(() => useMusic.isPlaying);
+
+// 隐藏播放列表
+const hideList = () => {
+  emit('hide');
 };
+
+// 播放
+const play = index => {
+  useMusic.currentIndex = index;
+  useMusic.isPlaying = true;
+  // store.commit('setCurrentIndex', index);
+  // store.commit('setIsPlaying', true);
+};
+
+// 暂停
+const pause = () => {
+  if (!isPlaying.value) return;
+  useMusic.isPlaying = false;
+  // store.commit('setIsPlaying', false);
+};
+
+// 移除播放列表中指定歌曲
+const remove = index => {
+  let list = clone(playList.value);
+  list.splice(index, 1);
+  useMusic.playList = list;
+  // store.commit('setPlayList', list);
+};
+
+// 清空播放列表
+const clearList = () => {
+  useMusic.playList = [];
+  useMusic.currentIndex = -1;
+  // store.commit('setPlayList', []);
+  // store.commit('setCurrentIndex', -1);
+  pause();
+};
+
+onMounted(() => {
+  document.addEventListener('click', hideList); // 全局点击时，关闭播放列表弹窗
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', hideList);
+});
+
+// export default {
+//   components: { cxjIcon },
+//   setup(props, context) {
+//     return {
+//       format,
+//       ...usePlayList(context)
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

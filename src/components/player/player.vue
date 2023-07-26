@@ -100,28 +100,288 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import album from '@/assets/img/album.png';
 import { format } from '@/utils/song.js';
-import usePlayer from './usePlayer';
 import CxjProgress from '@/baseComponents/cxj-progress/cxj-progress.vue';
 import Volume from '@/components/volume/volume.vue';
 import PlayList from '@/components/playlist/playlist.vue';
+import useMusicStore from '@/store/modules/music';
+import { useRouter } from 'vue-router';
+import {
+  computed,
+  onMounted,
+  ref,
+  watch,
+  watchEffect,
+  watchPostEffect
+} from 'vue';
+import { defaultVolume, playMode } from '@/config.js';
 
-export default {
-  components: {
-    CxjProgress,
-    Volume,
-    PlayList
-  },
-  setup() {
-    return {
-      album,
-      format,
-      ...usePlayer()
-    };
+const useMusic = useMusicStore();
+const router = useRouter();
+const cxjPlayer = ref(); // radio元素
+const volume = ref(defaultVolume);
+const mode = computed(() => useMusic.mode);
+const isMute = computed(() => useMusic.isMute);
+const isPlaying = computed(() => useMusic.isPlaying);
+const curMusic = computed(() => playList.value[currentIndex.value] || {});
+const currentIndex = computed(() => useMusic.currentIndex);
+const playList = computed(() => useMusic.playList);
+const currentTime = computed(() => useMusic.currentTime); // 当前播放时间
+const percent = ref(0); // 播放进度
+const loadPercent = ref(0); // 缓存进度
+const isMouseDown = computed(() => useMusic.isMouseDown); // 鼠标是否在音乐进度条中按下
+const isShowList = ref(false); // 是否显示播放列表
+
+// 播放暂停功能
+const play = () => {
+  if (currentIndex.value == -1) return;
+  useMusic.isPlaying = !isPlaying.value;
+  // store.commit('setIsPlaying', !isPlaying.value);
+};
+// 切换播放模式
+const setMode = () => {
+  useMusic.setMode(mode.value + 1);
+  // store.commit('setMode', mode.value + 1);
+};
+// 获取播放模式枚举
+const getModeEnum = () => {
+  return {
+    [playMode.list]: {
+      title: '列表循环',
+      className: 'playMode_list'
+    },
+    [playMode.order]: {
+      title: '顺序播放',
+      className: 'playMode_order'
+    },
+    [playMode.random]: {
+      title: '随机播放',
+      className: 'playMode_random'
+    },
+    [playMode.single]: {
+      title: '单曲循环',
+      className: 'playMode_single'
+    }
+  }[mode.value];
+};
+// 下一首
+const next = () => {
+  useMusic.currentIndex =
+    currentIndex.value === playList.value.length - 1
+      ? 0
+      : currentIndex.value + 1;
+  // if (currentIndex.value == playList.value.length - 1) {
+  //   store.commit('setCurrentIndex', 0);
+  // } else {
+  //   store.commit('setCurrentIndex', currentIndex.value + 1);
+  // }
+};
+// 上一首
+const prev = () => {
+  useMusic.currentIndex =
+    currentIndex.value === 0
+      ? playList.value.length - 1
+      : currentIndex.value - 1;
+  // if (currentIndex.value == 0) {
+  //   store.commit('setCurrentIndex', playList.value.length - 1);
+  // } else {
+  //   store.commit('setCurrentIndex', currentIndex.value - 1);
+  // }
+};
+// 是否静音
+const setIsMute = () => {
+  useMusic.isMute = !isMute.value;
+  // store.commit('setIsMute', !isMute.value);
+  if (isMute.value) {
+    cxjPlayer.value.volume = 0;
   }
 };
+// 播放器键盘事件
+const bindKeyupEvent = () => {
+  document.addEventListener('keyup', e => {
+    let altKey = e.altKey;
+    let code = e.code;
+    if (altKey) {
+      // 按下alt键
+      switch (code) {
+        case 'ArrowUp': // 增加音量
+          addVolume();
+          break;
+        case 'ArrowDown': // 减少音量
+          reduceVolume();
+          break;
+        case 'ArrowLeft': // 上一首
+          prev();
+          break;
+        case 'ArrowRight': // 下一首
+          next();
+          break;
+      }
+    } else {
+      switch (code) {
+        case 'Space': // 播放/暂停
+          play();
+          break;
+        case 'KeyO': // 播放模式切换
+          changePlayStyle();
+          break;
+        case 'KeyM': // 开启/关闭声音
+          setMode();
+          break;
+      }
+    }
+  });
+};
+// 修改音乐显示时间
+const changeProgress = per => {
+  useMusic.currentTime = microSecToSec(per * curMusic.value.duration);
+  // store.commit('setCurrentTime', microSecToSec(per * curMusic.value.duration));
+};
+// 修改音乐播放时间
+const changeProgressEnd = per => {
+  // if(!curMusic.value.duration) return;
+  cxjPlayer.value.currentTime = microSecToSec(per * curMusic.value.duration);
+};
+
+// 修改鼠标是否按下
+const changeMouseDownVal = val => {
+  useMusic.isMouseDown = val;
+  // store.commit('setIsMouseDown', val);
+
+  // isMouseDown.value = val;
+};
+
+// 修改音量
+const changeVolume = val => {
+  volume.value = val;
+  cxjPlayer.value.volume = volume.value;
+  useMusic.isMute = volume.value == 0;
+  // store.commit('setIsMute', volume.value == 0);
+};
+// 增加音量
+const addVolume = () => {
+  let vol = (volume.value += 0.1);
+  if (vol >= 1) {
+    vol = 1;
+  }
+  changeVolume(vol);
+};
+// 降低音量
+const reduceVolume = () => {
+  let vol = (volume.value -= 0.1);
+  if (vol <= 0) {
+    vol = 0;
+  }
+  changeVolume(vol);
+};
+
+// 显示/隐藏播放列表
+const showPlayList = e => {
+  isShowList.value = !isShowList.value;
+};
+
+// 隐藏播放列表
+const hideList = () => {
+  isShowList.value = false;
+};
+
+onMounted(() => {
+  bindKeyupEvent();
+
+  useMusic.audioDom = cxjPlayer.value;
+  // store.commit('setAudioDom', cxjPlayer.value);
+  cxjPlayer.value.volume = volume.value;
+  // 缓冲事件
+  cxjPlayer.value.onprogress = () => {
+    if (cxjPlayer.value.buffered.length > 0) {
+      let buffered = 0;
+      cxjPlayer.value.buffered.end(0);
+      buffered =
+        cxjPlayer.value.buffered.end(0) > curMusic.value.duration
+          ? cxjPlayer.value.buffered.end(0)
+          : curMusic.value.duration;
+      loadPercent.value = buffered / curMusic.value.duration;
+      // 缓冲进度动画
+      // let loadPer = buffered / curMusic.value.duration;
+      // gsap.to(loadPercent, {
+      //   value: loadPer,
+      //   duration: 5
+      // })
+    }
+  };
+  // 获取当前播放时间
+  cxjPlayer.value.ontimeupdate = () => {
+    if (!isMouseDown.value) {
+      // currentTime.value = cxjPlayer.value.currentTime;
+
+      useMusic.currentTime = cxjPlayer.value.currentTime;
+      // store.commit('setCurrentTime', cxjPlayer.value.currentTime);
+    }
+  };
+  // 播放结束事件
+  cxjPlayer.value.onended = () => {
+    switch (mode.value) {
+      case playMode.list: // 列表循环
+        next();
+        break;
+      case playMode.order: // 顺序循环
+        if (currentIndex.value == playList.value.length - 1) {
+          useMusic.isPlaying = false;
+          useMusic.currentIndex = -1;
+          // store.commit('setIsPlaying', false);
+          // store.commit('setCurrentIndex', -1);
+        } else {
+          useMusic.currentIndex = currentIndex.value + 1;
+          // store.commit('setCurrentIndex', currentIndex.value + 1);
+        }
+        break;
+      case playMode.random: // 随机播放
+        let index = randomIndex(playList.value.length);
+        useMusic.currentIndex = index;
+        // store.commit('setCurrentIndex', index);
+        break;
+      case playMode.single: // 单曲循环
+        cxjPlayer.value.currentTime = loadPercent.value = 0;
+        cxjPlayer.value.play();
+        break;
+    }
+  };
+});
+
+watchPostEffect(() => {
+  console.log(curMusic.value);
+  percent.value = (currentTime.value * 1000) / curMusic.value.duration;
+});
+// 监听播放器播放状态
+watch(isPlaying, (isPlaying, oldVal) => {
+  isPlaying ? cxjPlayer.value.play() : cxjPlayer.value.pause();
+});
+// 监听当前播放音乐
+watch(curMusic, (newMusic, oldMusic) => {
+  console.log('watch curMusic', newMusic);
+  if (!newMusic.id) return;
+  if (newMusic.id == oldMusic.id) return;
+  cxjPlayer.value.src = newMusic.url;
+  cxjPlayer.value.currentTime = loadPercent.value = 0;
+  cxjPlayer.value.play();
+});
+
+// export default {
+//   components: {
+//     CxjProgress,
+//     Volume,
+//     PlayList
+//   },
+//   setup() {
+//     return {
+//       album,
+//       format,
+//       ...usePlayer()
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

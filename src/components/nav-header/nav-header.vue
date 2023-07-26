@@ -31,22 +31,115 @@
   </div>
 </template>
 
-<script>
-import useHeader from './useHeader';
+<script setup>
 import CxjSearch from '@/baseComponents/cxj-search/cxj-search.vue';
 import LoginModal from '@/components/login-modal/login-modal.vue';
+import { useRoute, useRouter } from 'vue-router';
+import useUserStore from '@/store/modules/user';
+import { computed, ref, watch, watchEffect } from 'vue';
 
-export default {
-  components: {
-    CxjSearch,
-    LoginModal
-  },
-  setup() {
-    return {
-      ...useHeader()
-    };
+const router = useRouter();
+const route = useRoute();
+const useUser = useUserStore();
+
+const curNav = ref(0);
+const loginVisible = ref(false);
+const Uid = computed(() => useUser.Uid);
+const userInfo = ref({});
+
+watch(
+  () => route.path,
+  newPath => {
+    let len = navList.value.length;
+    if (newPath.includes('/music')) {
+      for (let i = 0; i < len; i++) {
+        if (newPath === navList.value[i].url) {
+          curNav.value = i;
+          break;
+        }
+      }
+    } else {
+      curNav.value = -1;
+    }
+  }
+);
+
+watchEffect(() => {
+  if (Uid.value) {
+    console.log('watchEffect');
+    getUserDetail(Uid.value);
+  }
+});
+
+const navList = computed(() => {
+  // 从路由配置中获取导航栏信息
+  const musicRoute = router.options.routes.find(item => item.path === '/music');
+  return musicRoute.children.map(item => ({
+    url: `${musicRoute.path}/${item.path}`,
+    label: item.meta.name
+  }));
+});
+
+const onClickNav = (url, index) => {
+  console.log(url, router);
+  curNav.value = index;
+  router.push(url);
+};
+
+const showLoginModal = () => {
+  loginVisible.value = true;
+};
+
+const closeLoginModal = () => {
+  loginVisible.value = false;
+};
+
+const getUserDetail = Uid => {
+  if (!Uid) return;
+  api.user.getDetail(Uid).then(res => {
+    userInfo.value = res.profile;
+  });
+};
+
+const toMy = () => {
+  curNav.value = -1;
+  router.push({ path: '/my', query: { id: Uid.value } });
+};
+
+const logout = () => {
+  api.login.logout().then(() => {
+    useUser.Uid = setUid(null);
+    userInfo.value = {};
+    localStorage.removeItem('cxjMusic_cookie');
+  });
+};
+
+const watchPath = () => {
+  let len = navList.value.length;
+  let path = route.path;
+  if (path.includes('/music')) {
+    for (let i = 0; i < len; i++) {
+      if (path === navList.value[i].url) {
+        curNav.value = i;
+        break;
+      }
+    }
+  } else {
+    curNav.value = -1;
   }
 };
+
+// export default {
+//   components: {
+//     CxjSearch,
+//     LoginModal
+//   },
+//   setup() {
+//     return {
+//       ...useHeader()
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

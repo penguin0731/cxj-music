@@ -86,7 +86,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .mt40 {
   margin-top: 40px;
 }

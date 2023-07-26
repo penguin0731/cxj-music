@@ -42,7 +42,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .cxjProgress {
   width: 100%;
   height: 8px;

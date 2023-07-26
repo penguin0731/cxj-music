@@ -21,7 +21,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .cxj_button {
   margin-right: 6px;
   text-align: center;

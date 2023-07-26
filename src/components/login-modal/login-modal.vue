@@ -93,7 +93,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 // qrcode
 .qrcode_main {
   display: flex;

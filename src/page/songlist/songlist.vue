@@ -88,7 +88,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .songlist_wrapper {
   box-sizing: border-box;
   padding: 0 40px;

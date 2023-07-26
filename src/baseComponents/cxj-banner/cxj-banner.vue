@@ -91,7 +91,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .cxjBanner_wrap {
   position: relative;
   overflow: hidden;

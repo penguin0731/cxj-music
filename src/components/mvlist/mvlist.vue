@@ -43,7 +43,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .mvlist {
   display: flex;
   flex-wrap: wrap;

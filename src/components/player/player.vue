@@ -124,7 +124,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .player_wrapper {
   position: fixed;
   bottom: 0;

@@ -54,7 +54,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .artistlist_wrapper {
   box-sizing: border-box;
   padding: 35px 40px;

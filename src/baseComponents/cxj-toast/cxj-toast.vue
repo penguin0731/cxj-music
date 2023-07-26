@@ -37,7 +37,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .cxjToast {
   position: fixed;
   left: 50%;

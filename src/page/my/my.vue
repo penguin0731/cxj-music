@@ -36,7 +36,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .my_profile {
   height: 235px;
   padding-top: 45px;

@@ -68,7 +68,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .modal_wrap {
   position: fixed;
   top: 0;

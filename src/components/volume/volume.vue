@@ -29,7 +29,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .player_isMute {
   background-position: 0 -182px;
 }

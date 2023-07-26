@@ -8,7 +8,7 @@
 export default {};
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .notfound {
   height: calc(100% - 70px);
   display: flex;

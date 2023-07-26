@@ -14,7 +14,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .cxjSearch_box {
   display: flex;
   position: relative;

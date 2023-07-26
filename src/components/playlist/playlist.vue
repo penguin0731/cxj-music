@@ -76,7 +76,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .playlist_box {
   width: 540px;
   height: 280px;

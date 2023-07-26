@@ -25,7 +25,7 @@
           </div>
         </div>
         <span v-else class="login" @click="showLoginModal">登录</span>
-        <login-modal v-if="loginVisible" @close="closeLoginModal" />
+        <login-modal ref="loginModalRef" />
       </div>
     </div>
   </div>
@@ -42,8 +42,8 @@ const router = useRouter();
 const route = useRoute();
 const useUser = useUserStore();
 
+const loginModalRef = ref();
 const curNav = ref(0);
-const loginVisible = ref(false);
 const Uid = computed(() => useUser.Uid);
 const userInfo = ref({});
 
@@ -87,12 +87,9 @@ const onClickNav = (url, index) => {
 };
 
 const showLoginModal = () => {
-  loginVisible.value = true;
+  loginModalRef.value.show();
 };
 
-const closeLoginModal = () => {
-  loginVisible.value = false;
-};
 
 const getUserDetail = Uid => {
   if (!Uid) return;

@@ -200,9 +200,16 @@ const setIsMute = () => {
 };
 // 播放器键盘事件
 const bindKeyupEvent = () => {
+  // 禁止空格滑动页面
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+    }
+  });
   document.addEventListener('keyup', e => {
     let altKey = e.altKey;
     let code = e.code;
+    console.log(e, code);
     if (altKey) {
       // 按下alt键
       switch (code) {
@@ -351,7 +358,6 @@ onMounted(() => {
 });
 
 watchPostEffect(() => {
-  console.log(curMusic.value);
   percent.value = (currentTime.value * 1000) / curMusic.value.duration;
 });
 // 监听播放器播放状态

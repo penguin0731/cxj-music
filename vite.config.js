@@ -1,11 +1,10 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
-import setupExtend from 'vite-plugin-vue-setup-extend';
+import { defineConfig } from 'vite';
+import path from 'path';
+import createVitePlugins from 'vite/plugins/index';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), setupExtend()],
+  plugins: createVitePlugins(),
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
@@ -14,4 +13,4 @@ export default defineConfig({
   server: {
     open: true
   }
-})
+});

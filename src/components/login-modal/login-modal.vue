@@ -78,6 +78,7 @@ import CxjModal from '@/baseComponents/cxj-modal/cxj-modal.vue';
 import CxjToast from '../../baseComponents/cxj-toast/cxj-toast.vue';
 import useUserStore from '@/store/modules/user';
 import api from '@/api';
+import { setUid } from '@/utils/storage';
 
 const emit = defineEmits(['close']);
 const useUser = useUserStore();

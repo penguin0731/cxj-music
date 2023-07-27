@@ -9,7 +9,7 @@
               <div class="cxjModal_title">{{ title }}</div>
             </div>
             <div class="cxjModal_body">
-              <slot />
+              <slot></slot>
             </div>
             <div v-if="footer" class="cxjModal_footer">
               <div class="cxjModal_btns">

@@ -115,51 +115,198 @@
   </div>
 </template>
 
-<script>
-import useArtist from './useArtist';
+<script setup>
+// import useArtist from './useArtist';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
 import cxjMusicTable from '@/baseComponents/cxj-music-table/cxj-music-table.vue';
 import albumlist from '@/components/albumlist/albumlist.vue';
 import mvlist from '@/components/mvlist/mvlist.vue';
+import useMusicStore from '@/store/modules/music';
 import { format } from '@/utils/song';
-export default {
-  components: {
-    cxjButton,
-    cxjMusicTable,
-    albumlist,
-    mvlist
+import { useRoute } from 'vue-router';
+import { computed, ref } from 'vue';
+import api from '@/api';
+import nProgress from 'nprogress';
+
+// 歌手作品类型枚举
+const TYPE_MAP = {
+  songs: {
+    key: 'songs',
+    cn: '单曲'
   },
-  setup() {
-    let columns = [
-      {
-        lable: '歌曲',
-        prop: 'name',
-        width: '54%',
-        slotHeader: 'songLabel',
-        slot: 'songValue'
-      },
-      {
-        lable: '专辑',
-        prop: 'al.name',
-        width: '36%',
-        slotHeader: 'albumLabel',
-        slot: 'albumValue'
-      },
-      {
-        lable: '时长',
-        prop: 'time',
-        width: '10%',
-        slotHeader: 'timeLabel',
-        slot: 'timeValue'
-      }
-    ];
-    return {
-      columns,
-      format,
-      ...useArtist()
-    };
+  album: {
+    key: 'album',
+    cn: '专辑'
+  },
+  MV: {
+    key: 'MV',
+    cn: 'MV'
   }
 };
+const columns = [
+  {
+    lable: '歌曲',
+    prop: 'name',
+    width: '54%',
+    slotHeader: 'songLabel',
+    slot: 'songValue'
+  },
+  {
+    lable: '专辑',
+    prop: 'al.name',
+    width: '36%',
+    slotHeader: 'albumLabel',
+    slot: 'albumValue'
+  },
+  {
+    lable: '时长',
+    prop: 'time',
+    width: '10%',
+    slotHeader: 'timeLabel',
+    slot: 'timeValue'
+  }
+];
+
+const useMusic = useMusicStore();
+const route = useRoute();
+const artistDetail = ref({}); // 歌手详情
+const artistSongs = ref([]); // 单曲列表
+const artistAlbum = ref([]); // 专辑列表
+const artistMV = ref([]); // MV列表
+const curType = ref(TYPE_MAP.songs.key); // 当前展示的列表key
+const playList = computed(() => useMusic.playList);
+
+// 修改当前展示的列表类型
+const changeCurType = type => {
+  curType.value = type;
+};
+
+// 播放全部
+const playAll = () => {
+  if (artistSongs.value.length == 0) return;
+  let list = clone(playList.value);
+  let newList = artistSongs.value.map(item => createSong(item));
+  let newListIds = newList.map(item => item.id);
+  // 若全部歌曲中有歌曲已存在播放列表，则过滤
+  list = list.filter(l => !newListIds.includes(Number(l.id)));
+  // 将全部歌曲拼接到播放列表前面
+  list = newList.concat(list);
+
+  useMusic.playList = list;
+  useMusic.currentIndex = 0;
+  useMusic.isPlaying = true;
+  // store.commit('setPlayList', list);
+  // store.commit('setCurrentIndex', 0);
+  // store.commit('setIsPlaying', true);
+};
+
+// 播放指定歌曲并添加到播放队列
+const play = music => {
+  let list = clone(playList.value);
+  let newIdx = -1;
+  let isInList = list.some((item, index) => {
+    item.id == music.id ? (newIdx = index) : '';
+    return item.id == music.id;
+  });
+  if (isInList) {
+    useMusic.currentIndex = newIdx;
+    // store.commit('setCurrentIndex', newIdx);
+  } else {
+    add(music);
+    useMusic.currentIndex = list.length;
+    // store.commit('setCurrentIndex', list.length);
+  }
+  useMusic.isPlaying = true;
+  // store.commit('setIsPlaying', true);
+};
+
+// 添加到播放队列
+const add = async music => {
+  let list = clone(playList.value);
+  list.unshift(createSong(music));
+  useMusic.playList = list;
+  // store.commit('setPlayList', list);
+};
+
+// 获取歌手详情，包含部分热门歌曲
+const getArtists = async id => {
+  const { artist, hotSongs } = await api.artist.getArtists(id);
+  artistDetail.value = artist;
+  artistSongs.value = hotSongs;
+};
+
+// 获取歌手专辑
+const getAlbum = async id => {
+  const { hotAlbums } = await api.artist.getAlbum(id);
+  console.log(hotAlbums);
+  artistAlbum.value = hotAlbums;
+};
+
+// 获取歌手MV
+const getMV = async id => {
+  const { mvs } = await api.artist.getMV(id);
+  console.log(mvs);
+  artistMV.value = mvs;
+};
+
+onMounted(async () => {
+  let id = route.query.id;
+  await getArtists(id);
+  await getAlbum(id);
+  await getMV(id);
+  nProgress.done();
+});
+
+// 路由参数中的id变化时，重新调用接口
+onBeforeRouteUpdate(async (to, from) => {
+  let toId = to.query.id;
+  let fromId = from.query.id;
+  if (toId !== fromId) {
+    await getArtists(toId);
+    await getAlbum(toId);
+    await getMV(toId);
+    nProgress.done();
+  }
+});
+
+// export default {
+//   components: {
+//     cxjButton,
+//     cxjMusicTable,
+//     albumlist,
+//     mvlist
+//   },
+//   setup() {
+//     let columns = [
+//       {
+//         lable: '歌曲',
+//         prop: 'name',
+//         width: '54%',
+//         slotHeader: 'songLabel',
+//         slot: 'songValue'
+//       },
+//       {
+//         lable: '专辑',
+//         prop: 'al.name',
+//         width: '36%',
+//         slotHeader: 'albumLabel',
+//         slot: 'albumValue'
+//       },
+//       {
+//         lable: '时长',
+//         prop: 'time',
+//         width: '10%',
+//         slotHeader: 'timeLabel',
+//         slot: 'timeValue'
+//       }
+//     ];
+//     return {
+//       columns,
+//       format,
+//       ...useArtist()
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

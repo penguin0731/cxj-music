@@ -64,7 +64,7 @@ const pRefs = ref([]);
 const lyric_box = ref();
 const song_lyric_cont = ref();
 const cxjPlayer = computed(() => useMusic.audioDom);
-const curMusic = computed(() => useMusic.curMusic);
+const curMusic = computed(() => useMusic.playList[useMusic.currentIndex] || {});
 const isMouseDown = computed(() => useMusic.isMouseDown);
 
 const openLyric = () => {

@@ -43,15 +43,60 @@
   </div>
 </template>
 
-<script>
-import useArtistList from './useArtistList';
-export default {
-  setup() {
-    return {
-      ...useArtistList()
-    };
-  }
+<script setup>
+// import useArtistList from './useArtistList';
+import api from '@/api';
+import nProgress from 'nprogress';
+import { enMap, getListTypeMap, getListAreaMap } from '@/api/artistlist';
+import { reactive, ref } from 'vue';
+
+const enEntries = Object.entries(enMap);
+const getListTypeEntries = Object.entries(getListTypeMap);
+const getListAreaEntries = Object.entries(getListAreaMap);
+
+const curEn = ref(-1);
+const curType = ref(-1);
+const curArea = ref(-1);
+const artists = ref([]); // 歌手列表
+const pageOpt = reactive({
+  page: 1,
+  pageSize: 50
+});
+
+const getArtistList = async () => {
+  const res = await api.artistlist.getList({
+    initial: curEn.value,
+    type: curType.value,
+    area: curArea.value,
+    pageSize: pageOpt.pageSize,
+    page: pageOpt.page
+  });
+  artists.value = res.artists;
 };
+
+const changeEn = en => {
+  curEn.value = en;
+};
+
+const changeType = type => {
+  curType.value = type;
+};
+
+const changeArea = area => {
+  curArea.value = area;
+};
+
+onMounted(async () => {
+  await getArtistList();
+  nProgress.done();
+});
+// export default {
+//   setup() {
+//     return {
+//       ...useArtistList()
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

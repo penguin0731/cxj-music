@@ -10,7 +10,7 @@
         <h1 class="songlistDetail_name">{{ playlist.name }}</h1>
         <div class="songlistDetail_creator mt10">
           <cxj-icon class="icon_singer mr10" />
-          <a :href="`/#/user?id=${playlist.creator?.userId}`">
+          <a :href="`/user?id=${playlist.creator?.userId}`">
             {{ playlist.creator?.nickname }}
           </a>
           <span class="ml20">
@@ -24,7 +24,7 @@
               <a
                 class="tag"
                 :class="{ ml10: i !== 0 }"
-                :href="`/#/music/songlist`"
+                :href="`/music/songlist`"
               >
                 {{ tag }}
               </a>
@@ -56,7 +56,7 @@
     >
       <template #songValue="{ item: { row } }">
         <div class="songValue ellipsis">
-          <a :href="`/#/song?id=${row.id}`" :title="row.name">
+          <a :href="`/song?id=${row.id}`" :title="row.name">
             {{ row.name }}
           </a>
           <span
@@ -75,13 +75,13 @@
         >
           <template v-for="(_ar, i) in row.ar" :key="_ar.id">
             {{ i == 0 ? '' : ' /' }}
-            <a :href="`/#/artist?id=${_ar.id}`">{{ _ar.name }}</a>
+            <a :href="`/artist?id=${_ar.id}`">{{ _ar.name }}</a>
           </template>
         </div>
       </template>
       <template #albumValue="{ item: { row } }">
         <div class="albumValue ellipsis" :title="row.al.name">
-          <a :href="`/#/album?id=${row.al.id}`">{{ row.al.name }}</a>
+          <a :href="`/album?id=${row.al.id}`">{{ row.al.name }}</a>
         </div>
       </template>
       <template #timeValue="{ item: { row, $index } }">
@@ -119,8 +119,7 @@
   </div>
 </template>
 
-<script>
-import useSongListDetail from './useSongListDetail';
+<script setup>
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
 import cxjMusicTable from '@/baseComponents/cxj-music-table/cxj-music-table.vue';
@@ -129,54 +128,144 @@ import cxjPage from '@/baseComponents/cxj-page/cxj-page.vue';
 import { format } from '@/utils/song.js';
 import moment from 'moment';
 import usePlayer from '../usePlayer';
-export default {
-  components: {
-    cxjIcon,
-    cxjButton,
-    cxjMusicTable,
-    comments,
-    cxjPage
+import { useRoute } from 'vue-router';
+import api from '@/api';
+import { ref } from 'vue';
+import nProgress from 'nprogress';
+
+const route = useRoute();
+const columns = [
+  {
+    lable: '歌曲',
+    prop: 'name',
+    width: '40%',
+    slotHeader: 'songLabel',
+    slot: 'songValue'
   },
-  setup() {
-    let columns = [
-      {
-        lable: '歌曲',
-        prop: 'name',
-        width: '40%',
-        slotHeader: 'songLabel',
-        slot: 'songValue'
-      },
-      {
-        lable: '歌手',
-        prop: 'ar',
-        width: '25%',
-        slotHeader: 'artistLabel',
-        slot: 'artistValue'
-      },
-      {
-        lable: '专辑',
-        prop: 'ar',
-        width: '25%',
-        slotHeader: 'artistLabel',
-        slot: 'artistValue'
-      },
-      {
-        lable: '时长',
-        prop: 'time',
-        width: '10%',
-        slotHeader: 'timeLabel',
-        slot: 'timeValue'
-      }
-    ];
-    return {
-      moment,
-      format,
-      columns,
-      ...usePlayer(),
-      ...useSongListDetail()
-    };
+  {
+    lable: '歌手',
+    prop: 'ar',
+    width: '25%',
+    slotHeader: 'artistLabel',
+    slot: 'artistValue'
+  },
+  {
+    lable: '专辑',
+    prop: 'ar',
+    width: '25%',
+    slotHeader: 'artistLabel',
+    slot: 'artistValue'
+  },
+  {
+    lable: '时长',
+    prop: 'time',
+    width: '10%',
+    slotHeader: 'timeLabel',
+    slot: 'timeValue'
   }
+];
+const playlist = ref([]);
+const songlist = ref([]);
+const commentPage = ref(1);
+const commentPageSize = ref(20);
+const comment = ref({});
+
+const { play, add } = usePlayer();
+
+// 获取歌单详情
+const getDetail = async id => {
+  const res = await api.songlist.getDetail(id);
+  playlist.value = res.playlist;
+  const ids = playlist.value.trackIds.map(item => item.id).join();
+  await getSongList(ids);
+  await getComment();
 };
+
+// 获取歌单中的歌曲
+const getSongList = async ids => {
+  const res = await api.song.getDetail(ids);
+  songlist.value = res.songs;
+};
+
+const getComment = async () => {
+  let params = {
+    id: playlist.id,
+    pageSize: commentPageSize.value,
+    page: commentPage.value
+  };
+  const res = await api.songlist.getComment(params);
+  comment.value = res;
+};
+
+const changeCommentPage = async newPage => {
+  commentPage.value = newPage;
+  await getComment();
+};
+
+onMounted(async () => {
+  let id = route.query.id;
+  await getDetail(id);
+  nProgress.done();
+});
+
+// 路由参数中的id变化时，重新调用接口
+onBeforeRouteUpdate(async (to, from) => {
+  let toId = to.query.id;
+  let fromId = from.query.id;
+  if (toId !== fromId) {
+    await getDetail(toId);
+    nProgress.done();
+  }
+});
+
+// export default {
+//   components: {
+//     cxjIcon,
+//     cxjButton,
+//     cxjMusicTable,
+//     comments,
+//     cxjPage
+//   },
+//   setup() {
+//     let columns = [
+//       {
+//         lable: '歌曲',
+//         prop: 'name',
+//         width: '40%',
+//         slotHeader: 'songLabel',
+//         slot: 'songValue'
+//       },
+//       {
+//         lable: '歌手',
+//         prop: 'ar',
+//         width: '25%',
+//         slotHeader: 'artistLabel',
+//         slot: 'artistValue'
+//       },
+//       {
+//         lable: '专辑',
+//         prop: 'ar',
+//         width: '25%',
+//         slotHeader: 'artistLabel',
+//         slot: 'artistValue'
+//       },
+//       {
+//         lable: '时长',
+//         prop: 'time',
+//         width: '10%',
+//         slotHeader: 'timeLabel',
+//         slot: 'timeValue'
+//       }
+//     ];
+//     return {
+//       moment,
+//       format,
+//       columns,
+//       ...usePlayer(),
+//       ...useSongListDetail()
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

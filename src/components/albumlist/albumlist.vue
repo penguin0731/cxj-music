@@ -6,13 +6,13 @@
       :key="item.id"
     >
       <div class="albumlist_cover">
-        <a :href="`/#/album?id=${item.id}`">
+        <a :href="`/album?id=${item.id}`">
           <img :src="`${item.picUrl}?param=164y164`" alt="" />
         </a>
         <div class="cover_play"></div>
       </div>
       <div class="albumlist_title mt10">
-        <a class="ellipsis" :href="`/#/album?id=${item.id}`" :title="item.name">
+        <a class="ellipsis" :href="`/album?id=${item.id}`" :title="item.name">
           {{ item.name }}
         </a>
       </div>
@@ -21,7 +21,7 @@
           {{ i == 0 ? '' : ' /' }}
           <a
             class="ellipsis"
-            :href="`/#/artist?id=${art.id}`"
+            :href="`/artist?id=${art.id}`"
             :title="art.name"
           >
             {{ art.name }}

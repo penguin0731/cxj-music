@@ -1,10 +1,10 @@
 import { computed } from 'vue';
-import { useStore } from 'vuex';
 import { clone } from '@/utils/util';
 import { createSong } from '@/utils/song';
+import useMusicStore from '@/store/modules/music';
 export default function usePlayer(props) {
-  const store = useStore();
-  let playList = computed(() => store.getters.playList);
+  const useMusic = useMusicStore();
+  const playList = computed(() => useMusic.playList);
 
   // 播放指定歌曲并添加到播放队列
   const play = music => {
@@ -15,19 +15,23 @@ export default function usePlayer(props) {
       return item.id == music.id;
     });
     if (isInList) {
-      store.commit('setCurrentIndex', newIdx);
+      useMusic.currentIndex = newIdx;
+      // store.commit('setCurrentIndex', newIdx);
     } else {
       add(music);
-      store.commit('setCurrentIndex', list.length);
+      useMusic.currentIndex = list.length;
+      // store.commit('setCurrentIndex', list.length);
     }
-    store.commit('setIsPlaying', true);
+    useMusic.isPlaying = true;
+    // store.commit('setIsPlaying', true);
   };
 
   // 添加到播放队列
   const add = async music => {
     let list = clone(playList.value);
     list.push(createSong(music));
-    store.commit('setPlayList', list);
+    useMusic.playList = list;
+    // store.commit('setPlayList', list);
   };
 
   // 播放全部
@@ -40,9 +44,13 @@ export default function usePlayer(props) {
     _playList = _playList.filter(l => !newListIds.includes(Number(l.id)));
     // 将全部歌曲拼接到播放列表前面
     _playList = newList.concat(_playList);
-    store.commit('setPlayList', _playList);
-    store.commit('setCurrentIndex', 0);
-    store.commit('setIsPlaying', true);
+
+    useMusic.playList = _playList;
+    useMusic.currentIndex = 0;
+    useMusic.isPlaying = true;
+    // store.commit('setPlayList', _playList);
+    // store.commit('setCurrentIndex', 0);
+    // store.commit('setIsPlaying', true);
   };
 
   return {

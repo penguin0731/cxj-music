@@ -44,7 +44,7 @@
           >
             <template v-for="(art, i) in item.singer" :key="art.id">
               {{ i == 0 ? '' : ' /' }}
-              <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
+              <a :href="`/artist?id=${art.id}`">{{ art.name }}</a>
             </template>
           </div>
           <div class="time ml20">{{ item.formatDur }}</div>

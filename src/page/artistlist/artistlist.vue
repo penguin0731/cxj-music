@@ -37,7 +37,7 @@
         class="artists_item mt10"
       >
         <img v-if="index < 10" :src="`${item.picUrl}?param=164y164`" alt="" />
-        <a :href="`/#/artist?id=${item.id}`">{{ item.name }}</a>
+        <a :href="`/artist?id=${item.id}`">{{ item.name }}</a>
       </li>
     </ul>
   </div>

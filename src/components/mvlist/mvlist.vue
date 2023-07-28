@@ -2,13 +2,13 @@
   <div class="mvlist">
     <div v-for="(item, index) in list" class="mvlist_item mb20" :key="item.id">
       <div class="mvlist_cover">
-        <a :href="`/#/mv?id=${item.id}`">
+        <a :href="`/mv?id=${item.id}`">
           <img :src="`${item.imgurl}?param=286y164`" alt="" />
         </a>
         <div class="cover_play"></div>
       </div>
       <div class="mvlist_title mt10">
-        <a class="ellipsis" :href="`/#/mv?id=${item.id}`" :title="item.name">
+        <a class="ellipsis" :href="`/mv?id=${item.id}`" :title="item.name">
           {{ item.name }}
         </a>
       </div>

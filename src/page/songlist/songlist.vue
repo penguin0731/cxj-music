@@ -36,7 +36,7 @@
     <div class="songlist_bd mt20">
       <div v-for="item in songlist" class="songlist_item mb20" :key="item.id">
         <div class="songlist_cover">
-          <a :href="`/#/songlist?id=${item.id}`">
+          <a :href="`/songlist?id=${item.id}`">
             <img :src="`${item.coverImgUrl}?param=164y164`" alt="" />
           </a>
           <div class="cover_play"></div>
@@ -44,7 +44,7 @@
         <div class="songlist_name mt10">
           <a
             class="ellipsis"
-            :href="`/#/songlist?id=${item.id}`"
+            :href="`/songlist?id=${item.id}`"
             :title="item.name"
           >
             {{ item.name }}
@@ -71,21 +71,105 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import useSongList from '@/page/songlist/useSongList';
 import songTag from '../songlist/songTag.vue';
 import CxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 import cxjPage from '@/baseComponents/cxj-page/cxj-page.vue';
 import { toggleUnits } from '@/utils/util';
-export default {
-  components: { songTag, CxjIcon, cxjPage },
-  setup() {
-    return {
-      toggleUnits,
-      ...useSongList()
-    };
+import nProgress from 'nprogress';
+import api from '@/api';
+import { ref } from 'vue';
+
+const categories = ref([]); // 歌单标签分类
+const sub = ref([]); // 所有歌单标签
+const showTagBox = ref(false); // 歌单标签显示
+const curOrder = ref('hot'); // 当前歌单列表状态（new/hot）
+const curTitle = ref('全部歌单'); // 当前选中标签
+const songlist = ref([]); // 歌单列表
+const currentPage = ref(1); // 当前歌单页数
+const total = ref(0); // 歌单总数
+
+watch([curOrder, curTitle, currentPage], ([newOrder, newCat, newPage]) => {
+  const cat = newCat === '全部歌单' ? '全部' : newCat;
+  const params = {
+    order: newOrder,
+    cat
+  };
+  newPage && (params.page = newPage);
+  getSongList(params);
+});
+
+// 获取歌单标签
+const getCatList = async () => {
+  const res = await api.songlist.getCatList();
+  sub.value = res.sub;
+  const cate = res.categories;
+  for (const key in cate) {
+    const value = cate[key];
+    categories.value[key] = value;
   }
 };
+
+// 获取相应歌单
+const getSongList = async ({
+  order,
+  cat = '全部',
+  pageSize = 50,
+  page
+} = {}) => {
+  let params = {
+    order,
+    cat,
+    limit: pageSize
+  };
+  page && (params.page = page);
+  const res = await api.songlist.getSongList(params);
+  songlist.value = res.playlists;
+  total.value = res.total;
+};
+
+// 切换歌单标签状态
+const toggleOrder = newOrder => {
+  if (newOrder === data.curOrder) return;
+  curOrder.value = newOrder;
+};
+
+// 展示歌单标签盒子
+const handleShowTagBox = () => {
+  showTagBox.value = !showTagBox.value;
+};
+
+// 歌单标签盒子外部点击
+const handleClickOutSide = () => {
+  showTagBox.value = false;
+};
+
+// 修改歌单标签
+const handleChangeTag = tag => {
+  curTitle.value = tag;
+  showTagBox.value = false;
+};
+
+const currentChange = newPage => {
+  currentPage.value = newPage;
+};
+
+onMounted(async () => {
+  await getCatList();
+  await getSongList();
+  nProgress.done();
+});
+
+// export default {
+//   components: { songTag, CxjIcon, cxjPage },
+//   setup() {
+//     return {
+//       toggleUnits,
+//       ...useSongList()
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

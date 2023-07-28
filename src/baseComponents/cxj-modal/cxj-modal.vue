@@ -28,44 +28,45 @@
   </teleport>
 </template>
 
-<script>
-import useModal from './useModal';
+<script setup>
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
-export default {
-  components: { cxjIcon },
-  props: {
-    title: {
-      type: String,
-      default: '提示'
-    },
-    visible: {
-      type: Boolean,
-      default: false
-    },
-    width: {
-      type: Number,
-      default: 500
-    },
-    footer: {
-      type: Boolean,
-      default: true
-    },
-    comfirmText: {
-      type: String,
-      default: '确 定'
-    },
-    cancelText: {
-      type: String,
-      default: '取 消'
-    }
+
+const props = defineProps({
+  title: {
+    type: String,
+    default: '提示'
   },
-  emits: ['cancel', 'ok'],
-  setup(props, context) {
-    return {
-      ...useModal(context)
-    };
+  visible: {
+    type: Boolean,
+    default: false
+  },
+  width: {
+    type: Number,
+    default: 500
+  },
+  footer: {
+    type: Boolean,
+    default: true
+  },
+  comfirmText: {
+    type: String,
+    default: '确 定'
+  },
+  cancelText: {
+    type: String,
+    default: '取 消'
   }
+});
+const emit = defineEmits(['cancel', 'ok']);
+
+const cancel = e => {
+  emit('cancel', e);
 };
+
+const ok = e => {
+  emit('ok', e);
+};
+
 </script>
 
 <style lang="scss">

@@ -1,7 +1,7 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 export default createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
@@ -23,20 +23,20 @@ export default createRouter({
             name: '推荐'
           }
         },
-        // {
-        //   path: 'toplist',
-        //   component: () => import('@/page/toplist/toplist.vue'),
-        //   meta: {
-        //     name: '排行榜'
-        //   }
-        // },
-        // {
-        //   path: 'songlist',
-        //   component: () => import('@/page/songlist/songlist.vue'),
-        //   meta: {
-        //     name: '歌单'
-        //   }
-        // },
+        {
+          path: 'toplist',
+          component: () => import('@/page/toplist/toplist.vue'),
+          meta: {
+            name: '排行榜'
+          }
+        },
+        {
+          path: 'songlist',
+          component: () => import('@/page/songlist/songlist.vue'),
+          meta: {
+            name: '歌单'
+          }
+        },
         // {
         //   path: 'djRadio',
         //   component: () => import('@/page/djRadio/djRadio.vue'),
@@ -72,9 +72,9 @@ export default createRouter({
     //   path: '/mv',
     //   component: () => import('@/page/mv/mv.vue')
     // },
-    // {
-    //   path: '/songlist',
-    //   component: () => import('@/page/songlist/songlistDetail.vue')
-    // }
+    {
+      path: '/songlist',
+      component: () => import('@/page/songlist/songlistDetail.vue')
+    }
   ]
 });

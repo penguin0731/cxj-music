@@ -66,7 +66,7 @@
         >
           <template #songValue="{ item: { row } }">
             <div class="songValue ellipsis">
-              <a :href="`/#/song?id=${row.id}`" :title="row.name">
+              <a :href="`/song?id=${row.id}`" :title="row.name">
                 {{ row.name }}
               </a>
               <span
@@ -81,7 +81,7 @@
           <template #albumValue="{ item: { row } }">
             <a
               class="albumValue ellipsis"
-              :href="`/#/album?id=${row.al.id}`"
+              :href="`/album?id=${row.al.id}`"
               :title="row.al.name"
             >
               {{ row.al.name }}

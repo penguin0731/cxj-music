@@ -41,7 +41,7 @@
       >
         <template #songValue="{ item: { row } }">
           <div class="songValue ellipsis">
-            <a :href="`/#/song?id=${row.id}`" :title="row.name">
+            <a :href="`/song?id=${row.id}`" :title="row.name">
               {{ row.name }}
             </a>
             <span
@@ -60,7 +60,7 @@
           >
             <template v-for="(_ar, i) in row.ar" :key="_ar.id">
               {{ i == 0 ? '' : ' /' }}
-              <a :href="`/#/artist?id=${_ar.id}`">{{ _ar.name }}</a>
+              <a :href="`/artist?id=${_ar.id}`">{{ _ar.name }}</a>
             </template>
           </div>
         </template>
@@ -84,7 +84,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import useTopList from './useTopList';
 import { format } from '@/utils/song.js';
 import moment from 'moment';
@@ -92,45 +92,108 @@ import { toggleUnits } from '@/utils/util';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
 import cxjMusicTable from '@/baseComponents/cxj-music-table/cxj-music-table.vue';
 import usePlayer from '../usePlayer';
-export default {
-  components: {
-    cxjMusicTable,
-    cxjButton
+import { ref } from 'vue';
+import api from '@/api';
+import nProgress from 'nprogress';
+
+const curMenuIdx = ref(0); // 当前榜单索引
+const toplistMenu = ref([]); // 榜单列表
+const toplist = ref([]); // 当前榜单歌曲
+
+const { playAll } = usePlayer();
+const columns = [
+  {
+    lable: '歌曲',
+    prop: 'name',
+    width: '54%',
+    slotHeader: 'songLabel',
+    slot: 'songValue'
   },
-  setup() {
-    let columns = [
-      {
-        lable: '歌曲',
-        prop: 'name',
-        width: '54%',
-        slotHeader: 'songLabel',
-        slot: 'songValue'
-      },
-      {
-        lable: '歌手',
-        prop: 'ar',
-        width: '36%',
-        slotHeader: 'artistLabel',
-        slot: 'artistValue'
-      },
-      {
-        lable: '时长',
-        prop: 'time',
-        width: '10%',
-        slotHeader: 'timeLabel',
-        slot: 'timeValue'
-      }
-    ];
-    return {
-      format,
-      moment,
-      toggleUnits,
-      columns,
-      ...usePlayer(),
-      ...useTopList()
-    };
+  {
+    lable: '歌手',
+    prop: 'ar',
+    width: '36%',
+    slotHeader: 'artistLabel',
+    slot: 'artistValue'
+  },
+  {
+    lable: '时长',
+    prop: 'time',
+    width: '10%',
+    slotHeader: 'timeLabel',
+    slot: 'timeValue'
   }
+];
+
+// 获取所有榜单
+const getTopList = async () => {
+  const { list } = await api.toplist.getTopList();
+  toplistMenu.value = list.splice(0, 4); // 只截取前四个榜单
 };
+
+// 获取当前榜单的歌曲列表
+const getDetail = async () => {
+  let id = toplistMenu.value[curMenuIdx.value]?.id;
+  if (!id) return;
+  const {
+    playlist: { tracks }
+  } = await api.songlist.getDetail(id);
+  toplist.value = tracks;
+};
+
+// 切换当前榜单
+const changeMenu = index => {
+  curMenuIdx.value = index;
+};
+
+watchEffect(() => {
+  getDetail();
+});
+
+onMounted(async () => {
+  await getTopList();
+  nProgress.done();
+});
+
+// export default {
+//   components: {
+//     cxjMusicTable,
+//     cxjButton
+//   },
+//   setup() {
+//     let columns = [
+//       {
+//         lable: '歌曲',
+//         prop: 'name',
+//         width: '54%',
+//         slotHeader: 'songLabel',
+//         slot: 'songValue'
+//       },
+//       {
+//         lable: '歌手',
+//         prop: 'ar',
+//         width: '36%',
+//         slotHeader: 'artistLabel',
+//         slot: 'artistValue'
+//       },
+//       {
+//         lable: '时长',
+//         prop: 'time',
+//         width: '10%',
+//         slotHeader: 'timeLabel',
+//         slot: 'timeValue'
+//       }
+//     ];
+//     return {
+//       format,
+//       moment,
+//       toggleUnits,
+//       columns,
+//       ...usePlayer(),
+//       ...useTopList()
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

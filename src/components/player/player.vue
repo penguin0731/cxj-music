@@ -22,7 +22,7 @@
         <div v-if="currentIndex == -1">欢迎使用cxj-music播放器</div>
         <div v-else class="player_info">
           <a
-            :href="`/#/song?id=${curMusic.id}`"
+            :href="`/song?id=${curMusic.id}`"
             class="player_info_name ellipsis"
           >
             {{ curMusic.name }}
@@ -34,7 +34,7 @@
           >
             <template v-for="(art, i) in curMusic.singer" :key="art.id">
               {{ i == 0 ? '' : ' /' }}
-              <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
+              <a :href="`/artist?id=${art.id}`">{{ art.name }}</a>
             </template>
           </div>
         </div>

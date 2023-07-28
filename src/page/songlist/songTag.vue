@@ -29,45 +29,78 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-export default {
-  props: {
-    categories: {
-      type: Array,
-      default: () => []
-    },
-    sub: {
-      type: Array,
-      default: () => []
-    },
-    curOrder: {
-      type: String
-    }
+
+const props = defineProps({
+  categories: {
+    type: Array,
+    default: () => []
   },
-  setup(props, { emit }) {
-    const songTagRef = ref(null);
-    const handleClickOutSide = e => {
-      // 如果点击的目标元素不存在songTagRef，则视为点击外部元素，触发监听
-      if (!songTagRef.value.contains(e.target)) {
-        emit('click-ouside');
-      }
-    };
-    const handleChangeTag = tagName => {
-      emit('change', tagName);
-    };
-    onMounted(() => {
-      document.addEventListener('click', handleClickOutSide, false);
-    });
-    onUnmounted(() => {
-      document.removeEventListener('click', handleClickOutSide, false);
-    });
-    return {
-      songTagRef,
-      handleChangeTag
-    };
+  sub: {
+    type: Array,
+    default: () => []
+  },
+  curOrder: {
+    type: String
+  }
+});
+const emit = defineEmits(['click-ouside', 'change']);
+
+const songTagRef = ref();
+const handleClickOutSide = e => {
+  // 如果点击的目标元素不存在songTagRef，则视为点击外部元素，触发监听
+  if (!songTagRef.value.contains(e.target)) {
+    emit('click-ouside');
   }
 };
+const handleChangeTag = tagName => {
+  emit('change', tagName);
+};
+onMounted(() => {
+  document.addEventListener('click', handleClickOutSide, false);
+});
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutSide, false);
+});
+
+// export default {
+//   props: {
+//     categories: {
+//       type: Array,
+//       default: () => []
+//     },
+//     sub: {
+//       type: Array,
+//       default: () => []
+//     },
+//     curOrder: {
+//       type: String
+//     }
+//   },
+//   setup(props, { emit }) {
+//     const songTagRef = ref(null);
+//     const handleClickOutSide = e => {
+//       // 如果点击的目标元素不存在songTagRef，则视为点击外部元素，触发监听
+//       if (!songTagRef.value.contains(e.target)) {
+//         emit('click-ouside');
+//       }
+//     };
+//     const handleChangeTag = tagName => {
+//       emit('change', tagName);
+//     };
+//     onMounted(() => {
+//       document.addEventListener('click', handleClickOutSide, false);
+//     });
+//     onUnmounted(() => {
+//       document.removeEventListener('click', handleClickOutSide, false);
+//     });
+//     return {
+//       songTagRef,
+//       handleChangeTag
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

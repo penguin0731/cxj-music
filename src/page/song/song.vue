@@ -13,7 +13,7 @@
           <cxj-icon class="icon_singer mr10" />
           <template v-for="(art, i) in songInfo.ar" :key="art.id">
             {{ i == 0 ? '' : ' /' }}
-            <a :href="`/#/artist?id=${art.id}`">{{ art.name }}</a>
+            <a :href="`/artist?id=${art.id}`">{{ art.name }}</a>
           </template>
         </div>
         <ul class="song_info mt10">

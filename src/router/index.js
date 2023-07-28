@@ -36,7 +36,7 @@ export default createRouter({
           meta: {
             name: '歌单'
           }
-        },
+        }
         // {
         //   path: 'djRadio',
         //   component: () => import('@/page/djRadio/djRadio.vue'),
@@ -75,6 +75,10 @@ export default createRouter({
     {
       path: '/songlist',
       component: () => import('@/page/songlist/songlistDetail.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('@/page/error/404.vue')
     }
   ]
 });

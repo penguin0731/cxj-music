@@ -20,27 +20,35 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 import moment from 'moment';
 import { toggleUnits } from '@/utils/util';
-export default {
-  components: {
-    cxjIcon
-  },
-  props: {
-    list: {
-      type: Array,
-      default: () => []
-    }
-  },
-  setup() {
-    return {
-      moment,
-      toggleUnits
-    };
+
+const props = defineProps({
+  list: {
+    type: Array,
+    default: () => []
   }
-};
+});
+
+// export default {
+//   components: {
+//     cxjIcon
+//   },
+//   props: {
+//     list: {
+//       type: Array,
+//       default: () => []
+//     }
+//   },
+//   setup() {
+//     return {
+//       moment,
+//       toggleUnits
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

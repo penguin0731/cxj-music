@@ -19,11 +19,7 @@
       <div v-if="showName" class="albumlist_artist">
         <template v-for="(art, i) in item.artists" :key="art.id">
           {{ i == 0 ? '' : ' /' }}
-          <a
-            class="ellipsis"
-            :href="`/artist?id=${art.id}`"
-            :title="art.name"
-          >
+          <a class="ellipsis" :href="`/artist?id=${art.id}`" :title="art.name">
             {{ art.name }}
           </a>
         </template>
@@ -35,29 +31,45 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import moment from 'moment';
-export default {
-  props: {
-    list: {
-      type: Array,
-      default: () => []
-    },
-    showName: {
-      type: Boolean,
-      default: true
-    },
-    showPublishTime: {
-      type: Boolean,
-      default: false
-    }
+
+const props = defineProps({
+  list: {
+    type: Array,
+    default: () => []
   },
-  setup() {
-    return {
-      moment
-    };
+  showName: {
+    type: Boolean,
+    default: true
+  },
+  showPublishTime: {
+    type: Boolean,
+    default: false
   }
-};
+});
+
+// export default {
+//   props: {
+//     list: {
+//       type: Array,
+//       default: () => []
+//     },
+//     showName: {
+//       type: Boolean,
+//       default: true
+//     },
+//     showPublishTime: {
+//       type: Boolean,
+//       default: false
+//     }
+//   },
+//   setup() {
+//     return {
+//       moment
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

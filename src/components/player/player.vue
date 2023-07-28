@@ -102,7 +102,7 @@
 
 <script setup>
 import album from '@/assets/img/album.png';
-import { format } from '@/utils/song.js';
+import { format, microSecToSec } from '@/utils/song.js';
 import CxjProgress from '@/baseComponents/cxj-progress/cxj-progress.vue';
 import Volume from '@/components/volume/volume.vue';
 import PlayList from '@/components/playlist/playlist.vue';
@@ -117,6 +117,7 @@ import {
   watchPostEffect
 } from 'vue';
 import { defaultVolume, playMode } from '@/config.js';
+import { randomIndex } from '@/utils/util.js';
 
 const useMusic = useMusicStore();
 const router = useRouter();

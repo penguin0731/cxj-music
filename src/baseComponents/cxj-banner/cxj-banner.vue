@@ -71,24 +71,96 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import useBanner from './useBanner';
 import { toHttps } from '@/utils/util';
+import { computed, ref } from 'vue';
 
-export default {
-  props: {
-    bannerList: {
-      type: Array,
-      default: () => []
+const props = defineProps({
+  bannerList: {
+    type: Array,
+    default: () => []
+  }
+});
+
+const curIndex = ref(0);
+let timer = null;
+
+/**
+ * 轮播图
+ * @param {*} type
+ */
+const fade = (type = 'next') => {
+  if (type == 'prev') {
+    --curIndex.value;
+    if (curIndex.value < 0) {
+      curIndex.value = props.bannerList.length - 1;
     }
-  },
-  setup(props) {
-    return {
-      ...useBanner(props),
-      toHttps
-    };
+  } else {
+    ++curIndex.value;
+    if (curIndex.value > props.bannerList.length - 1) {
+      curIndex.value = 0;
+    }
   }
 };
+
+/**
+ * 轮播前一张图
+ */
+const prevClick = () => {
+  clearInterval(timer);
+  fade('prev');
+  autoPlay();
+};
+
+/**
+ * 轮播后一张图
+ */
+const nextClick = () => {
+  clearInterval(timer);
+  fade('next');
+  autoPlay();
+};
+
+/**
+ * 自动轮播
+ */
+const autoPlay = () => {
+  clearInterval(timer);
+  timer = setInterval(() => {
+    fade('next');
+  }, 4000);
+};
+
+const goTo = dotIndex => {
+  clearInterval(timer);
+  curIndex.value = dotIndex;
+  autoPlay();
+};
+
+const pause = () => {
+  clearInterval(timer);
+};
+
+// mounted
+onMounted(() => {
+  autoPlay();
+});
+
+// export default {
+//   props: {
+//     bannerList: {
+//       type: Array,
+//       default: () => []
+//     }
+//   },
+//   setup(props) {
+//     return {
+//       ...useBanner(props),
+//       toHttps
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

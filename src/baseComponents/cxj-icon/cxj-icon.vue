@@ -8,23 +8,33 @@
   ></i>
 </template>
 
-<script>
-export default {
-  props: {
-    type: {
-      type: String,
-      default: 'icon'
-    },
-    icon: {
-      type: String
-    }
+<script setup>
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'icon'
   },
-  setup(props) {
-    return {
-      ...props
-    };
+  icon: {
+    type: String
   }
-};
+});
+
+// export default {
+//   props: {
+//     type: {
+//       type: String,
+//       default: 'icon'
+//     },
+//     icon: {
+//       type: String
+//     }
+//   },
+//   setup(props) {
+//     return {
+//       ...props
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

@@ -59,45 +59,116 @@
   </div>
 </template>
 
-<script>
-import useMusicTable from './useMusicTable';
-export default {
-  props: {
-    /**
-     * columns: [
-     *  {
-     *    lable: string, // 表头名
-     *    key: string, // 对应dataSource中的键值
-     *    width: string, // 对应列的宽度
-     *    minWidth: string, // 对应列最小宽度
-     *    columnKey: string, // column的key
-     *    align: string, // 对齐方式
-     *    slotHeader: string, // 表头插槽名
-     *    slot: string, // 表体插槽名
-     *  }
-     * ]
-     */
-    columns: {
-      type: Array,
-      default: () => []
-    },
-    dataSource: {
-      type: Array,
-      default: () => []
-    },
-    rowKey: {
-      type: String
-    },
-    menuStyle: {
-      type: Object
-    }
+<script setup>
+// import useMusicTable from './useMusicTable';
+
+const props = defineProps({
+  /**
+   * columns: [
+   *  {
+   *    lable: string, // 表头名
+   *    key: string, // 对应dataSource中的键值
+   *    width: string, // 对应列的宽度
+   *    minWidth: string, // 对应列最小宽度
+   *    columnKey: string, // column的key
+   *    align: string, // 对齐方式
+   *    slotHeader: string, // 表头插槽名
+   *    slot: string, // 表体插槽名
+   *  }
+   * ]
+   */
+  columns: {
+    type: Array,
+    default: () => []
   },
-  setup(props, ctx) {
+  dataSource: {
+    type: Array,
+    default: () => []
+  },
+  rowKey: {
+    type: String
+  },
+  menuStyle: {
+    type: Object
+  }
+});
+
+const index_dataSource = computed(() => {
+  return props.dataSource.map((item, index) => {
     return {
-      ...useMusicTable(props, ctx)
+      ...item,
+      c_index: Number(index) + 1
     };
+  });
+});
+
+/**
+ * 深度读取键值
+ * @param {*} item dataSource中的对象
+ * @param {*} prop 需要读取的键值，可深度读取，如obj.a[0].b
+ */
+const handleProp = (item, prop) => {
+  if (prop.includes('.')) {
+    let props = prop.split('.');
+    let value = props.reduce((obj, curProp) => {
+      if (obj.hasOwnProperty(curProp)) {
+        return obj[curProp];
+      } else {
+        let tempObj = obj;
+        let matchArr = curProp.match(/\[.*?\]/g); // 匹配[]中的内容
+        if (!matchArr) return curProp;
+        let matchArrLen = matchArr.length;
+        for (let i = 0; i < matchArrLen; i++) {
+          let matchItem = matchArr[i];
+          let matchKey = matchItem.replace('[', '').replace(']', '');
+          tempObj = tempObj[matchKey];
+        }
+        return tempObj;
+      }
+    }, item);
+    return value;
+  } else {
+    return item[prop];
   }
 };
+
+// export default {
+//   props: {
+//     /**
+//      * columns: [
+//      *  {
+//      *    lable: string, // 表头名
+//      *    key: string, // 对应dataSource中的键值
+//      *    width: string, // 对应列的宽度
+//      *    minWidth: string, // 对应列最小宽度
+//      *    columnKey: string, // column的key
+//      *    align: string, // 对齐方式
+//      *    slotHeader: string, // 表头插槽名
+//      *    slot: string, // 表体插槽名
+//      *  }
+//      * ]
+//      */
+//     columns: {
+//       type: Array,
+//       default: () => []
+//     },
+//     dataSource: {
+//       type: Array,
+//       default: () => []
+//     },
+//     rowKey: {
+//       type: String
+//     },
+//     menuStyle: {
+//       type: Object
+//     }
+//   },
+//   setup(props, ctx) {
+//     return {
+//       ...useMusicTable(props, ctx)
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

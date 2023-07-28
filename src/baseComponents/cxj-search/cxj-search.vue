@@ -7,11 +7,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import cxjIcon from '../cxj-icon/cxj-icon.vue';
-export default {
-  components: { cxjIcon }
-};
+
 </script>
 
 <style lang="scss" scoped>

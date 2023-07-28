@@ -5,20 +5,31 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import cxjIcon from '../cxj-icon/cxj-icon.vue';
-export default {
-  components: { cxjIcon },
-  props: {
-    type: {
-      type: String,
-      default: 'default'
-    },
-    icon: {
-      type: String
-    }
+
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'default'
+  },
+  icon: {
+    type: String
   }
-};
+});
+
+// export default {
+//   components: { cxjIcon },
+//   props: {
+//     type: {
+//       type: String,
+//       default: 'default'
+//     },
+//     icon: {
+//       type: String
+//     }
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

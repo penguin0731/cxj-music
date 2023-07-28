@@ -112,7 +112,7 @@ onUnmounted(() => {
   max-height: 646px;
   padding: 30px 10px 0 36px;
   background-color: #fff;
-  box-shadow: 0 4px 20px 0 rgb(65 67 70 / 8%);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, .12);
   overflow-y: scroll;
   &:hover::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.5);

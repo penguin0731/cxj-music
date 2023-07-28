@@ -6,35 +6,58 @@
   </teleport>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
-export default {
-  setup() {
-    let visible = ref(false);
-    let message = ref('');
-    let timer;
 
-    const show = (text, duration = 1500) => {
-      if (typeof duration != 'number') {
-        throw TypeError('duration muse be a number');
-      }
-      if (visible.value) return;
-      clearTimeout(timer);
-      message.value = text;
-      visible.value = true;
-      timer = setTimeout(() => {
-        visible.value = false;
-        message.value = '';
-      }, duration);
-    };
+const visible = ref(false);
+const message = ref('');
+let timer;
 
-    return {
-      visible,
-      message,
-      show
-    };
+const show = (text, duration = 1500) => {
+  if (typeof duration != 'number') {
+    throw TypeError('duration muse be a number');
   }
+  if (visible.value) return;
+  clearTimeout(timer);
+  message.value = text;
+  visible.value = true;
+  timer = setTimeout(() => {
+    visible.value = false;
+    message.value = '';
+  }, duration);
 };
+
+defineExpose({
+  show
+});
+
+// export default {
+//   setup() {
+//     let visible = ref(false);
+//     let message = ref('');
+//     let timer;
+
+//     const show = (text, duration = 1500) => {
+//       if (typeof duration != 'number') {
+//         throw TypeError('duration muse be a number');
+//       }
+//       if (visible.value) return;
+//       clearTimeout(timer);
+//       message.value = text;
+//       visible.value = true;
+//       timer = setTimeout(() => {
+//         visible.value = false;
+//         message.value = '';
+//       }, duration);
+//     };
+
+//     return {
+//       visible,
+//       message,
+//       show
+//     };
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

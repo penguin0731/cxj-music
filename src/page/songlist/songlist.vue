@@ -72,9 +72,7 @@
 </template>
 
 <script setup>
-import useSongList from '@/page/songlist/useSongList';
 import songTag from '../songlist/songTag.vue';
-import CxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 import cxjPage from '@/baseComponents/cxj-page/cxj-page.vue';
 import { toggleUnits } from '@/utils/util';
 import nProgress from 'nprogress';
@@ -161,15 +159,6 @@ onMounted(async () => {
   nProgress.done();
 });
 
-// export default {
-//   components: { songTag, CxjIcon, cxjPage },
-//   setup() {
-//     return {
-//       toggleUnits,
-//       ...useSongList()
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

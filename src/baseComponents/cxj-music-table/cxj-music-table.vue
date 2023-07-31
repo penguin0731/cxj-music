@@ -60,7 +60,6 @@
 </template>
 
 <script setup>
-// import useMusicTable from './useMusicTable';
 
 const props = defineProps({
   /**
@@ -132,43 +131,6 @@ const handleProp = (item, prop) => {
   }
 };
 
-// export default {
-//   props: {
-//     /**
-//      * columns: [
-//      *  {
-//      *    lable: string, // 表头名
-//      *    key: string, // 对应dataSource中的键值
-//      *    width: string, // 对应列的宽度
-//      *    minWidth: string, // 对应列最小宽度
-//      *    columnKey: string, // column的key
-//      *    align: string, // 对齐方式
-//      *    slotHeader: string, // 表头插槽名
-//      *    slot: string, // 表体插槽名
-//      *  }
-//      * ]
-//      */
-//     columns: {
-//       type: Array,
-//       default: () => []
-//     },
-//     dataSource: {
-//       type: Array,
-//       default: () => []
-//     },
-//     rowKey: {
-//       type: String
-//     },
-//     menuStyle: {
-//       type: Object
-//     }
-//   },
-//   setup(props, ctx) {
-//     return {
-//       ...useMusicTable(props, ctx)
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

@@ -19,7 +19,6 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-// import useProgress from './useProgress';
 
 const props = defineProps({
   isMouseDown: {
@@ -112,27 +111,6 @@ onBeforeUnmount(() => {
   unbindMouseEvent();
 });
 
-// export default {
-//   props: {
-//     isMouseDown: {
-//       type: Boolean
-//     },
-//     percent: {
-//       type: Number,
-//       default: 0
-//     },
-//     loadPercent: {
-//       type: Number,
-//       default: 0
-//     }
-//   },
-//   emits: ['changeProgress', 'changeProgressEnd', 'changeMouseDownVal'],
-//   setup(props, context) {
-//     return {
-//       ...useProgress(props, context)
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

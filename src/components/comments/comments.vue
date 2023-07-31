@@ -60,7 +60,6 @@
 <script setup>
 import moment from 'moment';
 import emoji from '../../../emoji.json';
-// import useComments from './useCommets';
 
 const props = defineProps({
   hotComments: {
@@ -100,30 +99,6 @@ const handleComments = content => {
   return cont;
 };
 
-// export default {
-//   props: {
-//     hotComments: {
-//       type: Array,
-//       default: () => []
-//     },
-//     comments: {
-//       type: Array,
-//       default: () => []
-//     },
-//     total: {
-//       type: Number
-//     },
-//     currentPage: {
-//       type: Number
-//     }
-//   },
-//   setup() {
-//     return {
-//       moment,
-//       ...useComments()
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

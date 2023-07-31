@@ -162,7 +162,6 @@ const getLoginStatus = async () => {
   const res = await api.login.getStatus();
   console.log('获取登录状态', res);
   useUser.Uid = setUid(res.data.profile.userId);
-  // store.commit('setUid', setUid(res.data.profile.userId));
   close();
 };
 
@@ -183,7 +182,6 @@ const UidLogin = () => {
       return;
     }
     useUser.Uid = setUid(Uid.value);
-    // store.commit('setUid', setUid(Uid.value));
     close();
   });
 };
@@ -193,19 +191,6 @@ defineExpose({
   close
 });
 
-// export default {
-//   components: {
-//     CxjModal,
-//     CxjToast
-//   },
-//   emits: ['close'],
-//   setup(props, context) {
-//     let loginVisibleRef = computed(() => props.loginVisible);
-//     return {
-//       ...useLoginModal(loginVisibleRef, context)
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

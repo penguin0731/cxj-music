@@ -19,22 +19,6 @@ const props = defineProps({
   }
 });
 
-// export default {
-//   props: {
-//     type: {
-//       type: String,
-//       default: 'icon'
-//     },
-//     icon: {
-//       type: String
-//     }
-//   },
-//   setup(props) {
-//     return {
-//       ...props
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

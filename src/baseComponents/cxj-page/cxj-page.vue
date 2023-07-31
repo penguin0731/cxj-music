@@ -39,7 +39,6 @@
 </template>
 
 <script setup>
-// import usePage from './usePage';
 
 import { computed, ref } from "vue";
 
@@ -131,35 +130,6 @@ const pagerClick = pager => {
   emit('currentChange', pager);
 };
 
-// export default {
-//   props: {
-//     total: {
-//       type: Number,
-//       default: 0
-//     },
-//     pageSize: {
-//       type: Number,
-//       default: 20
-//     },
-//     currentPage: {
-//       type: Number,
-//       default: 1
-//     },
-//     // 页码按钮的数量，包括第一页和最后一页，即实际中间的按钮数为pagerCount - 2
-//     pagerCount: {
-//       type: Number,
-//       default: 7,
-//       validator(val) {
-//         return val % 2 === 1 && val > 4 && val < 22;
-//       }
-//     }
-//   },
-//   setup(props, ctx) {
-//     return {
-//       ...usePage(props, ctx)
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

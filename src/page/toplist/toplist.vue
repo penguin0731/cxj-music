@@ -85,9 +85,7 @@
 </template>
 
 <script setup>
-import useTopList from './useTopList';
 import { format } from '@/utils/song.js';
-import moment from 'moment';
 import { toggleUnits } from '@/utils/util';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
 import cxjMusicTable from '@/baseComponents/cxj-music-table/cxj-music-table.vue';
@@ -154,46 +152,6 @@ onMounted(async () => {
   await getTopList();
   nProgress.done();
 });
-
-// export default {
-//   components: {
-//     cxjMusicTable,
-//     cxjButton
-//   },
-//   setup() {
-//     let columns = [
-//       {
-//         lable: '歌曲',
-//         prop: 'name',
-//         width: '54%',
-//         slotHeader: 'songLabel',
-//         slot: 'songValue'
-//       },
-//       {
-//         lable: '歌手',
-//         prop: 'ar',
-//         width: '36%',
-//         slotHeader: 'artistLabel',
-//         slot: 'artistValue'
-//       },
-//       {
-//         lable: '时长',
-//         prop: 'time',
-//         width: '10%',
-//         slotHeader: 'timeLabel',
-//         slot: 'timeValue'
-//       }
-//     ];
-//     return {
-//       format,
-//       moment,
-//       toggleUnits,
-//       columns,
-//       ...usePlayer(),
-//       ...useTopList()
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

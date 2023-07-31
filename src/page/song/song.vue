@@ -59,7 +59,6 @@
 </template>
 
 <script setup>
-// import useSong from './useSong';
 import cxjIcon from '@/baseComponents/cxj-icon/cxj-icon.vue';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
 import cxjPage from '@/baseComponents/cxj-page/cxj-page.vue';
@@ -94,19 +93,15 @@ const play = () => {
   if (isInList) {
     // 如果该歌曲已存在播放列表，则将该歌曲的索引设置为当前音乐索引
     useMusic.currentIndex = index;
-    // store.commit('setCurrentIndex', index);
   } else {
     // 不存在则将该歌曲插入到播放列表最前面
     let list = clone(playList.value);
     list.unshift(createSong(songInfo.value));
     useMusic.playList = list;
     useMusic.currentIndex = 0;
-    // store.commit('setPlayList', list);
-    // store.commit('setCurrentIndex', 0);
   }
   useMusic.audioDom.currentTime = 0; // 重头播放
   useMusic.isPlaying = true;
-  // store.commit('setIsPlaying', true);
 };
 
 // 获取歌曲基本信息
@@ -167,21 +162,6 @@ onBeforeRouteUpdate(async (to, from) => {
   }
 });
 
-// export default {
-//   components: {
-//     cxjIcon,
-//     cxjButton,
-//     cxjPage,
-//     lyric,
-//     comments
-//   },
-//   setup() {
-//     return {
-//       moment,
-//       ...useSong()
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

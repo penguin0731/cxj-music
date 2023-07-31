@@ -72,9 +72,8 @@
 </template>
 
 <script setup>
-import useBanner from './useBanner';
 import { toHttps } from '@/utils/util';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
   bannerList: {
@@ -147,20 +146,6 @@ onMounted(() => {
   autoPlay();
 });
 
-// export default {
-//   props: {
-//     bannerList: {
-//       type: Array,
-//       default: () => []
-//     }
-//   },
-//   setup(props) {
-//     return {
-//       ...useBanner(props),
-//       toHttps
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

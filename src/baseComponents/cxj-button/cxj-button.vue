@@ -18,18 +18,6 @@ const props = defineProps({
   }
 });
 
-// export default {
-//   components: { cxjIcon },
-//   props: {
-//     type: {
-//       type: String,
-//       default: 'default'
-//     },
-//     icon: {
-//       type: String
-//     }
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

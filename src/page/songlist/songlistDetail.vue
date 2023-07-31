@@ -218,54 +218,6 @@ onBeforeRouteUpdate(async (to, from) => {
   }
 });
 
-// export default {
-//   components: {
-//     cxjIcon,
-//     cxjButton,
-//     cxjMusicTable,
-//     comments,
-//     cxjPage
-//   },
-//   setup() {
-//     let columns = [
-//       {
-//         lable: '歌曲',
-//         prop: 'name',
-//         width: '40%',
-//         slotHeader: 'songLabel',
-//         slot: 'songValue'
-//       },
-//       {
-//         lable: '歌手',
-//         prop: 'ar',
-//         width: '25%',
-//         slotHeader: 'artistLabel',
-//         slot: 'artistValue'
-//       },
-//       {
-//         lable: '专辑',
-//         prop: 'ar',
-//         width: '25%',
-//         slotHeader: 'artistLabel',
-//         slot: 'artistValue'
-//       },
-//       {
-//         lable: '时长',
-//         prop: 'time',
-//         width: '10%',
-//         slotHeader: 'timeLabel',
-//         slot: 'timeValue'
-//       }
-//     ];
-//     return {
-//       moment,
-//       format,
-//       columns,
-//       ...usePlayer(),
-//       ...useSongListDetail()
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

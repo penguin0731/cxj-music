@@ -116,7 +116,6 @@
 </template>
 
 <script setup>
-// import useArtist from './useArtist';
 import cxjButton from '@/baseComponents/cxj-button/cxj-button.vue';
 import cxjMusicTable from '@/baseComponents/cxj-music-table/cxj-music-table.vue';
 import albumlist from '@/components/albumlist/albumlist.vue';
@@ -195,9 +194,6 @@ const playAll = () => {
   useMusic.playList = list;
   useMusic.currentIndex = 0;
   useMusic.isPlaying = true;
-  // store.commit('setPlayList', list);
-  // store.commit('setCurrentIndex', 0);
-  // store.commit('setIsPlaying', true);
 };
 
 // 播放指定歌曲并添加到播放队列
@@ -210,14 +206,11 @@ const play = music => {
   });
   if (isInList) {
     useMusic.currentIndex = newIdx;
-    // store.commit('setCurrentIndex', newIdx);
   } else {
     add(music);
     useMusic.currentIndex = list.length;
-    // store.commit('setCurrentIndex', list.length);
   }
   useMusic.isPlaying = true;
-  // store.commit('setIsPlaying', true);
 };
 
 // 添加到播放队列
@@ -225,7 +218,6 @@ const add = async music => {
   let list = clone(playList.value);
   list.unshift(createSong(music));
   useMusic.playList = list;
-  // store.commit('setPlayList', list);
 };
 
 // 获取歌手详情，包含部分热门歌曲
@@ -268,45 +260,6 @@ onBeforeRouteUpdate(async (to, from) => {
     nProgress.done();
   }
 });
-
-// export default {
-//   components: {
-//     cxjButton,
-//     cxjMusicTable,
-//     albumlist,
-//     mvlist
-//   },
-//   setup() {
-//     let columns = [
-//       {
-//         lable: '歌曲',
-//         prop: 'name',
-//         width: '54%',
-//         slotHeader: 'songLabel',
-//         slot: 'songValue'
-//       },
-//       {
-//         lable: '专辑',
-//         prop: 'al.name',
-//         width: '36%',
-//         slotHeader: 'albumLabel',
-//         slot: 'albumValue'
-//       },
-//       {
-//         lable: '时长',
-//         prop: 'time',
-//         width: '10%',
-//         slotHeader: 'timeLabel',
-//         slot: 'timeValue'
-//       }
-//     ];
-//     return {
-//       columns,
-//       format,
-//       ...useArtist()
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

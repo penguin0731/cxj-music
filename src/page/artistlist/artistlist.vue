@@ -44,7 +44,6 @@
 </template>
 
 <script setup>
-// import useArtistList from './useArtistList';
 import api from '@/api';
 import nProgress from 'nprogress';
 import { enMap, getListTypeMap, getListAreaMap } from '@/api/artistlist';
@@ -90,13 +89,7 @@ onMounted(async () => {
   await getArtistList();
   nProgress.done();
 });
-// export default {
-//   setup() {
-//     return {
-//       ...useArtistList()
-//     };
-//   }
-// };
+
 </script>
 
 <style lang="scss" scoped>

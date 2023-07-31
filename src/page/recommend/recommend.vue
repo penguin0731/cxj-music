@@ -5,20 +5,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import api from '@/api';
 import CxjBanner from '@/baseComponents/cxj-banner/cxj-banner.vue';
-import useRecommend from './useRecommend';
+import nProgress from 'nprogress';
+import { ref } from 'vue';
 
-export default {
-  components: {
-    CxjBanner
-  },
-  setup() {
-    return {
-      ...useRecommend()
-    };
-  }
+const bannerList = ref([]);
+
+/**
+ * 获取轮播图数据
+ */
+const getBanner = async () => {
+  const res = await api.getBanner();
+  bannerList.value = res.banners;
 };
+
+onMounted(async () => {
+  await getBanner();
+  nProgress.done();
+});
 </script>
 
 <style lang="scss" scoped>

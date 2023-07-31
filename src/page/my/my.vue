@@ -21,19 +21,40 @@
   <not-found v-show="show404" />
 </template>
 
-<script>
-import useMy from './useMy';
-import NotFound from '@/components/not-found/not-found.vue';
-export default {
-  components: {
-    NotFound
-  },
-  setup() {
-    return {
-      ...useMy()
-    };
+<script setup>
+import NotFound from '@/page/error/404.vue';
+import { useRoute } from 'vue-router';
+import { ref } from 'vue';
+import api from '@/api';
+import nProgress from 'nprogress';
+
+const route = useRoute();
+const userInfo = ref({});
+const show404 = ref(false);
+
+const getUserDetail = async id => {
+  if (!id) return;
+  const res = await api.user.getDetail(id);
+  if (!res.code || res.code != 200) {
+    show404.value = true;
+    return;
   }
+  show404.value = false;
+  userInfo.value = res.profile;
 };
+
+onMounted(async () => {
+  const id = route.query.id;
+  await getUserDetail(id);
+  nProgress.done();
+});
+
+onBeforeRouteUpdate(async (to, from) => {
+  let toId = to.query.id;
+  console.log('onBeforeRouteUpdate', toId);
+  await getUserDetail(toId);
+  nProgress.done();
+});
 </script>
 
 <style lang="scss" scoped>

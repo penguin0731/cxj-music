@@ -81,15 +81,12 @@ const hideList = () => {
 const play = index => {
   useMusic.currentIndex = index;
   useMusic.isPlaying = true;
-  // store.commit('setCurrentIndex', index);
-  // store.commit('setIsPlaying', true);
 };
 
 // 暂停
 const pause = () => {
   if (!isPlaying.value) return;
   useMusic.isPlaying = false;
-  // store.commit('setIsPlaying', false);
 };
 
 // 移除播放列表中指定歌曲
@@ -97,15 +94,12 @@ const remove = index => {
   let list = clone(playList.value);
   list.splice(index, 1);
   useMusic.playList = list;
-  // store.commit('setPlayList', list);
 };
 
 // 清空播放列表
 const clearList = () => {
   useMusic.playList = [];
   useMusic.currentIndex = -1;
-  // store.commit('setPlayList', []);
-  // store.commit('setCurrentIndex', -1);
   pause();
 };
 
@@ -117,15 +111,6 @@ onUnmounted(() => {
   document.removeEventListener('click', hideList);
 });
 
-// export default {
-//   components: { cxjIcon },
-//   setup(props, context) {
-//     return {
-//       format,
-//       ...usePlayList(context)
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

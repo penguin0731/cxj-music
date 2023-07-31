@@ -37,6 +37,7 @@ import LoginModal from '@/components/login-modal/login-modal.vue';
 import { useRoute, useRouter } from 'vue-router';
 import useUserStore from '@/store/modules/user';
 import { computed, ref, watch, watchEffect } from 'vue';
+import api from '@/api';
 
 const router = useRouter();
 const route = useRoute();
@@ -111,32 +112,6 @@ const logout = () => {
   });
 };
 
-const watchPath = () => {
-  let len = navList.value.length;
-  let path = route.path;
-  if (path.includes('/music')) {
-    for (let i = 0; i < len; i++) {
-      if (path === navList.value[i].url) {
-        curNav.value = i;
-        break;
-      }
-    }
-  } else {
-    curNav.value = -1;
-  }
-};
-
-// export default {
-//   components: {
-//     CxjSearch,
-//     LoginModal
-//   },
-//   setup() {
-//     return {
-//       ...useHeader()
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

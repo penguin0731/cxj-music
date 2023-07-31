@@ -37,7 +37,6 @@
 <script setup>
 import useMusicStore from '@/store/modules/music';
 import { ref, computed, onMounted, onBeforeUpdate, watchEffect } from 'vue';
-// import useLyric from './useLyric';
 import { parseLyric, syncLyric } from '@/utils/song';
 
 const props = defineProps({
@@ -137,7 +136,6 @@ onMounted(() => {
   cxjPlayer.value.ontimeupdate = () => {
     if (!isMouseDown.value) {
       useMusic.currentTime = cxjPlayer.value.currentTime;
-      // store.commit('setCurrentTime', cxjPlayer.value.currentTime);
     }
     setCurrent();
   };
@@ -152,26 +150,6 @@ onBeforeUpdate(() => {
   pRefs.value = [];
 });
 
-// export default {
-//   props: {
-//     curId: {
-//       type: [Number, String]
-//     },
-//     lyric: {
-//       type: String,
-//       default: ''
-//     },
-//     tlyric: {
-//       type: String,
-//       default: ''
-//     }
-//   },
-//   setup(props) {
-//     return {
-//       ...useLyric(props)
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

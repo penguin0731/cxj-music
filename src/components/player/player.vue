@@ -107,20 +107,11 @@ import CxjProgress from '@/baseComponents/cxj-progress/cxj-progress.vue';
 import Volume from '@/components/volume/volume.vue';
 import PlayList from '@/components/playlist/playlist.vue';
 import useMusicStore from '@/store/modules/music';
-import { useRouter } from 'vue-router';
-import {
-  computed,
-  onMounted,
-  ref,
-  watch,
-  watchEffect,
-  watchPostEffect
-} from 'vue';
+import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import { defaultVolume, playMode } from '@/config.js';
 import { randomIndex } from '@/utils/util.js';
 
 const useMusic = useMusicStore();
-const router = useRouter();
 const cxjPlayer = ref(); // radio元素
 const volume = ref(defaultVolume);
 const mode = computed(() => useMusic.mode);
@@ -139,12 +130,10 @@ const isShowList = ref(false); // 是否显示播放列表
 const play = () => {
   if (currentIndex.value == -1) return;
   useMusic.isPlaying = !isPlaying.value;
-  // store.commit('setIsPlaying', !isPlaying.value);
 };
 // 切换播放模式
 const setMode = () => {
   useMusic.setMode(mode.value + 1);
-  // store.commit('setMode', mode.value + 1);
 };
 // 获取播放模式枚举
 const getModeEnum = () => {
@@ -173,11 +162,6 @@ const next = () => {
     currentIndex.value === playList.value.length - 1
       ? 0
       : currentIndex.value + 1;
-  // if (currentIndex.value == playList.value.length - 1) {
-  //   store.commit('setCurrentIndex', 0);
-  // } else {
-  //   store.commit('setCurrentIndex', currentIndex.value + 1);
-  // }
 };
 // 上一首
 const prev = () => {
@@ -185,16 +169,10 @@ const prev = () => {
     currentIndex.value === 0
       ? playList.value.length - 1
       : currentIndex.value - 1;
-  // if (currentIndex.value == 0) {
-  //   store.commit('setCurrentIndex', playList.value.length - 1);
-  // } else {
-  //   store.commit('setCurrentIndex', currentIndex.value - 1);
-  // }
 };
 // 是否静音
 const setIsMute = () => {
   useMusic.isMute = !isMute.value;
-  // store.commit('setIsMute', !isMute.value);
   if (isMute.value) {
     cxjPlayer.value.volume = 0;
   }
@@ -210,7 +188,6 @@ const bindKeyupEvent = () => {
   document.addEventListener('keyup', e => {
     let altKey = e.altKey;
     let code = e.code;
-    console.log(e, code);
     if (altKey) {
       // 按下alt键
       switch (code) {
@@ -245,7 +222,6 @@ const bindKeyupEvent = () => {
 // 修改音乐显示时间
 const changeProgress = per => {
   useMusic.currentTime = microSecToSec(per * curMusic.value.duration);
-  // store.commit('setCurrentTime', microSecToSec(per * curMusic.value.duration));
 };
 // 修改音乐播放时间
 const changeProgressEnd = per => {
@@ -256,7 +232,6 @@ const changeProgressEnd = per => {
 // 修改鼠标是否按下
 const changeMouseDownVal = val => {
   useMusic.isMouseDown = val;
-  // store.commit('setIsMouseDown', val);
 
   // isMouseDown.value = val;
 };
@@ -266,7 +241,6 @@ const changeVolume = val => {
   volume.value = val;
   cxjPlayer.value.volume = volume.value;
   useMusic.isMute = volume.value == 0;
-  // store.commit('setIsMute', volume.value == 0);
 };
 // 增加音量
 const addVolume = () => {
@@ -297,9 +271,7 @@ const hideList = () => {
 
 onMounted(() => {
   bindKeyupEvent();
-
   useMusic.audioDom = cxjPlayer.value;
-  // store.commit('setAudioDom', cxjPlayer.value);
   cxjPlayer.value.volume = volume.value;
   // 缓冲事件
   cxjPlayer.value.onprogress = () => {
@@ -322,10 +294,7 @@ onMounted(() => {
   // 获取当前播放时间
   cxjPlayer.value.ontimeupdate = () => {
     if (!isMouseDown.value) {
-      // currentTime.value = cxjPlayer.value.currentTime;
-
       useMusic.currentTime = cxjPlayer.value.currentTime;
-      // store.commit('setCurrentTime', cxjPlayer.value.currentTime);
     }
   };
   // 播放结束事件
@@ -338,17 +307,13 @@ onMounted(() => {
         if (currentIndex.value == playList.value.length - 1) {
           useMusic.isPlaying = false;
           useMusic.currentIndex = -1;
-          // store.commit('setIsPlaying', false);
-          // store.commit('setCurrentIndex', -1);
         } else {
           useMusic.currentIndex = currentIndex.value + 1;
-          // store.commit('setCurrentIndex', currentIndex.value + 1);
         }
         break;
       case playMode.random: // 随机播放
         let index = randomIndex(playList.value.length);
         useMusic.currentIndex = index;
-        // store.commit('setCurrentIndex', index);
         break;
       case playMode.single: // 单曲循环
         cxjPlayer.value.currentTime = loadPercent.value = 0;
@@ -358,7 +323,7 @@ onMounted(() => {
   };
 });
 
-watchPostEffect(() => {
+watchEffect(() => {
   percent.value = (currentTime.value * 1000) / curMusic.value.duration;
 });
 // 监听播放器播放状态
@@ -374,21 +339,6 @@ watch(curMusic, (newMusic, oldMusic) => {
   cxjPlayer.value.currentTime = loadPercent.value = 0;
   cxjPlayer.value.play();
 });
-
-// export default {
-//   components: {
-//     CxjProgress,
-//     Volume,
-//     PlayList
-//   },
-//   setup() {
-//     return {
-//       album,
-//       format,
-//       ...usePlayer()
-//     };
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

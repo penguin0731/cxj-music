@@ -2,7 +2,7 @@ import { computed } from 'vue';
 import { clone } from '@/utils/util';
 import { createSong } from '@/utils/song';
 import useMusicStore from '@/store/modules/music';
-export default function usePlayer(props) {
+export default function usePlayer() {
   const useMusic = useMusicStore();
   const playList = computed(() => useMusic.playList);
 
@@ -11,19 +11,16 @@ export default function usePlayer(props) {
     let list = clone(playList.value);
     let newIdx = -1;
     let isInList = list.some((item, index) => {
-      item.id == music.id ? (newIdx = index) : '';
+      item.id == music.id && (newIdx = index);
       return item.id == music.id;
     });
     if (isInList) {
       useMusic.currentIndex = newIdx;
-      // store.commit('setCurrentIndex', newIdx);
     } else {
       add(music);
       useMusic.currentIndex = list.length;
-      // store.commit('setCurrentIndex', list.length);
     }
     useMusic.isPlaying = true;
-    // store.commit('setIsPlaying', true);
   };
 
   // 添加到播放队列
@@ -31,7 +28,6 @@ export default function usePlayer(props) {
     let list = clone(playList.value);
     list.push(createSong(music));
     useMusic.playList = list;
-    // store.commit('setPlayList', list);
   };
 
   // 播放全部
@@ -48,9 +44,6 @@ export default function usePlayer(props) {
     useMusic.playList = _playList;
     useMusic.currentIndex = 0;
     useMusic.isPlaying = true;
-    // store.commit('setPlayList', _playList);
-    // store.commit('setCurrentIndex', 0);
-    // store.commit('setIsPlaying', true);
   };
 
   return {

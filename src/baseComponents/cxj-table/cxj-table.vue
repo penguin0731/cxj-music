@@ -1,7 +1,7 @@
 <template>
   <div class="cxj-table">
     <div class="cxj-table__inner-wrapper">
-      <!-- 隐藏列：容纳table-column -->
+      <!-- 隐藏列：容纳cxj-table-column -->
       <div class="hide-columns">
         <slot></slot>
       </div>

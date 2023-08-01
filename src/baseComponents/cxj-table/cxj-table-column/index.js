@@ -1,5 +1,4 @@
 import { TABLE_INJECT_KEY } from '../token';
-import { isVNode } from 'vue';
 export default defineComponent({
   name: 'CxjTableColumn',
   props: {
@@ -34,6 +33,7 @@ export default defineComponent({
           // 相当于<slot name="default" :row="data.row" :$index="data.$index"></slot>
           _renderCell = () => slots.default(data);
         } else {
+          // 没有使用插槽则默认按照属性名去源数据中读取
           _renderCell = () => {
             const { row } = data;
             return row[column.prop];
@@ -41,6 +41,7 @@ export default defineComponent({
         }
         return h('div', { class: 'cell' }, _renderCell());
       };
+      // 初始化col宽度
       if (column.width !== undefined) {
         column.width = Number.parseInt(column.width, 10);
         if (Number.isNaN(column.width)) {
